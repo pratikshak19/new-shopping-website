@@ -9,6 +9,7 @@ export default function OrderDetail() {
   const { id } = useParams()
   const { orders, cancelOrder, requestReturn, user } = useStore()
   const [reason, setReason] = useState('Size / fit issue')
+  const [kind, setKind] = useState('Return')
   const { state } = useLocation()
   const order = orders.find((o) => o.id === id)
 

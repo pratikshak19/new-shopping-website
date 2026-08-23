@@ -416,7 +416,24 @@ h1, h2, h3, .serif { font-family: "Playfair Display", Georgia, serif; letter-spa
 
 .muted { color: var(--muted); font-size: 14px; }
 .linkish { color: var(--rose); font-weight: 600; font-size: 13px; background: none; }
-.role-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 12px 0 8px; }
+.role-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin: 12px 0 8px; }
+.mega-wrap { position: relative; }
+.mega {
+  display: none; position: absolute; top: 100%; left: 0; min-width: 200px;
+  background: #fff; border-radius: 12px; padding: 10px; box-shadow: var(--shadow); z-index: 30;
+}
+.mega a { display: block; padding: 6px 10px; border-radius: 8px; font-size: 13px; }
+.mega a:hover { background: #fff1f4; color: var(--rose); }
+.mega-wrap:hover .mega { display: block; }
+.pcard-bag {
+  position: absolute; left: 10px; right: 10px; bottom: 10px;
+  background: #fff; border-radius: 999px; height: 34px; font-size: 12px; font-weight: 700;
+  opacity: 0; transition: opacity .2s;
+}
+.pcard:hover .pcard-bag { opacity: 1; }
+.pcard-acts { display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
+.bank-strip { display: flex; gap: 10px; overflow: auto; padding-bottom: 4px; }
+.bank-pill { background: #fff; border-radius: 12px; padding: 10px 14px; font-size: 13px; white-space: nowrap; border: 1px solid var(--line); }
 .role-card {
   background: #fff; border-radius: 18px; padding: 16px; text-align: left;
   display: flex; flex-direction: column; gap: 6px; border: 1px solid var(--line);

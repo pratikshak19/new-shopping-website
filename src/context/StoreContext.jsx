@@ -20,6 +20,7 @@ export const SEED_USERS = [
   { id: 'u-admin', name: 'Rahul Desai', email: 'admin@trendora.in', password: 'admin123', phone: '9000000002', role: 'admin', points: 200, shopName: '', blocked: false, joined: '2025-07-12T10:00:00.000Z' },
   { id: 'u-seller', name: 'Meera Crafts', email: 'seller@trendora.in', password: 'seller123', phone: '9000000003', role: 'seller', points: 120, shopName: 'Meera Crafts', blocked: false, joined: '2025-08-02T10:00:00.000Z' },
   { id: 'u-demo', name: 'Aisha Verma', email: 'demo@trendora.in', password: 'demo123', phone: '9876543210', role: 'customer', points: 860, shopName: '', blocked: false, joined: '2025-09-18T10:00:00.000Z' },
+  { id: 'u-reseller', name: 'Kavya Joshi', email: 'reseller@trendora.in', password: 'reseller123', phone: '9000000004', role: 'reseller', points: 40, shopName: 'Kavya Shares', blocked: false, joined: '2025-10-01T10:00:00.000Z' },
 ]
 
 function seedCoupons() {
@@ -59,7 +60,13 @@ function load() {
 export function StoreProvider({ children }) {
   const saved = load()
   const [user, setUser] = useState(saved?.user || null)
-  const [users, setUsers] = useState(saved?.users || SEED_USERS)
+  const [users, setUsers] = useState(() => {
+    const base = saved?.users || SEED_USERS
+    const missing = SEED_USERS.filter((s) => !base.some((u) => u.email === s.email))
+    return [...base, ...missing]
+  })
+  const [referral, setReferral] = useState(saved?.referral || null)
+  const [shares, setShares] = useState(saved?.shares || [])
   const [products, setProducts] = useState(saved?.products || enrichCatalog(PRODUCTS))
   const [cart, setCart] = useState(saved?.cart || [])
   const [wishlist, setWishlist] = useState(saved?.wishlist || [])
@@ -113,9 +120,11 @@ export function StoreProvider({ children }) {
         compare,
         giftWrap,
         settings,
+        referral,
+        shares,
       })
     )
-  }, [user, users, products, cart, wishlist, orders, coupon, coupons, addresses, reviews, questions, returns, tickets, notifications, recent, compare, giftWrap, settings])
+  }, [user, users, products, cart, wishlist, orders, coupon, coupons, addresses, reviews, questions, returns, tickets, notifications, recent, compare, giftWrap, settings, referral, shares])
 
   const toast = (message, type = 'ok') => {
     const id = uid('t')
@@ -334,6 +343,7 @@ export function StoreProvider({ children }) {
         { label: 'Delivered', at: null, done: false },
       ],
       userId: user?.id || 'guest',
+      referralId: referral || null,
     }
     setOrders((list) => [order, ...list])
     setProducts((list) =>
@@ -347,6 +357,11 @@ export function StoreProvider({ children }) {
       setUsers((list) => list.map((u) => (u.id === user.id ? { ...u, points: (u.points || 0) + pts } : u)))
       setUser((u) => (u ? { ...u, points: (u.points || 0) + pts } : u))
       notify(user.id, 'Order confirmed', `${order.id} · we will pack it shortly.`)
+    }
+    if (referral && referral !== user?.id) {
+      const cut = Math.round(totals.grand * 0.08)
+      setShares((list) => [{ id: uid('sh'), resellerId: referral, orderId: order.id, amount: cut, at: new Date().toISOString() }, ...list])
+      notify(referral, 'Reseller earning', `You earned ₹${cut} from order ${order.id}`)
     }
     setCart([])
     setCoupon(null)
@@ -390,15 +405,36 @@ export function StoreProvider({ children }) {
     return { ok: true }
   }
 
-  const requestReturn = ({ orderId, reason, itemId }) => {
+  const moveWishlistToBag = (productId) => {
+    addToCart(productId)
+    setWishlist((ids) => ids.filter((id) => id !== productId))
+  }
+
+  const captureReferral = (id) => {
+    if (id) setReferral(id)
+  }
+
+  const shareProduct = (productId) => {
+    if (!user || user.role !== 'reseller') {
+      toast('Sign in as reseller to share catalogue', 'warn')
+      return ''
+    }
+    const link = `${window.location.origin}/product/${productId}?ref=${user.id}`
+    navigator.clipboard?.writeText(link).catch(() => {})
+    toast('Share link copied — Meesho-style catalogue share')
+    return link
+  }
+
+  const requestReturn = ({ orderId, reason, itemId, kind = 'Return' }) => {
     const order = orders.find((o) => o.id === orderId)
-    if (!order || order.status !== 'Delivered') return { ok: false, error: 'Return is only for delivered orders.' }
+    if (!order || order.status !== 'Delivered') return { ok: false, error: 'Return / exchange is only for delivered orders.' }
     const rec = {
       id: uid('ret'),
       orderId,
       itemId,
       userId: user?.id,
       reason,
+      kind,
       status: 'Requested',
       at: new Date().toISOString(),
     }
@@ -512,7 +548,7 @@ export function StoreProvider({ children }) {
   }
 
   const createStaff = ({ name, email, password, phone, role, shopName }) => {
-    if (!['admin', 'seller', 'customer'].includes(role)) return { ok: false, error: 'Invalid role.' }
+    if (!['admin', 'seller', 'customer', 'reseller'].includes(role)) return { ok: false, error: 'Invalid role.' }
     if (users.some((u) => u.email.toLowerCase() === email.toLowerCase())) return { ok: false, error: 'Email exists.' }
     const next = { id: uid('u'), name, email, password, phone, role, points: 0, shopName: shopName || '', blocked: false, joined: new Date().toISOString() }
     setUsers((list) => [...list, next])
@@ -557,10 +593,11 @@ export function StoreProvider({ children }) {
   const tier = insiderTier(user?.points || 0)
 
   const can = {
-    staff: ['admin', 'owner', 'seller'].includes(user?.role),
+    staff: ['admin', 'owner', 'seller', 'reseller'].includes(user?.role),
     admin: ['admin', 'owner'].includes(user?.role),
     owner: user?.role === 'owner',
     seller: user?.role === 'seller',
+    reseller: user?.role === 'reseller',
     customer: !user || user.role === 'customer',
   }
 
@@ -630,6 +667,11 @@ export function StoreProvider({ children }) {
     replyTicket,
     markNotesRead,
     checkPincode,
+    referral,
+    shares,
+    captureReferral,
+    shareProduct,
+    moveWishlistToBag,
   }
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>

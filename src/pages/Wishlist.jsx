@@ -1,16 +1,15 @@
 import { Link } from 'react-router-dom'
-import { PRODUCTS } from '../data/products'
 import { useStore } from '../context/StoreContext'
 import ProductCard from '../components/ProductCard'
 
 export default function Wishlist() {
-  const { wishlist } = useStore()
-  const items = PRODUCTS.filter((p) => wishlist.includes(p.id))
+  const { wishlist, getProduct } = useStore()
+  const items = wishlist.map(getProduct).filter(Boolean)
   return (
     <div className="wrap">
       <div className="page-hero">
         <h1>Wishlist</h1>
-        <p style={{ color: 'var(--muted)' }}>{items.length} saved</p>
+        <p style={{ color: 'var(--muted)' }}>{items.length} saved · Myntra-style move to bag</p>
       </div>
       {items.length === 0 ? (
         <div className="empty">
@@ -23,7 +22,7 @@ export default function Wishlist() {
       ) : (
         <div className="prod-grid" style={{ paddingBottom: 72 }}>
           {items.map((p) => (
-            <ProductCard key={p.id} product={p} />
+            <ProductCard key={p.id} product={p} wishMove />
           ))}
         </div>
       )}

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import { SIZE_CHARTS, discountOf, formatINR, relatedOf } from '../data/products'
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { BANK_OFFERS, SIZE_CHARTS, discountOf, formatINR, relatedOf } from '../data/products'
 import { useStore } from '../context/StoreContext'
 import ProductCard from '../components/ProductCard'
 import ProductImage from '../components/ProductImage'
@@ -24,9 +24,12 @@ export default function ProductDetail() {
     checkPincode,
     user,
     settings,
+    captureReferral,
+    shareProduct,
   } = useStore()
   const product = getProduct(id)
   const navigate = useNavigate()
+  const [params] = useSearchParams()
   const [color, setColor] = useState(product?.colors?.[0])
   const [size, setSize] = useState(product?.sizes?.[0])
   const [shot, setShot] = useState(0)
@@ -37,6 +40,8 @@ export default function ProductDetail() {
   const [q, setQ] = useState('')
 
   useEffect(() => {
+    const ref = params.get('ref')
+    if (ref) captureReferral(ref)
     if (product) {
       viewProduct(product.id)
       setColor(product.colors[0])
@@ -144,9 +149,20 @@ export default function ProductDetail() {
               {loved ? <Icon.heartFill style={{ width: 18, height: 18, color: 'var(--rose)' }} /> : <Icon.heart style={{ width: 18, height: 18 }} />}
             </button>
           </div>
-          <button className="chip" onClick={() => toggleCompare(product.id)}>
-            {compare.includes(product.id) ? 'In compare' : 'Add to compare'}
-          </button>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 8 }}>
+            <button className="chip" onClick={() => toggleCompare(product.id)}>
+              {compare.includes(product.id) ? 'In compare' : 'Add to compare'}
+            </button>
+            {user?.role === 'reseller' && (
+              <button className="chip" onClick={() => shareProduct(product.id)}>Share catalogue</button>
+            )}
+          </div>
+          <div className="meta-box" style={{ marginTop: 12 }}>
+            <strong>Bank &amp; wallet offers</strong>
+            {BANK_OFFERS.map((b) => (
+              <li key={b.bank}>{b.bank}: {b.text}</li>
+            ))}
+          </div>
           <ul className="meta-box">
             {(product.highlights || []).map((h) => <li key={h}>{h}</li>)}
             <li>GST invoice · {product.returnable ? 'Easy returns' : 'No return'} · COD by PIN</li>

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { CATEGORIES, PRODUCTS } from '../data/products'
+import { BANK_OFFERS, CATEGORIES } from '../data/products'
+import { useStore } from '../context/StoreContext'
 import ProductCard from '../components/ProductCard'
 import { Icon } from '../components/Icons'
 
@@ -82,6 +83,16 @@ export default function Home() {
         <div className="hero-dots">
           {SLIDES.map((s, n) => (
             <button key={s.title} className={n === i ? 'on' : ''} onClick={() => setI(n)} aria-label={s.kicker} />
+          ))}
+        </div>
+      </section>
+
+      <section className="wrap" style={{ padding: '18px 0 0' }}>
+        <div className="bank-strip">
+          {BANK_OFFERS.map((b) => (
+            <Link key={b.bank} to="/offers" className="bank-pill">
+              <b>{b.bank}</b> {b.text}
+            </Link>
           ))}
         </div>
       </section>
@@ -212,7 +223,7 @@ export default function Home() {
           <Link className="chip" to="/brands">Shop by brand</Link>
           <Link className="chip" to="/studio">Studio looks</Link>
           <Link className="chip" to="/compare">Compare</Link>
-          <Link className="chip" to="/login">4 role logins</Link>
+          <Link className="chip" to="/login">5 role logins</Link>
         </div>
       </section>
     </>

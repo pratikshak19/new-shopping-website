@@ -61,10 +61,28 @@ export const SIZE_CHARTS = {
 
 export const ROLE_META = {
   customer: { label: 'Customer', home: '/', color: '#14958f' },
+  reseller: { label: 'Reseller', home: '/reseller', color: '#7c3aed' },
   seller: { label: 'Seller', home: '/seller', color: '#b45309' },
   admin: { label: 'Admin', home: '/admin', color: '#2563eb' },
   owner: { label: 'Owner', home: '/owner', color: '#ff3f6c' },
 }
+
+export const MEGA = {
+  women: ['Kurtas & sets', 'Sarees', 'Dresses', 'Tops', 'Jeans', 'Ethnic bottoms'],
+  men: ['T-shirts', 'Shirts', 'Jeans', 'Blazers', 'Casual trousers', 'Ethnic wear'],
+  kids: ['Boys', 'Girls', 'Infants', 'Toys', 'School'],
+  electronics: ['Mobiles', 'Audio', 'Watches', 'Laptops', 'Speakers'],
+  beauty: ['Skincare', 'Makeup', 'Fragrance', 'Hair'],
+  home: ['Decor', 'Kitchen', 'Bedding', 'Lighting'],
+  footwear: ['Sneakers', 'Sports', 'Heels', 'Flats', 'Kolhapuris'],
+  accessories: ['Bags', 'Watches', 'Jewellery', 'Sunglasses'],
+}
+
+export const BANK_OFFERS = [
+  { bank: 'HDFC', text: '10% instant off on HDFC cards · min ₹2,999', extra: 10, min: 2999 },
+  { bank: 'SBI', text: '₹200 off on SBI UPI · min ₹1,499', extra: 200, min: 1499, flat: true },
+  { bank: 'AXIS', text: 'No-cost EMI on Axis for 3 months · min ₹4,999', extra: 0, min: 4999, emi: true },
+]
 
 export const PRODUCTS = [
   {

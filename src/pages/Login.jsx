@@ -5,6 +5,7 @@ import { useStore } from '../context/StoreContext'
 
 const DEMOS = [
   { email: 'demo@trendora.in', role: 'customer', hint: 'demo123' },
+  { email: 'reseller@trendora.in', role: 'reseller', hint: 'reseller123' },
   { email: 'seller@trendora.in', role: 'seller', hint: 'seller123' },
   { email: 'admin@trendora.in', role: 'admin', hint: 'admin123' },
   { email: 'owner@trendora.in', role: 'owner', hint: 'owner123' },

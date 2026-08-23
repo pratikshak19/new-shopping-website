@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { CATEGORIES, ROLE_META } from '../data/products'
+import { CATEGORIES, MEGA, ROLE_META } from '../data/products'
 import { useStore } from '../context/StoreContext'
 import { Icon } from './Icons'
 

@@ -39,6 +39,7 @@ export default function UsersAdmin({ role }) {
               <select value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}>
                 <option value="admin">Admin</option>
                 <option value="seller">Seller</option>
+                <option value="reseller">Reseller</option>
                 <option value="customer">Customer</option>
               </select>
             </div>
@@ -75,6 +76,7 @@ export default function UsersAdmin({ role }) {
                   {owner && u.role !== 'owner' && (
                     <select value={u.role} onChange={(e) => setUserRole(u.id, e.target.value)} style={{ marginLeft: 8 }}>
                       <option value="customer">customer</option>
+                      <option value="reseller">reseller</option>
                       <option value="seller">seller</option>
                       <option value="admin">admin</option>
                     </select>

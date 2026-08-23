@@ -29,6 +29,7 @@ import Notifications from './pages/Notifications'
 import Addresses from './pages/Addresses'
 import MyReturns from './pages/MyReturns'
 import Documents from './pages/Documents'
+import Reseller from './pages/Reseller'
 import Portal from './pages/dash/Portal'
 
 function ScrollTop() {
@@ -69,6 +70,14 @@ export default function App() {
           <Route path="/help" element={<Help />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/documents" element={<Documents />} />
+          <Route
+            path="/reseller"
+            element={
+              <RequireRole roles={['reseller', 'owner']}>
+                <Reseller />
+              </RequireRole>
+            }
+          />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/faq" element={<FAQ />} />

@@ -8,7 +8,7 @@ export default function Footer() {
           <div className="brand-name" style={{ color: '#fff', marginBottom: 10 }}>
             Tren<span style={{ color: '#ff3f6c' }}>dora</span>
           </div>
-          <p>India&apos;s style destination — Myntra fashion, Flipkart deals, Meesho seller studio. Four login authorities.</p>
+          <p>India&apos;s style destination — Myntra fashion + Insider/Studio, Flipkart deals, Meesho seller + reseller share. Five login authorities.</p>
         </div>
         <div>
           <h4>Shop</h4>

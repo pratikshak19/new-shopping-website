@@ -47,7 +47,7 @@ export default function ReportsAdmin() {
       </ul>
       <h3>Users by role</h3>
       <ul className="plain-list">
-        {['owner', 'admin', 'seller', 'customer'].map((r) => (
+        {['owner', 'admin', 'seller', 'reseller', 'customer'].map((r) => (
           <li key={r}>
             {r}: {users.filter((u) => u.role === r).length}
           </li>

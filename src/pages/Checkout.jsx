@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { formatINR } from '../data/products'
+import { BANK_OFFERS, formatINR } from '../data/products'
 import { useStore } from '../context/StoreContext'
 import { Icon } from '../components/Icons'
 
@@ -53,6 +53,7 @@ export default function Checkout() {
       upi: 'UPI (simulated)',
       card: 'Debit / Credit card (simulated)',
       cod: 'Cash on delivery',
+      emi: 'No-cost EMI (simulated)',
     }
     const res = placeOrder({ address, payment: methods[pay] })
     if (!res.ok) {
@@ -125,11 +126,17 @@ export default function Checkout() {
               ['upi', 'UPI — GPay / PhonePe / Paytm'],
               ['card', 'Credit or debit card'],
               ['cod', 'Cash on delivery'],
+              ['emi', 'No-cost EMI (Axis / HDFC)'],
             ].map(([id, label]) => (
               <button type="button" key={id} className={`pay-opt ${pay === id ? 'on' : ''}`} onClick={() => setPay(id)}>
                 <input type="radio" checked={pay === id} readOnly /> {label}
               </button>
             ))}
+            <div className="meta-box" style={{ marginTop: 12 }}>
+              {BANK_OFFERS.map((b) => (
+                <li key={b.bank}>{b.text}</li>
+              ))}
+            </div>
           </div>
         </div>
         <aside className="summary">
