@@ -14,7 +14,8 @@ const empty = {
 }
 
 export default function Checkout() {
-  const { cartDetailed, totals, placeOrder, user, saveAddress } = useStore()
+  const { cartDetailed, totals, placeOrder, user, saveAddress, addresses, giftWrap, setGiftWrap } = useStore()
+  const mine = addresses.filter((a) => a.userId === user?.id)
   const [address, setAddress] = useState({
     ...empty,
     name: user?.name || '',
@@ -77,6 +78,15 @@ export default function Checkout() {
             <h3 className="serif" style={{ fontSize: 24, marginBottom: 8 }}>
               Delivery address
             </h3>
+            {mine.length > 0 && (
+              <div style={{ marginBottom: 12 }}>
+                {mine.map((a) => (
+                  <button type="button" key={a.id} className="pay-opt" onClick={() => setAddress({ ...a })}>
+                    Use {a.line1}, {a.city} {a.pin}
+                  </button>
+                ))}
+              </div>
+            )}
             <div className="field">
               <label>Full name</label>
               <input value={address.name} onChange={set('name')} />

@@ -1,31 +1,35 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { BRANDS, CATEGORIES, PRODUCTS, searchProducts } from '../data/products'
+import { BRANDS, CATEGORIES, searchProducts } from '../data/products'
+import { useStore } from '../context/StoreContext'
 import ProductCard from '../components/ProductCard'
 
 export default function Shop() {
+  const { visibleProducts } = useStore()
   const [params, setParams] = useSearchParams()
   const q = params.get('q') || ''
   const cat = params.get('cat') || ''
   const tag = params.get('tag') || ''
-  const [brand, setBrand] = useState('')
+  const brandQ = params.get('brand') || ''
+  const [brand, setBrand] = useState(brandQ)
+  useEffect(() => { setBrand(brandQ) }, [brandQ])
   const [maxPrice, setMaxPrice] = useState(70000)
   const [minRating, setMinRating] = useState(0)
   const [sort, setSort] = useState('popular')
 
   const list = useMemo(() => {
-    let items = q ? searchProducts(q) : [...PRODUCTS]
+    let items = q ? searchProducts(q, visibleProducts) : [...visibleProducts]
     if (cat) items = items.filter((p) => p.category === cat)
-    if (tag) items = items.filter((p) => p.tags.includes(tag))
+    if (tag) items = items.filter((p) => (p.tags || []).includes(tag))
     if (brand) items = items.filter((p) => p.brand === brand)
     items = items.filter((p) => p.price <= maxPrice && p.rating >= minRating)
     if (sort === 'price-asc') items.sort((a, b) => a.price - b.price)
     if (sort === 'price-desc') items.sort((a, b) => b.price - a.price)
     if (sort === 'rating') items.sort((a, b) => b.rating - a.rating)
     if (sort === 'newest') items.sort((a, b) => b.id.localeCompare(a.id))
-    if (sort === 'popular') items.sort((a, b) => b.reviews - a.reviews)
+    if (sort === 'popular') items.sort((a, b) => (b.reviews || 0) - (a.reviews || 0))
     return items
-  }, [q, cat, tag, brand, maxPrice, minRating, sort])
+  }, [visibleProducts, q, cat, tag, brand, maxPrice, minRating, sort])
 
   const setCat = (id) => {
     const next = new URLSearchParams(params)
@@ -40,7 +44,9 @@ export default function Shop() {
       ? `Results for “${q}”`
       : tag
         ? `Tagged: ${tag}`
-        : 'All products'
+        : brand
+          ? brand
+          : 'All products'
 
   return (
     <div className="wrap shop">
@@ -76,9 +82,7 @@ export default function Shop() {
       <section>
         <div className="shop-top">
           <div>
-            <h1 className="serif" style={{ fontSize: 32 }}>
-              {heading}
-            </h1>
+            <h1 className="serif" style={{ fontSize: 32 }}>{heading}</h1>
             <p style={{ color: 'var(--muted)', fontSize: 14 }}>{list.length} styles</p>
           </div>
           <select value={sort} onChange={(e) => setSort(e.target.value)}>

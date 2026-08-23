@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import { formatINR } from '../data/products'
 import { useStore } from '../context/StoreContext'
@@ -6,7 +7,8 @@ import ProductImage from '../components/ProductImage'
 
 export default function OrderDetail() {
   const { id } = useParams()
-  const { orders } = useStore()
+  const { orders, cancelOrder, requestReturn, user } = useStore()
+  const [reason, setReason] = useState('Size / fit issue')
   const { state } = useLocation()
   const order = orders.find((o) => o.id === id)
 

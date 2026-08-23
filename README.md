@@ -1,8 +1,17 @@
 # Trendora
 
-India-style shopping website for a college / vlg project — the habits of **Myntra**, **Flipkart** and **Meesho** in one React store.
+India-style shopping website for a college / vlg project — **Myntra + Flipkart + Meesho** features, with **four separate login authorities**.
 
-Browse eight categories, filter and search, heart a wishlist, fill a bag, apply coupons, check out (UPI / card / COD are simulated) and track the order. Nothing is billed; everything lives in the browser so a viva demo survives a refresh.
+## Four logins (click the cards on `/login`)
+
+| Role | Email | Password | Lands on |
+|---|---|---|---|
+| Customer | demo@trendora.in | demo123 | Store |
+| Seller | seller@trendora.in | seller123 | `/seller` studio |
+| Admin | admin@trendora.in | admin123 | `/admin` desk |
+| Owner | owner@trendora.in | owner123 | `/owner` console |
+
+Customer and seller can also self-register. Only the **owner** can create extra admin/seller accounts.
 
 ## Run
 
@@ -11,34 +20,27 @@ npm install
 npm run dev
 ```
 
-Then open the URL Vite prints (default `http://localhost:5173`).
+## College documents (PDF / Word / PPT)
+
+Open **Documents** in the footer, or download directly:
+
+- [`public/docs/Trendora_Project_Report.pdf`](public/docs/Trendora_Project_Report.pdf)
+- [`public/docs/Trendora_Project_Report.docx`](public/docs/Trendora_Project_Report.docx)
+- [`public/docs/Trendora_Presentation.pptx`](public/docs/Trendora_Presentation.pptx)
+- [`public/docs/Trendora_How_It_Was_Built.pdf`](public/docs/Trendora_How_It_Was_Built.pdf)
+
+Regenerate after edits:
 
 ```bash
-npm run build
-npm run preview
+python3 -m venv .venv-docs
+.venv-docs/bin/pip install python-docx python-pptx fpdf2
+.venv-docs/bin/python scripts/generate_docs.py
 ```
 
-## Demo
+## Coupons
 
-- Coupons: `TREND10` · `FESTIVE20` · `WELCOME100` · `FREESHIP`
-- Login page → **Use demo account**
-- Documents (also linked in the footer):
-  - [How it was built](public/docs/how-it-was-built.html)
-  - [Project report](/docs/project-report.html) (open from the running site)
-  - [Step-by-step presentation](public/docs/presentation.html) — arrow keys
-
-Markdown copies sit in [`docs/`](docs/).
+`TREND10` · `FESTIVE20` · `WELCOME100` · `FREESHIP` · `INSIDER15` (Elite / Icon)
 
 ## Stack
 
-React 18, Vite 5, React Router 6, Context API, localStorage, hand-written CSS.
-
-## Project layout
-
-```
-src/data/products.js          catalogue + coupons
-src/context/StoreContext.jsx  cart, auth, orders
-src/pages/                    one screen per file
-src/components/               navbar, cards, toasts
-public/docs/                  report, slides, build log
-```
+React 18, Vite 5, React Router 6, Context API, localStorage (`trendora-store-v2`).

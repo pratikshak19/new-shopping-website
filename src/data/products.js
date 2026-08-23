@@ -19,6 +19,51 @@ export const COUPONS = {
   FESTIVE20: { type: 'percent', value: 20, min: 1999, label: '20% off above ₹1,999' },
   WELCOME100: { type: 'flat', value: 100, min: 499, label: '₹100 off above ₹499' },
   FREESHIP: { type: 'shipping', value: 0, min: 0, label: 'Free delivery' },
+  INSIDER15: { type: 'percent', value: 15, min: 1499, label: 'Insider 15% above ₹1,499' },
+}
+
+export const SIZE_CHARTS = {
+  women: [
+    ['Size', 'Bust', 'Waist', 'Hip'],
+    ['XS', '32', '26', '34'],
+    ['S', '34', '28', '36'],
+    ['M', '36', '30', '38'],
+    ['L', '38', '32', '40'],
+    ['XL', '40', '34', '42'],
+    ['XXL', '42', '36', '44'],
+  ],
+  men: [
+    ['Size', 'Chest', 'Shoulder', 'Length'],
+    ['S', '38', '17', '27'],
+    ['M', '40', '18', '28'],
+    ['L', '42', '19', '29'],
+    ['XL', '44', '20', '30'],
+    ['XXL', '46', '21', '31'],
+  ],
+  kids: [
+    ['Size', 'Age', 'Chest'],
+    ['2-3Y', '2–3 yrs', '22'],
+    ['4-5Y', '4–5 yrs', '24'],
+    ['5-6Y', '5–6 yrs', '25'],
+    ['7-8Y', '7–8 yrs', '27'],
+  ],
+  footwear: [
+    ['UK', 'EU', 'Foot (cm)'],
+    ['4', '37', '23.5'],
+    ['5', '38', '24.1'],
+    ['6', '39', '24.8'],
+    ['7', '40', '25.4'],
+    ['8', '41', '26.0'],
+    ['9', '42', '26.7'],
+    ['10', '43', '27.3'],
+  ],
+}
+
+export const ROLE_META = {
+  customer: { label: 'Customer', home: '/', color: '#14958f' },
+  seller: { label: 'Seller', home: '/seller', color: '#b45309' },
+  admin: { label: 'Admin', home: '/admin', color: '#2563eb' },
+  owner: { label: 'Owner', home: '/owner', color: '#ff3f6c' },
 }
 
 export const PRODUCTS = [
@@ -632,7 +677,18 @@ export const PRODUCTS = [
   },
 ]
 
+export function enrichCatalog(list) {
+  return list.map((p, i) => ({
+    ...p,
+    sellerId: i % 4 === 0 ? 'u-seller' : 'u-owner',
+    status: 'active',
+    returnable: !['electronics'].includes(p.category) || p.price < 10000,
+    tryAndBuy: ['women', 'men', 'footwear'].includes(p.category),
+  }))
+}
+
 export function discountOf(p) {
+  if (!p?.mrp) return 0
   return Math.round(((p.mrp - p.price) / p.mrp) * 100)
 }
 
@@ -641,21 +697,46 @@ export function formatINR(n) {
     style: 'currency',
     currency: 'INR',
     maximumFractionDigits: 0,
-  }).format(n)
+  }).format(n || 0)
+}
+
+export function findProduct(list, id) {
+  return (list || PRODUCTS).find((p) => p.id === id)
 }
 
 export function getProduct(id) {
   return PRODUCTS.find((p) => p.id === id)
 }
 
-export function relatedOf(product, limit = 4) {
-  return PRODUCTS.filter((p) => p.category === product.category && p.id !== product.id).slice(0, limit)
+export function relatedOf(product, list = PRODUCTS, limit = 4) {
+  return list.filter((p) => p.category === product.category && p.id !== product.id && p.status !== 'hidden').slice(0, limit)
 }
 
-export function searchProducts(query) {
+export function searchProducts(query, list = PRODUCTS) {
   const q = query.trim().toLowerCase()
-  if (!q) return PRODUCTS
-  return PRODUCTS.filter((p) =>
+  if (!q) return list
+  return list.filter((p) =>
     [p.name, p.brand, p.category, p.description, ...(p.tags || [])].join(' ').toLowerCase().includes(q)
   )
+}
+
+export function checkPincode(pin) {
+  if (!/^\d{6}$/.test(pin)) return { ok: false, error: 'Enter a valid 6-digit PIN.' }
+  if (['000000', '111111', '999999'].includes(pin)) {
+    return { ok: false, error: 'Sorry, we do not deliver to this PIN yet.' }
+  }
+  const first = pin[0]
+  const days = { 1: 3, 2: 3, 3: 4, 4: 2, 5: 4, 6: 5, 7: 4, 8: 5, 9: 6 }[first] || 4
+  return {
+    ok: true,
+    days,
+    cod: first !== '9',
+    text: `Delivery in ${days}–${days + 2} days${first !== '9' ? ' · COD available' : ' · Prepaid only'}`,
+  }
+}
+
+export function insiderTier(points) {
+  if (points >= 2500) return { name: 'Icon', perks: '20% insider + early access + free ship' }
+  if (points >= 800) return { name: 'Elite', perks: '15% insider + free ship' }
+  return { name: 'Member', perks: 'Earn 1 point / ₹10' }
 }

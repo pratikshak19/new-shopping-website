@@ -6,7 +6,7 @@ import ProductImage from '../components/ProductImage'
 import { Icon } from '../components/Icons'
 
 export default function Cart() {
-  const { cartDetailed, totals, updateQty, removeFromCart, applyCoupon, coupon, clearCoupon } = useStore()
+  const { cartDetailed, totals, updateQty, removeFromCart, applyCoupon, coupon, clearCoupon, giftWrap, setGiftWrap, coupons } = useStore()
   const [code, setCode] = useState('')
   const [err, setErr] = useState('')
 
@@ -84,6 +84,14 @@ export default function Cart() {
             <span>Delivery</span>
             <span>{totals.shipping === 0 ? 'Free' : formatINR(totals.shipping)}</span>
           </div>
+          <div className="row">
+            <span>Gift wrap</span>
+            <span>{totals.wrap ? formatINR(totals.wrap) : '—'}</span>
+          </div>
+          <label className="filter-opt" style={{ margin: '8px 0' }}>
+            <input type="checkbox" checked={giftWrap} onChange={(e) => setGiftWrap(e.target.checked)} />
+            Gift wrap this bag (₹49)
+          </label>
           <div className="row total">
             <span>Total</span>
             <span>{formatINR(totals.grand)}</span>
@@ -104,7 +112,7 @@ export default function Cart() {
             </p>
           )}
           <p style={{ fontSize: 12, color: 'var(--muted)', margin: '8px 0 14px' }}>
-            Try TREND10, FESTIVE20, WELCOME100 or FREESHIP
+            Active: {coupons.filter((c) => c.active).map((c) => c.code).join(' · ')}
           </p>
           <Link className="btn btn-primary btn-block" to="/checkout">
             Checkout

@@ -1,10 +1,10 @@
 const QA = [
   ['Is this a real store?', 'No. Trendora is an academic shopping-website project. Payments are simulated and no goods ship.'],
-  ['How do I login for the demo?', 'Use “Use demo account” on the login page, or register any email. Data stays in this browser.'],
-  ['Which coupons work?', 'TREND10 (10% above ₹799), FESTIVE20 (20% above ₹1,999), WELCOME100 (₹100 above ₹499), FREESHIP.'],
-  ['When is delivery free?', 'Orders of ₹999 and above, or any order with the FREESHIP coupon.'],
-  ['Can I return items?', 'The site describes a 7-day return policy like Myntra. In the demo, returns are not processed.'],
-  ['Where is my data stored?', 'localStorage in your browser under the key trendora-store-v1. Clearing site data resets the shop.'],
+  ['Which logins exist?', 'Four authorities: Customer (demo@trendora.in / demo123), Seller (seller@trendora.in / seller123), Admin (admin@trendora.in / admin123), Owner (owner@trendora.in / owner123).'],
+  ['Which coupons work?', 'TREND10, FESTIVE20, WELCOME100, FREESHIP, INSIDER15 (Elite/Icon). Admin can add more.'],
+  ['When is delivery free?', 'Orders of ₹999 and above (owner can change this), or FREESHIP.'],
+  ['How do returns work?', 'Admin marks an order Delivered. Customer opens the order and requests a return. Admin/Owner process it.'],
+  ['Where is data stored?', 'localStorage key trendora-store-v2. Clear site data to reset.'],
 ]
 
 export default function FAQ() {

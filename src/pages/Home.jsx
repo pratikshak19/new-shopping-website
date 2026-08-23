@@ -45,11 +45,13 @@ function useCountdown(hours = 11) {
 }
 
 export default function Home() {
+  const { visibleProducts, recent, getProduct } = useStore()
   const [i, setI] = useState(0)
   const slide = SLIDES[i]
   const t = useCountdown(14)
-  const trending = PRODUCTS.filter((p) => p.tags.includes('bestseller')).slice(0, 8)
-  const deals = PRODUCTS.filter((p) => p.tags.includes('deal') || p.tags.includes('festive')).slice(0, 4)
+  const trending = visibleProducts.filter((p) => (p.tags || []).includes('bestseller')).slice(0, 8)
+  const deals = visibleProducts.filter((p) => (p.tags || []).includes('deal') || (p.tags || []).includes('festive')).slice(0, 4)
+  const viewed = recent.map(getProduct).filter(Boolean).slice(0, 4)
 
   useEffect(() => {
     const id = setInterval(() => setI((n) => (n + 1) % SLIDES.length), 6000)
@@ -187,6 +189,30 @@ export default function Home() {
           {trending.map((p) => (
             <ProductCard key={p.id} product={p} />
           ))}
+        </div>
+      </section>
+
+      {viewed.length > 0 && (
+        <section className="sec wrap" style={{ paddingTop: 0 }}>
+          <div className="sec-head">
+            <h2>Recently viewed</h2>
+          </div>
+          <div className="prod-grid">
+            {viewed.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section className="sec wrap" style={{ paddingTop: 0 }}>
+        <div className="brand-row">
+          <Link className="chip" to="/offers">Bank &amp; coupon offers</Link>
+          <Link className="chip" to="/insider">Trendora Insider</Link>
+          <Link className="chip" to="/brands">Shop by brand</Link>
+          <Link className="chip" to="/studio">Studio looks</Link>
+          <Link className="chip" to="/compare">Compare</Link>
+          <Link className="chip" to="/login">4 role logins</Link>
         </div>
       </section>
     </>

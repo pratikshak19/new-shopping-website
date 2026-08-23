@@ -3,12 +3,14 @@ import { formatINR } from '../data/products'
 import { useStore } from '../context/StoreContext'
 
 export default function Orders() {
-  const { orders } = useStore()
+  const { myOrders: orders, user } = useStore()
   return (
     <div className="wrap" style={{ paddingBottom: 72 }}>
       <div className="page-hero">
         <h1>Orders</h1>
-        <p style={{ color: 'var(--muted)' }}>Track every Trendora haul.</p>
+        <p style={{ color: 'var(--muted)' }}>
+          Track every Trendora haul{user ? ` · ${user.name}` : ' · guest bag'}.
+        </p>
       </div>
       {orders.length === 0 ? (
         <div className="empty">
