@@ -53,5 +53,7 @@ npm run preview
 
 - In-app: `/documents` and `/download.html`
 - Binaries: `public/docs/` and `DOWNLOAD_THESE/`
+- **Beginner book (50+ pages, screenshots + free hosting):** `Trendora_Beginner_Complete_Guide.pdf`
 - Markdown sources: `docs/`
-- Regenerate: `.venv-docs/bin/python scripts/generate_docs.py`
+- Regenerate reports: `.venv-docs/bin/python scripts/generate_docs.py`
+- Regenerate beginner PDF: `.venv-docs/bin/python scripts/generate_beginner_guide.py`
