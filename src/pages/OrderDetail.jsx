@@ -83,6 +83,48 @@ export default function OrderDetail() {
             <span>Paid</span>
             <span>{formatINR(order.totals.grand)}</span>
           </div>
+          {['Confirmed', 'Packed'].includes(order.status) && (
+            <button
+              className="btn btn-outline btn-block"
+              style={{ marginTop: 12 }}
+              type="button"
+              onClick={() => {
+                if (window.confirm('Cancel this order and restore stock?')) cancelOrder(order.id)
+              }}
+            >
+              Cancel order
+            </button>
+          )}
+          {order.status === 'Delivered' && user && (
+            <form
+              style={{ marginTop: 16 }}
+              onSubmit={(e) => {
+                e.preventDefault()
+                const res = requestReturn({ orderId: order.id, reason, itemId: order.items[0]?.id, kind })
+                if (!res.ok) window.alert(res.error)
+              }}
+            >
+              <div className="field">
+                <label>Return or exchange</label>
+                <select value={kind} onChange={(e) => setKind(e.target.value)}>
+                  <option>Return</option>
+                  <option>Exchange</option>
+                </select>
+              </div>
+              <div className="field">
+                <label>Reason</label>
+                <select value={reason} onChange={(e) => setReason(e.target.value)}>
+                  <option>Size / fit issue</option>
+                  <option>Damaged or defective</option>
+                  <option>Wrong item</option>
+                  <option>Changed mind</option>
+                </select>
+              </div>
+              <button className="btn btn-ghost btn-block" type="submit">
+                Request {kind.toLowerCase()}
+              </button>
+            </form>
+          )}
           <Link className="btn btn-ghost btn-block" to="/orders" style={{ marginTop: 12 }}>
             All orders
           </Link>

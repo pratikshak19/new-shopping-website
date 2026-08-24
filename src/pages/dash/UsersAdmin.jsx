@@ -12,13 +12,13 @@ export default function UsersAdmin({ role }) {
       <h1 className="serif" style={{ fontSize: 30 }}>
         People &amp; authority
       </h1>
-      <p className="muted">Four login authorities: Customer, Seller, Admin, Owner. Owner can mint staff.</p>
+      <p className="muted">Five login authorities: Customer, Reseller, Seller, Admin, Owner. Owner can mint staff.</p>
       {owner && (
         <form
           className="dash-form"
-          onSubmit={(e) => {
+          onSubmit={async (e) => {
             e.preventDefault()
-            const res = createStaff(form)
+            const res = await createStaff(form)
             if (!res.ok) alert(res.error)
             else setForm({ name: '', email: '', password: 'pass123', phone: '', role: 'admin', shopName: '' })
           }}

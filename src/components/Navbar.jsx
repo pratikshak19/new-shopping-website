@@ -22,26 +22,35 @@ export default function Navbar() {
       <div className="announce">{settings.announcement}</div>
       <header className="nav">
         <div className="wrap nav-row">
-          <button className="icon-btn menu-btn" onClick={() => setOpen((o) => !o)} aria-label="Menu">
+          <button className="icon-btn menu-btn" onClick={() => setOpen((o) => !o)} aria-label="Menu" aria-expanded={open} aria-controls="mobile-nav">
             <Icon.menu />
           </button>
           <Link to="/" className="brand" onClick={() => setOpen(false)}>
             <img src="/images/logo.png" alt="Trendora" />
             <div className="brand-name">Tren<span>dora</span></div>
           </Link>
-          <nav className="nav-links">
+          <nav className="nav-links" aria-label="Primary">
             <NavLink to="/shop">Shop</NavLink>
             {CATEGORIES.slice(0, 4).map((c) => (
-              <NavLink key={c.id} to={`/shop?cat=${c.id}`}>
-                {c.name}
-              </NavLink>
+              <div className="mega-wrap" key={c.id}>
+                <NavLink to={`/shop?cat=${c.id}`}>{c.name}</NavLink>
+                {MEGA[c.id] && (
+                  <div className="mega" role="menu">
+                    {MEGA[c.id].map((item) => (
+                      <Link key={item} to={`/shop?cat=${c.id}&q=${encodeURIComponent(item)}`} role="menuitem">
+                        {item}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
             <NavLink to="/offers">Offers</NavLink>
             <NavLink to="/studio">Studio</NavLink>
           </nav>
-          <form className="search" onSubmit={go}>
+          <form className="search" onSubmit={go} role="search">
             <Icon.search />
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search kurtas, sneakers, earbuds..." />
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search kurtas, sneakers, earbuds..." aria-label="Search Trendora" />
           </form>
           <div className="nav-acts">
             {portal && (
@@ -49,24 +58,24 @@ export default function Navbar() {
                 {ROLE_META[user.role].label}
               </Link>
             )}
-            <Link to="/notifications" className="icon-btn" title="Alerts">
+            <Link to="/notifications" className="icon-btn" title="Alerts" aria-label={`Alerts${unread ? `, ${unread} unread` : ''}`}>
               <Icon.pin />
               {unread > 0 && <span className="badge">{unread}</span>}
             </Link>
-            <Link to={user ? '/profile' : '/login'} className="icon-btn" title={user ? user.name : 'Account'}>
+            <Link to={user ? '/profile' : '/login'} className="icon-btn" title={user ? user.name : 'Account'} aria-label={user ? `Account, ${user.name}` : 'Sign in'}>
               <Icon.user />
             </Link>
-            <Link to="/wishlist" className="icon-btn" title="Wishlist">
+            <Link to="/wishlist" className="icon-btn" title="Wishlist" aria-label={`Wishlist${wishlist.length ? `, ${wishlist.length} items` : ''}`}>
               <Icon.heart />
               {wishlist.length > 0 && <span className="badge">{wishlist.length}</span>}
             </Link>
-            <Link to="/cart" className="icon-btn" title="Bag">
+            <Link to="/cart" className="icon-btn" title="Bag" aria-label={`Bag${totals.count ? `, ${totals.count} items` : ''}`}>
               <Icon.bag />
               {totals.count > 0 && <span className="badge">{totals.count}</span>}
             </Link>
           </div>
         </div>
-        <div className={`mobile-drawer wrap ${open ? 'open' : ''}`}>
+        <div className={`mobile-drawer wrap ${open ? 'open' : ''}`} id="mobile-nav">
           <form className="search" onSubmit={go} style={{ marginBottom: 10 }}>
             <Icon.search />
             <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search Trendora" />

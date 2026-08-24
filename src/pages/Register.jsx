@@ -7,18 +7,21 @@ export default function Register() {
   const { register, user } = useStore()
   const [form, setForm] = useState({ name: '', email: '', phone: '', password: '', role: 'customer', shopName: '' })
   const [err, setErr] = useState('')
+  const [busy, setBusy] = useState(false)
   const navigate = useNavigate()
   if (user) return <Navigate to={ROLE_META[user.role]?.home || '/'} replace />
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault()
-    if (form.password.length < 6) {
-      setErr('Password should be at least 6 characters.')
-      return
+    setBusy(true)
+    setErr('')
+    try {
+      const res = await register(form)
+      if (!res.ok) setErr(res.error)
+      else navigate(ROLE_META[res.role]?.home || '/')
+    } finally {
+      setBusy(false)
     }
-    const res = register(form)
-    if (!res.ok) setErr(res.error)
-    else navigate(ROLE_META[res.role]?.home || '/')
   }
 
   return (
@@ -45,7 +48,7 @@ export default function Register() {
             <input type={type} value={form[k]} onChange={(e) => setForm((f) => ({ ...f, [k]: e.target.value }))} required />
           </div>
         ))}
-        {form.role === 'seller' && (
+        {(form.role === 'seller' || form.role === 'reseller') && (
           <div className="field">
             <label>Shop name</label>
             <input value={form.shopName} onChange={(e) => setForm((f) => ({ ...f, shopName: e.target.value }))} />

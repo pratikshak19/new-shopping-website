@@ -3,6 +3,7 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Toasts from './components/Toasts'
+import Seo from './components/Seo'
 import RequireRole from './components/RequireRole'
 import Home from './pages/Home'
 import Shop from './pages/Shop'
@@ -45,9 +46,11 @@ export default function App() {
   const staff = /^\/(owner|admin|seller)(\/|$)/.test(pathname)
   return (
     <div className="app-shell">
+      <Seo />
+      <a className="skip" href="#main">Skip to content</a>
       <ScrollTop />
       {!staff && <Navbar />}
-      <main className="page">
+      <main className="page" id="main">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />

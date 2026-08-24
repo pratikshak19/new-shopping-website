@@ -7,6 +7,17 @@ import {
   findProduct,
   insiderTier,
 } from '../data/products'
+import {
+  cleanText,
+  clearLoginFails,
+  loginAllowed,
+  passwordsMatch,
+  recordLoginFail,
+  safeStore,
+  sha256,
+  validEmail,
+  validPhone,
+} from '../lib/security'
 
 const StoreContext = createContext(null)
 const KEY = 'trendora-store-v2'
@@ -16,11 +27,11 @@ export function uid(prefix) {
 }
 
 export const SEED_USERS = [
-  { id: 'u-owner', name: 'Priya Shah', email: 'owner@trendora.in', password: 'owner123', phone: '9000000001', role: 'owner', points: 3200, shopName: 'Trendora HQ', blocked: false, joined: '2025-06-01T10:00:00.000Z' },
-  { id: 'u-admin', name: 'Rahul Desai', email: 'admin@trendora.in', password: 'admin123', phone: '9000000002', role: 'admin', points: 200, shopName: '', blocked: false, joined: '2025-07-12T10:00:00.000Z' },
-  { id: 'u-seller', name: 'Meera Crafts', email: 'seller@trendora.in', password: 'seller123', phone: '9000000003', role: 'seller', points: 120, shopName: 'Meera Crafts', blocked: false, joined: '2025-08-02T10:00:00.000Z' },
-  { id: 'u-demo', name: 'Aisha Verma', email: 'demo@trendora.in', password: 'demo123', phone: '9876543210', role: 'customer', points: 860, shopName: '', blocked: false, joined: '2025-09-18T10:00:00.000Z' },
-  { id: 'u-reseller', name: 'Kavya Joshi', email: 'reseller@trendora.in', password: 'reseller123', phone: '9000000004', role: 'reseller', points: 40, shopName: 'Kavya Shares', blocked: false, joined: '2025-10-01T10:00:00.000Z' },
+  { id: 'u-owner', name: 'Priya Shah', email: 'owner@trendora.in', password: '43a0d17178a9d26c9e0fe9a74b0b45e38d32f27aed887a008a54bf6e033bf7b9', phone: '9000000001', role: 'owner', points: 3200, shopName: 'Trendora HQ', blocked: false, joined: '2025-06-01T10:00:00.000Z' },
+  { id: 'u-admin', name: 'Rahul Desai', email: 'admin@trendora.in', password: '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', phone: '9000000002', role: 'admin', points: 200, shopName: '', blocked: false, joined: '2025-07-12T10:00:00.000Z' },
+  { id: 'u-seller', name: 'Meera Crafts', email: 'seller@trendora.in', password: '2a76110d06bcc4fd437337b984131cfa82db9f792e3e2340acef9f3066b264e0', phone: '9000000003', role: 'seller', points: 120, shopName: 'Meera Crafts', blocked: false, joined: '2025-08-02T10:00:00.000Z' },
+  { id: 'u-demo', name: 'Aisha Verma', email: 'demo@trendora.in', password: 'd3ad9315b7be5dd53b31a273b3b3aba5defe700808305aa16a3062b76658a791', phone: '9876543210', role: 'customer', points: 860, shopName: '', blocked: false, joined: '2025-09-18T10:00:00.000Z' },
+  { id: 'u-reseller', name: 'Kavya Joshi', email: 'reseller@trendora.in', password: '69ff63ab831a811281d43c71c31fee45924edcb73993179c5c6ca0ece3e62fd2', phone: '9000000004', role: 'reseller', points: 40, shopName: 'Kavya Shares', blocked: false, joined: '2025-10-01T10:00:00.000Z' },
 ]
 
 function seedCoupons() {
@@ -63,7 +74,12 @@ export function StoreProvider({ children }) {
   const [users, setUsers] = useState(() => {
     const base = saved?.users || SEED_USERS
     const missing = SEED_USERS.filter((s) => !base.some((u) => u.email === s.email))
-    return [...base, ...missing]
+    const merged = [...base, ...missing]
+    return merged.map((u) => {
+      const seed = SEED_USERS.find((s) => s.email === u.email)
+      if (seed && u.password && u.password.length < 40) return { ...u, password: seed.password }
+      return u
+    })
   })
   const [referral, setReferral] = useState(saved?.referral || null)
   const [shares, setShares] = useState(saved?.shares || [])
@@ -98,32 +114,30 @@ export function StoreProvider({ children }) {
   const [toasts, setToasts] = useState([])
 
   useEffect(() => {
-    localStorage.setItem(
-      KEY,
-      JSON.stringify({
-        version: 2,
-        user,
-        users,
-        products,
-        cart,
-        wishlist,
-        orders,
-        coupon,
-        coupons,
-        addresses,
-        reviews,
-        questions,
-        returns,
-        tickets,
-        notifications,
-        recent,
-        compare,
-        giftWrap,
-        settings,
-        referral,
-        shares,
-      })
-    )
+    const ok = safeStore(KEY, {
+      version: 2,
+      user,
+      users,
+      products,
+      cart,
+      wishlist,
+      orders,
+      coupon,
+      coupons,
+      addresses,
+      reviews,
+      questions,
+      returns,
+      tickets,
+      notifications,
+      recent,
+      compare,
+      giftWrap,
+      settings,
+      referral,
+      shares,
+    })
+    if (!ok) toast('Storage is full. Clear site data if the bag will not save.', 'warn')
   }, [user, users, products, cart, wishlist, orders, coupon, coupons, addresses, reviews, questions, returns, tickets, notifications, recent, compare, giftWrap, settings, referral, shares])
 
   const toast = (message, type = 'ok') => {
@@ -143,32 +157,44 @@ export function StoreProvider({ children }) {
     return { ok: true, role: found.role }
   }
 
-  const register = ({ name, email, password, phone, role = 'customer', shopName = '' }) => {
-    if (users.some((u) => u.email.toLowerCase() === email.toLowerCase())) {
+  const register = async ({ name, email, password, phone, role = 'customer', shopName = '' }) => {
+    const cleanName = cleanText(name, 80)
+    const cleanMail = cleanText(email, 120).toLowerCase()
+    if (!validEmail(cleanMail)) return { ok: false, error: 'Enter a valid email address.' }
+    if (!validPhone(phone)) return { ok: false, error: 'Enter a 10-digit Indian mobile number.' }
+    if (String(password).length < 6) return { ok: false, error: 'Password should be at least 6 characters.' }
+    if (users.some((u) => u.email.toLowerCase() === cleanMail)) {
       return { ok: false, error: 'An account with this email already exists.' }
     }
-    const allowed = role === 'seller' ? 'seller' : 'customer'
+    const allowed = ['seller', 'reseller'].includes(role) ? role : 'customer'
+    const hashed = await sha256(password)
     const next = {
       id: uid('u'),
-      name,
-      email,
-      password,
-      phone,
+      name: cleanName,
+      email: cleanMail,
+      password: hashed,
+      phone: String(phone).replace(/\s/g, ''),
       role: allowed,
       points: 0,
-      shopName: allowed === 'seller' ? shopName || `${name}'s shop` : '',
+      shopName: allowed !== 'customer' ? cleanText(shopName, 80) || `${cleanName}'s shop` : '',
       blocked: false,
       joined: new Date().toISOString(),
     }
     setUsers((list) => [...list, next])
     setUser(strip(next))
-    toast(`Welcome, ${name.split(' ')[0]}`)
+    toast(`Welcome, ${cleanName.split(' ')[0]}`)
     return { ok: true, role: next.role }
   }
 
-  const login = ({ email, password }) => {
-    const found = users.find((u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password)
-    if (!found) return { ok: false, error: 'Invalid email or password.' }
+  const login = async ({ email, password }) => {
+    const gate = loginAllowed()
+    if (!gate.ok) return { ok: false, error: `Too many attempts. Try again in ${gate.wait}s.` }
+    const found = users.find((u) => u.email.toLowerCase() === String(email).trim().toLowerCase())
+    if (!found || !(await passwordsMatch(found.password, password))) {
+      const fail = recordLoginFail()
+      return { ok: false, error: fail.locked ? 'Too many attempts. Locked for 30 seconds.' : 'Invalid email or password.' }
+    }
+    clearLoginFails()
     return afterLogin(found)
   }
 
@@ -312,7 +338,18 @@ export function StoreProvider({ children }) {
 
   const placeOrder = ({ address, payment }) => {
     if (!cartDetailed.length) return { ok: false, error: 'Your bag is empty.' }
-    const pin = checkPincode(address.pin)
+    const oos = cartDetailed.find((l) => l.qty > (l.product.stock || 0))
+    if (oos) return { ok: false, error: `${oos.product.name} does not have enough stock.` }
+    const cleanAddr = {
+      name: cleanText(address.name, 80),
+      phone: String(address.phone || '').replace(/\s/g, ''),
+      line1: cleanText(address.line1, 160),
+      city: cleanText(address.city, 60),
+      state: cleanText(address.state, 60),
+      pin: String(address.pin || '').replace(/\D/g, '').slice(0, 6),
+    }
+    if (!validPhone(cleanAddr.phone)) return { ok: false, error: 'Enter a 10-digit Indian mobile number.' }
+    const pin = checkPincode(cleanAddr.pin)
     if (!pin.ok) return { ok: false, error: pin.error }
     const order = {
       id: `TRD${Date.now().toString().slice(-8)}`,
@@ -331,7 +368,7 @@ export function StoreProvider({ children }) {
       })),
       totals,
       coupon,
-      address,
+      address: cleanAddr,
       payment,
       giftWrap,
       status: 'Confirmed',
@@ -455,7 +492,7 @@ export function StoreProvider({ children }) {
 
   const addReview = ({ productId, rating, text }) => {
     if (!user) return { ok: false, error: 'Login to review.' }
-    const rec = { id: uid('rv'), productId, userId: user.id, name: user.name, rating, text, at: new Date().toISOString() }
+    const rec = { id: uid('rv'), productId, userId: user.id, name: user.name, rating, text: cleanText(text, 800), at: new Date().toISOString() }
     setReviews((list) => [rec, ...list])
     setProducts((list) =>
       list.map((p) => {
@@ -473,7 +510,7 @@ export function StoreProvider({ children }) {
   const addQuestion = ({ productId, question }) => {
     if (!user) return { ok: false, error: 'Login to ask.' }
     setQuestions((list) => [
-      { id: uid('q'), productId, userId: user.id, name: user.name.split(' ')[0], question, answer: '', at: new Date().toISOString() },
+      { id: uid('q'), productId, userId: user.id, name: user.name.split(' ')[0], question: cleanText(question, 280), answer: '', at: new Date().toISOString() },
       ...list,
     ])
     toast('Question posted')
@@ -547,10 +584,23 @@ export function StoreProvider({ children }) {
     toast('Coupon saved')
   }
 
-  const createStaff = ({ name, email, password, phone, role, shopName }) => {
+  const createStaff = async ({ name, email, password, phone, role, shopName }) => {
     if (!['admin', 'seller', 'customer', 'reseller'].includes(role)) return { ok: false, error: 'Invalid role.' }
+    if (!validEmail(email)) return { ok: false, error: 'Valid email required.' }
     if (users.some((u) => u.email.toLowerCase() === email.toLowerCase())) return { ok: false, error: 'Email exists.' }
-    const next = { id: uid('u'), name, email, password, phone, role, points: 0, shopName: shopName || '', blocked: false, joined: new Date().toISOString() }
+    const hashed = await sha256(password || 'pass123')
+    const next = {
+      id: uid('u'),
+      name: cleanText(name, 80),
+      email: cleanText(email, 120).toLowerCase(),
+      password: hashed,
+      phone,
+      role,
+      points: 0,
+      shopName: cleanText(shopName, 80),
+      blocked: false,
+      joined: new Date().toISOString(),
+    }
     setUsers((list) => [...list, next])
     toast(`${role} created`)
     return { ok: true }

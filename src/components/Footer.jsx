@@ -30,7 +30,7 @@ export default function Footer() {
         <div>
           <h4>Project files</h4>
           <Link to="/documents">PDF · Word · PPT</Link>
-          <Link to="/login">Customer / Seller / Admin / Owner</Link>
+          <Link to="/login">Customer / Reseller / Seller / Admin / Owner</Link>
           <a href="/docs/Trendora_Project_Report.pdf" target="_blank" rel="noreferrer">Download report (PDF)</a>
           <a href="/docs/Trendora_Project_Report.docx" target="_blank" rel="noreferrer">Download report (Word)</a>
           <a href="/docs/Trendora_Presentation.pptx" target="_blank" rel="noreferrer">Download slides (PPT)</a>

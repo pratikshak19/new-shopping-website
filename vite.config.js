@@ -8,20 +8,25 @@ const TYPES = {
   '.zip': 'application/zip',
 }
 
+function docsHeaders(req, res, next) {
+  const url = req.url?.split('?')[0] || ''
+  const ext = Object.keys(TYPES).find((e) => url.endsWith(e))
+  if (url.startsWith('/docs/') && ext) {
+    const name = url.split('/').pop()
+    res.setHeader('Content-Type', TYPES[ext])
+    res.setHeader('Content-Disposition', `attachment; filename="${name}"`)
+  }
+  next()
+}
+
 function docsDownload() {
   return {
     name: 'docs-download-headers',
     configureServer(server) {
-      server.middlewares.use((req, res, next) => {
-        const url = req.url?.split('?')[0] || ''
-        const ext = Object.keys(TYPES).find((e) => url.endsWith(e))
-        if (url.startsWith('/docs/') && ext) {
-          const name = url.split('/').pop()
-          res.setHeader('Content-Type', TYPES[ext])
-          res.setHeader('Content-Disposition', `attachment; filename="${name}"`)
-        }
-        next()
-      })
+      server.middlewares.use(docsHeaders)
+    },
+    configurePreviewServer(server) {
+      server.middlewares.use(docsHeaders)
     },
   }
 }

@@ -48,6 +48,10 @@ export default function Checkout() {
       setErr('Enter a valid 6-digit PIN code.')
       return
     }
+    if (!/^[6-9]\d{9}$/.test(String(address.phone).replace(/\s/g, ''))) {
+      setErr('Enter a 10-digit Indian mobile number.')
+      return
+    }
     saveAddress(address)
     const methods = {
       upi: 'UPI (simulated)',
