@@ -1,0 +1,13 @@
+{
+  "name": "Trendora",
+  "short_name": "Trendora",
+  "description": "India-style shopping — Myntra fashion, Meesho reseller, Flipkart deals.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#faf7f5",
+  "theme_color": "#1a1a2e",
+  "icons": [
+    { "src": "/images/logo.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/images/logo.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
