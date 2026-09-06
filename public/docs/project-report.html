@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Trendora — Project Report</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <article class="doc">
+    <div class="navdoc">
+      <a href="/">← Store</a>
+      <a href="./how-it-was-built.html">How it was built</a>
+      <a href="./presentation.html">Presentation</a>
+      <a href="#" onclick="window.print();return false;">Print / Save PDF</a>
+    </div>
+    <div class="kicker">Project report</div>
+    <h1>Trendora — A Full-Featured Online Shopping Website</h1>
+    <p>Inspired by Meesho, Myntra and Flipkart. A major / mini project submission for a college (vlg) computer-science / IT programme.</p>
+    <table>
+      <tr><th>Project title</th><td>Trendora: Multi-category E-commerce Web Application</td></tr>
+      <tr><th>Domain</th><td>Web technologies / E-commerce</td></tr>
+      <tr><th>Front end</th><td>React 18, Vite, CSS3</td></tr>
+      <tr><th>State &amp; storage</th><td>Context API, localStorage</td></tr>
+      <tr><th>Type</th><td>Single-page application (SPA)</td></tr>
+      <tr><th>Year</th><td>2025–26</td></tr>
+    </table>
+
+    <h2>Certificate</h2>
+    <p>This is to certify that the project titled <strong>“Trendora — A Full-Featured Online Shopping Website”</strong> is a bona fide record of work carried out as part of the academic curriculum. The software demonstrates browsing, search, filtering, cart, wishlist, authentication, coupon engine, checkout and order tracking in the style of contemporary Indian e-commerce platforms.</p>
+
+    <h2>Acknowledgement</h2>
+    <p>I thank my project guide, the department of Computer Science / Information Technology, and classmates who reviewed the shopping flow. Public UX patterns of Myntra, Flipkart and Meesho were studied only as references; the brand, code and copy of Trendora are original project work.</p>
+
+    <h2>Abstract</h2>
+    <p>Online retail in India is defined by three consumer habits: browsing fashion the way Myntra presents it, comparing price the way Flipkart does, and discovering an affordable catalogue the way Meesho does. This project implements <strong>Trendora</strong>, a single-page shopping website that unifies those habits.</p>
+    <p>The application exposes a 32-SKU catalogue across eight categories. Users can search, filter, sort, save a wishlist, configure colour and size, apply coupons, check out with a validated address, choose a simulated payment method and inspect an order timeline.</p>
+    <p>Technically, Trendora is a React SPA. Global commerce state lives in a Context provider and is persisted to <code>localStorage</code>, so a demonstration survives page refresh without a paid back-end.</p>
+    <p><strong>Keywords:</strong> e-commerce, React, SPA, shopping cart, Context API, college project</p>
+
+    <h2>1. Introduction</h2>
+    <h3>1.1 Motivation</h3>
+    <p>College students already shop on Meesho, Myntra and Flipkart. Building a look-alike is a relatable software-engineering problem: information architecture, state, money, identity and trust.</p>
+    <h3>1.2 Problem statement</h3>
+    <p>Design and implement a responsive shopping website that lets a guest or registered user browse a multi-category catalogue, manage a bag and wishlist, apply promotional codes, place an order and track it — without requiring a live payment gateway or warehouse.</p>
+    <h3>1.3 Objectives</h3>
+    <ol>
+      <li>Study the information architecture of Indian e-commerce apps.</li>
+      <li>Design a reusable product schema and coupon rules.</li>
+      <li>Implement a complete purchase pipeline in React.</li>
+      <li>Persist session data locally for offline-friendly viva demos.</li>
+      <li>Produce report, build notes and a slide deck for evaluation.</li>
+    </ol>
+    <h3>1.4 Scope</h3>
+    <p><strong>In scope:</strong> catalogue, search, filters, PDP, cart, coupons, auth, checkout, orders, profile, static pages, documentation.<br />
+    <strong>Out of scope:</strong> real payments, logistics, seller onboarding, recommendation ML, native apps.</p>
+
+    <h2>2. Literature / existing system survey</h2>
+    <table>
+      <tr><th>System</th><th>Strength</th><th>Gap for a student clone</th></tr>
+      <tr><td>Amazon / Flipkart</td><td>Scale, search, logistics</td><td>Too large to reimplement</td></tr>
+      <tr><td>Myntra</td><td>Fashion UX, size/return</td><td>Fashion-only</td></tr>
+      <tr><td>Meesho</td><td>Social commerce</td><td>Needs a seller graph</td></tr>
+      <tr><td>Shopify themes</td><td>Fast storefront</td><td>Not a from-scratch academic artefact</td></tr>
+    </table>
+    <p>Trendora takes UX nouns (bag, wishlist, MRP vs. selling price, COD) from the Indian market and implements them as original code.</p>
+
+    <h2>3. System analysis</h2>
+    <h3>3.1 Users</h3>
+    <ul>
+      <li><strong>Guest shopper</strong> — browse, bag, checkout as guest.</li>
+      <li><strong>Registered shopper</strong> — profile, faster address, order history.</li>
+      <li><strong>Evaluator</strong> — reset by clearing site data.</li>
+    </ul>
+    <h3>3.2 Functional requirements</h3>
+    <p>FR1 Search · FR2 Filter/sort · FR3 Product detail with variants · FR4 Bag lines · FR5 Wishlist · FR6 Coupons · FR7 Auth + profile · FR8 Checkout · FR9 Orders + timeline · FR10 Contact form.</p>
+    <h3>3.3 Non-functional</h3>
+    <p>Responsive, lab-machine friendly, no crash on empty cart, INR formatting, honest about simulated payments.</p>
+
+    <h2>4. System design</h2>
+    <h3>4.1 Architecture</h3>
+    <pre>Browser
+  └─ React UI (pages + components)
+        └─ StoreContext  (use cases)
+              ├─ products.js   (read-only catalogue)
+              └─ localStorage  (users, cart, wishlist, orders)</pre>
+    <p>Three layers: presentation, application state, persistence.</p>
+    <h3>4.2 Routing</h3>
+    <p><code>/</code>, <code>/shop</code>, <code>/product/:id</code>, <code>/cart</code>, <code>/checkout</code>, <code>/wishlist</code>, <code>/login</code>, <code>/register</code>, <code>/orders</code>, <code>/orders/:id</code>, <code>/profile</code>, <code>/about</code>, <code>/contact</code>, <code>/faq</code>.</p>
+    <h3>4.3 Data</h3>
+    <p><strong>Product:</strong> id, name, brand, category, price, mrp, rating, reviews, stock, colors, sizes, image, gallery, tags, description, highlights.</p>
+    <p><strong>Cart line:</strong> id, color, size, qty.</p>
+    <p><strong>Order:</strong> id, placedAt, items, totals, coupon, address, payment, status, timeline, userId.</p>
+    <h3>4.4 Price algorithm</h3>
+    <p><code>grand = max(0, subtotal − couponDiscount + shipping)</code>. Shipping is ₹79 unless subtotal ≥ ₹999 or coupon is FREESHIP.</p>
+    <h3>4.5 Logical relationships</h3>
+    <p>User 1—N Order; Order 1—N OrderItem; Product 1—N OrderItem; User N—N Product (wishlist); Coupon 0—1 Order.</p>
+
+    <h2>5. Implementation</h2>
+    <p>Environment: Node.js 18+, npm, modern browser. Key modules: <code>StoreContext.jsx</code>, <code>products.js</code>, <code>ProductCard.jsx</code>, <code>Shop.jsx</code>, <code>Checkout.jsx</code>. Design tokens live in <code>index.css</code>.</p>
+    <p><strong>Security note:</strong> demo passwords sit in localStorage. Production would use HTTPS, hashed passwords and a payment SDK. This gap is stated in the FAQ and slides.</p>
+
+    <h2>6. Testing</h2>
+    <table>
+      <tr><th>ID</th><th>Case</th><th>Expected</th><th>Result</th></tr>
+      <tr><td>T1</td><td>Open home</td><td>Hero + categories</td><td>Pass</td></tr>
+      <tr><td>T2</td><td>Search “earbuds”</td><td>PulseBuds appears</td><td>Pass</td></tr>
+      <tr><td>T3</td><td>Filter Women + sort price</td><td>Ordered women’s SKUs</td><td>Pass</td></tr>
+      <tr><td>T4</td><td>Add two sizes of same SKU</td><td>Two bag lines</td><td>Pass</td></tr>
+      <tr><td>T5</td><td>FESTIVE20 on ₹500</td><td>Rejected (min ₹1999)</td><td>Pass</td></tr>
+      <tr><td>T6</td><td>FESTIVE20 on ₹2500</td><td>20% off</td><td>Pass</td></tr>
+      <tr><td>T7</td><td>PIN 560001</td><td>Accepted</td><td>Pass</td></tr>
+      <tr><td>T8</td><td>PIN 56A</td><td>Error</td><td>Pass</td></tr>
+      <tr><td>T9</td><td>Place order</td><td>Cart empty, order listed</td><td>Pass</td></tr>
+      <tr><td>T10</td><td>Refresh</td><td>Session kept</td><td>Pass</td></tr>
+      <tr><td>T11</td><td>Unknown product</td><td>Not-found</td><td>Pass</td></tr>
+      <tr><td>T12</td><td>Mobile drawer</td><td>Categories reachable</td><td>Pass</td></tr>
+    </table>
+
+    <h2>7. Results and discussion</h2>
+    <p>The finished site presents a credible Indian storefront. Completing a purchase takes under a minute in a demo. Context instead of Redux kept the learning curve honest. localStorage is a pedagogical stand-in for REST; swapping it for <code>fetch('/api/orders')</code> is a weekend of work, not a rewrite.</p>
+
+    <h2>8. Conclusion</h2>
+    <p>Trendora reconstructs the shape of Meesho / Myntra / Flipkart: catalogue, merchandising, bag, offers, identity and post-purchase. The project meets its objectives and is ready for laboratory evaluation.</p>
+
+    <h2>9. Future scope</h2>
+    <ol>
+      <li>Express + MongoDB API</li>
+      <li>Razorpay / Stripe test mode</li>
+      <li>Seller dashboard</li>
+      <li>Image search and size recommender</li>
+      <li>PWA install + offline catalogue</li>
+      <li>Jest + React Testing Library</li>
+    </ol>
+
+    <h2>10. References</h2>
+    <ol>
+      <li>React documentation, https://react.dev</li>
+      <li>Vite guide, https://vitejs.dev</li>
+      <li>React Router, https://reactrouter.com</li>
+      <li>Nielsen Norman Group, e-commerce UX heuristics</li>
+      <li>Public storefronts of Myntra, Flipkart and Meesho (UX reference only)</li>
+      <li>MDN Web Docs — HTML, CSS, Web Storage API</li>
+    </ol>
+
+    <h2>Appendix</h2>
+    <p><strong>A.</strong> Run book — see How it was built.<br />
+    <strong>B.</strong> Coupons — TREND10, FESTIVE20, WELCOME100, FREESHIP.<br />
+    <strong>C.</strong> Demo account — button “Use demo account” on /login.</p>
+  </article>
+</body>
+</html>

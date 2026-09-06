@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Trendora — Presentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root { --rose:#ff3f6c; --navy:#1a1a2e; --cream:#faf7f5; }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; background: #0e0e18; color: #fff; font-family: Outfit, sans-serif; }
+    .deck { height: 100%; position: relative; }
+    .slide {
+      display: none; height: 100%; padding: 7vh 8vw 10vh;
+      flex-direction: column; justify-content: center;
+      background:
+        radial-gradient(900px 500px at 110% -10%, rgba(255,63,108,.28), transparent 55%),
+        radial-gradient(700px 400px at -10% 110%, rgba(201,162,39,.18), transparent 50%),
+        var(--navy);
+    }
+    .slide.on { display: flex; }
+    .kicker { letter-spacing: .22em; text-transform: uppercase; color: #ffb3c5; font-size: 13px; font-weight: 700; margin-bottom: 14px; }
+    h1 { font-family: "Playfair Display", serif; font-size: clamp(36px, 6vw, 72px); line-height: 1.08; margin: 0 0 16px; }
+    h2 { font-family: "Playfair Display", serif; font-size: clamp(28px, 4.4vw, 52px); margin: 0 0 18px; }
+    p, li { font-size: clamp(16px, 2vw, 22px); color: #ddd6d0; line-height: 1.45; }
+    ul { margin: 0; padding-left: 1.1em; }
+    li { margin: 8px 0; }
+    .sub { color: #b7b0aa; font-size: 18px; }
+    .bar {
+      position: fixed; left: 0; right: 0; bottom: 0; height: 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 20px; background: rgba(0,0,0,.35); font-size: 13px; color: #cfc7c1;
+    }
+    .bar button {
+      background: transparent; border: 1px solid rgba(255,255,255,.2); color: #fff;
+      border-radius: 999px; padding: 6px 12px; cursor: pointer; font: inherit;
+    }
+    .bar a { color: #ffb3c5; }
+    .cols { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-top: 10px; }
+    .card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.08); border-radius: 18px; padding: 18px; }
+    .card h3 { margin: 0 0 8px; font-family: Outfit, sans-serif; font-size: 18px; color: #fff; }
+    .card p { font-size: 15px; margin: 0; }
+    code { color: #ffd0db; }
+    @media (max-width: 800px) { .cols { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="deck" id="deck">
+    <section class="slide on">
+      <div class="kicker">College / vlg project · 2025–26</div>
+      <h1>Trendora</h1>
+      <p>A shopping website in the spirit of Meesho, Myntra and Flipkart.</p>
+      <p class="sub">Discover → decide → pay → track. Built as a complete React store, not a single HTML page.</p>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">01 · Why</div>
+      <h2>Why a shopping site?</h2>
+      <ul>
+        <li>Everyone in the class already shops online.</li>
+        <li>E-commerce teaches data, money, identity and UX together.</li>
+        <li>A five-minute live demo beats a dozen screenshots.</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">02 · Problem</div>
+      <h2>The problem we solved</h2>
+      <p>Build a site where a guest or member can complete a full purchase journey without a real warehouse or payment gateway — and still feel like a national store.</p>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">03 · Inspiration</div>
+      <h2>Three apps, one store</h2>
+      <div class="cols">
+        <div class="card"><h3>Myntra</h3><p>Fashion PDP, wishlist hearts, size &amp; colour, rose accent.</p></div>
+        <div class="card"><h3>Flipkart</h3><p>Deals timer, coupons, MRP break-up, COD.</p></div>
+        <div class="card"><h3>Meesho</h3><p>Approachable prices, category-first tiles, mobile bag.</p></div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">04 · Objectives</div>
+      <h2>What had to ship</h2>
+      <ul>
+        <li>Multi-category catalogue (32 SKUs, 8 departments)</li>
+        <li>Search, filter, sort</li>
+        <li>Bag, wishlist, coupons</li>
+        <li>Auth, checkout, order timeline</li>
+        <li>Report + slides + build notes</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">05 · Stack</div>
+      <h2>Technology</h2>
+      <ul>
+        <li>React 18 + Vite — fast lab start</li>
+        <li>React Router — a URL per screen</li>
+        <li>Context API — one store for the shop</li>
+        <li>localStorage — survives refresh</li>
+        <li>Hand-written CSS tokens — every rule is explainable</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">06 · Architecture</div>
+      <h2>Three layers</h2>
+      <p>UI pages → <code>StoreContext</code> (use cases) → <code>products.js</code> + localStorage.</p>
+      <p class="sub">Presentation, application state, persistence. Draw this if they hand you a marker.</p>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">07 · Modules</div>
+      <h2>Screens</h2>
+      <p>Home · Shop · Product · Cart · Checkout · Orders · Wishlist · Login · Register · Profile · About · Contact · FAQ</p>
+      <p class="sub">Plus Navbar, Footer, ProductCard, toasts, image fallbacks.</p>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">08 · Data</div>
+      <h2>Catalogue is data</h2>
+      <p>Each product is an object: id, brand, category, price, mrp, rating, stock, colors, sizes, tags.</p>
+      <p class="sub">Adding a SKU is one object — not a new HTML page. That is the point of a component architecture.</p>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">09 · Live demo</div>
+      <h2>Five-minute script</h2>
+      <ul>
+        <li>Land on the hero, click Women</li>
+        <li>Open a dress, pick size, add to bag + heart</li>
+        <li>Apply <code>FESTIVE20</code></li>
+        <li>Checkout with a 6-digit PIN</li>
+        <li>Choose UPI (simulated) → show order id</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">10 · Money</div>
+      <h2>The only formula that matters</h2>
+      <p><code>grand = subtotal − coupon + shipping</code></p>
+      <p>Shipping is ₹79, or free above ₹999, or free with <code>FREESHIP</code>.</p>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">11 · Offers</div>
+      <h2>Coupon engine</h2>
+      <ul>
+        <li><code>TREND10</code> — 10% above ₹799</li>
+        <li><code>FESTIVE20</code> — 20% above ₹1,999</li>
+        <li><code>WELCOME100</code> — ₹100 above ₹499</li>
+        <li><code>FREESHIP</code> — delivery = 0</li>
+      </ul>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">12 · Persistence</div>
+      <h2>Refresh does not empty the bag</h2>
+      <p>Everything sits under <code>trendora-store-v1</code>. Clearing site data is the “factory reset” for a second demo.</p>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">13 · Testing</div>
+      <h2>Twelve cases we ran</h2>
+      <p>Search, filters, two sizes of one SKU, coupon min-cart, good PIN, bad PIN, place order, refresh, 404, mobile drawer.</p>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">14 · Be honest</div>
+      <h2>What this is not</h2>
+      <ul>
+        <li>No real money moves</li>
+        <li>Passwords are not hashed on a server</li>
+        <li>Nothing ships to a pincode</li>
+      </ul>
+      <p class="sub">It is a simulation with production UX — and we say so in the FAQ.</p>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">15 · Next</div>
+      <h2>Future scope</h2>
+      <p>Express + MongoDB · Razorpay test keys · seller admin · PWA · Jest tests.</p>
+    </section>
+
+    <section class="slide">
+      <div class="kicker">16 · Close</div>
+      <h2>Trendora is ready for the lab</h2>
+      <p>Defendable architecture. Demoable journey. Printed report. Step-by-step slides.</p>
+      <p class="sub">Thank you. Questions?</p>
+    </section>
+  </div>
+  <div class="bar">
+    <span><a href="/">Store</a> · <a href="./project-report.html">Report</a> · <a href="./how-it-was-built.html">Build log</a></span>
+    <span>
+      <button id="prev">← Prev</button>
+      <span id="pos">1 / 1</span>
+      <button id="next">Next →</button>
+    </span>
+    <span>Arrows · Space · click</span>
+  </div>
+  <script>
+    const slides = [...document.querySelectorAll('.slide')]
+    let i = 0
+    const go = (n) => {
+      i = (n + slides.length) % slides.length
+      slides.forEach((s, k) => s.classList.toggle('on', k === i))
+      document.getElementById('pos').textContent = `${i + 1} / ${slides.length}`
+    }
+    go(0)
+    document.getElementById('next').onclick = () => go(i + 1)
+    document.getElementById('prev').onclick = () => go(i - 1)
+    window.addEventListener('keydown', (e) => {
+      if (['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); go(i + 1) }
+      if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); go(i - 1) }
+      if (e.key === 'Home') go(0)
+      if (e.key === 'End') go(slides.length - 1)
+    })
+  </script>
+</body>
+</html>

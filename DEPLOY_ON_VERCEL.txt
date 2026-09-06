@@ -1,0 +1,21 @@
+KAL PRESENTATION — Vercel (PURANA project, naya mat banao)
+
+1. Is folder ko unzip karo (Trendora_For_Vercel.zip).
+2. Laptop pe Command Prompt / Terminal kholo US folder mein.
+3. Commands (ek ek karke):
+
+   npm install
+   npx vercel login
+      -> browser khulega, GitHub/Email se login
+   npx vercel --prod
+      -> "Set up and deploy?"  Y
+      -> "Link to existing project?"  Y
+      -> Purana Trendora project ka naam chuno (naya create MAT karo)
+
+4. Last line pe URL milegi. Wahi purani .vercel.app update ho jayegi.
+
+Agar "Link to existing" nahi poochhe aur naya bana de:
+Vercel dashboard -> purana project Settings -> Git ignore
+Phir yeh commands dubara, existing project select.
+
+PAUSE: pehle vercel.com pe project Resume/Unpause, phir yeh steps.

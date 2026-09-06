@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How Trendora was built</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <article class="doc">
+    <div class="navdoc">
+      <a href="/">← Store</a>
+      <a href="./project-report.html">Project report</a>
+      <a href="./presentation.html">Presentation</a>
+    </div>
+    <div class="kicker">Build log</div>
+    <h1>How Trendora was built</h1>
+    <p class="meta">React 18 · Vite 5 · React Router 6 · Context API · localStorage · 2025–26 college project</p>
+
+    <nav class="toc">
+      <a href="#copy">1. What we copied</a>
+      <a href="#tools">2. Tools</a>
+      <a href="#map">3. Folder map</a>
+      <a href="#seq">4. Build sequence</a>
+      <a href="#run">5. How to run</a>
+      <a href="#money">6. Money formula</a>
+      <a href="#auth">7. Auth honesty</a>
+      <a href="#next">8. What to extend</a>
+    </nav>
+
+    <h2 id="copy">1. What we set out to copy</h2>
+    <table>
+      <tr><th>Platform</th><th>Borrowed habit</th><th>Skipped</th></tr>
+      <tr><td>Myntra</td><td>Fashion-first home, wishlist hearts, size/colour PDP, rose accent</td><td>Live inventory, influencer studio</td></tr>
+      <tr><td>Flipkart</td><td>Mega-catalogue, deal timer, price breakdown, coupons, COD</td><td>Warehouse, real UPI</td></tr>
+      <tr><td>Meesho</td><td>Approachable prices, category tiles, mobile bag</td><td>Reseller panel</td></tr>
+    </table>
+    <p>Trendora is a <strong>front-end system with a simulated back end</strong>. That is enough to demonstrate routing, state, validation, persistence and UX.</p>
+
+    <h2 id="tools">2. Tools and why</h2>
+    <ol>
+      <li><strong>Vite</strong> — one-second start for the lab.</li>
+      <li><strong>React</strong> — the component tree matches store pages.</li>
+      <li><strong>React Router</strong> — a URL for every screen.</li>
+      <li><strong>Context API</strong> — one provider is the “database + session”.</li>
+      <li><strong>localStorage</strong> — cart and orders survive refresh.</li>
+      <li><strong>Plain CSS</strong> — every style can be explained in a viva.</li>
+    </ol>
+
+    <h2 id="map">3. Folder map</h2>
+    <pre>new-shopping-website/
+  index.html
+  package.json
+  vite.config.js
+  public/images/
+  public/docs/
+  src/main.jsx
+  src/App.jsx
+  src/index.css
+  src/data/products.js
+  src/context/StoreContext.jsx
+  src/components/
+  src/pages/</pre>
+
+    <h2 id="seq">4. Build sequence (say this in the viva)</h2>
+    <h3>Step 1 — Product thinking</h3>
+    <p>Mapped the journey: land → browse → filter → product → bag → coupon → address → pay → track.</p>
+    <h3>Step 2 — Catalogue</h3>
+    <p><code>PRODUCTS</code> is an array of objects. Helpers <code>formatINR</code>, <code>discountOf</code>, <code>searchProducts</code> keep the UI thin.</p>
+    <h3>Step 3 — Global state</h3>
+    <p><code>StoreProvider</code> owns user, cart, wishlist, coupon, orders and toasts. Writes to <code>trendora-store-v1</code>.</p>
+    <h3>Step 4 — Pages</h3>
+    <p>Home, Shop, Product, Cart, Checkout, Orders, Wishlist, Auth, Profile, About, Contact, FAQ.</p>
+    <h3>Step 5 — Visual system</h3>
+    <p>Navy <code>#1A1A2E</code>, rose <code>#FF3F6C</code>, cream paper, Playfair + Outfit.</p>
+    <h3>Step 6 — Polish</h3>
+    <p>Announcement bar, badges, empty states, 404, mobile drawer, PIN checks, coupon errors.</p>
+    <h3>Step 7 — Documents</h3>
+    <p>This guide, the project report, and a keyboard-driven slide deck.</p>
+
+    <h2 id="run">5. How to run</h2>
+    <pre>cd new-shopping-website
+npm install
+npm run dev</pre>
+    <p>Then open the printed URL (usually <code>http://localhost:5173</code>).</p>
+    <pre>npm run build
+npm run preview</pre>
+
+    <h2 id="money">6. How money is calculated</h2>
+    <pre>subtotal    = sum(price × qty)
+productSave = sum(mrp × qty) − subtotal
+coupon      = 10%/20% if min met, or ₹100, or free ship
+shipping    = 0 if subtotal ≥ 999 else 79
+grand       = subtotal − coupon + shipping</pre>
+
+    <h2 id="auth">7. Auth — honest version</h2>
+    <p>Passwords live in localStorage <strong>only for the demo</strong>. A real site hashes passwords on a server and issues a session/JWT. Say this out loud if asked about security.</p>
+
+    <h2 id="next">8. What you can extend</h2>
+    <ul>
+      <li>Node/Express + MongoDB</li>
+      <li>Razorpay test mode</li>
+      <li>Admin dashboard to add SKUs</li>
+      <li>PWA + automated tests</li>
+    </ul>
+
+    <p class="meta">Viva one-liners: “SPA with client-side routing.” · “Single source of truth via Context.” · “Catalogue is data, not pages.” · “Checkout is a state machine.”</p>
+  </article>
+</body>
+</html>
