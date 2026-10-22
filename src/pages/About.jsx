@@ -19,13 +19,8 @@ export default function About() {
       <p>
         Trendify is a full shopping website: fashion, electronics, beauty, home, kids and campus stationery.
         Personalized kits mix departments. Two logins only: customer (shop) and admin (private desk). Adding or hiding
-        products is locked to admin. The brand name combines <em>trend</em> with <em>-ify</em> — making current style easy to
-        shop, wear and return. Visual language is rose on navy.
-      </p>
-      <p>
-        The latest Trendify release adds curated New Collections and a complete Rent Clothes section. Customers can
-        buy most products normally, rent eligible occasionwear for 2–10 days, or choose rental-only gowns, tuxedos
-        and party dresses with a clear refundable-deposit breakup.
+        products is locked to admin. The brand name blends <em>trend</em> with the familiar Indian <em>-kart</em>. Visual
+        language is rose on navy.
       </p>
     </div>
   )

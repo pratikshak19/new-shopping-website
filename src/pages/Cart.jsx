@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { formatINR, formatRentalDate } from '../data/products'
+import { formatINR } from '../data/products'
 import { smartCartSuggestion } from '../lib/styleEngine'
 import { useStore } from '../context/StoreContext'
 import ProductImage from '../components/ProductImage'
@@ -46,44 +46,25 @@ export default function Cart() {
             <aside className="smart-cart">
               <p>🛍️ {smart.text}</p>
               {smart.product && (
-                smart.product.rentalOnly ? (
-                  <Link className="btn btn-ghost" to={`/product/${smart.product.id}?mode=rent`}>
-                    Rent {smart.product.name} · {formatINR(smart.product.rental?.perDay || 0)}/day
-                  </Link>
-                ) : (
-                  <button className="btn btn-ghost" type="button" onClick={() => addToCart(smart.product.id)}>
-                    Add {smart.product.name} · {formatINR(smart.product.price)}
-                  </button>
-                )
+                <button className="btn btn-ghost" type="button" onClick={() => addToCart(smart.product.id)}>
+                  Add {smart.product.name} · {formatINR(smart.product.price)}
+                </button>
               )}
             </aside>
           )}
           {cartDetailed.map((line, i) => (
-            <article key={`${line.id}-${line.mode}-${line.color}-${line.size}-${line.rentalStart || ''}-${i}`} className="cart-item">
-              <Link to={`/product/${line.id}${line.mode === 'rent' ? '?mode=rent' : ''}`}>
+            <article key={`${line.id}-${line.color}-${line.size}-${i}`} className="cart-item">
+              <Link to={`/product/${line.id}`}>
                 <ProductImage src={line.product.image} alt={line.product.name} />
               </Link>
               <div>
                 <div className="pcard-brand">{line.product.brand}</div>
-                <Link to={`/product/${line.id}${line.mode === 'rent' ? '?mode=rent' : ''}`} className="pcard-name">
+                <Link to={`/product/${line.id}`} className="pcard-name">
                   {line.product.name}
                 </Link>
-                <p style={{ fontSize: 13, color: 'var(--muted)', margin: '4px 0 6px' }}>
+                <p style={{ fontSize: 13, color: 'var(--muted)', margin: '4px 0 10px' }}>
                   {line.color} · {line.size}
                 </p>
-                {line.mode === 'rent' ? (
-                  <div className="rental-line-note">
-                    <strong>Rental · {line.quote?.days || line.rentalDays} days</strong>
-                    <span>
-                      {formatRentalDate(line.rentalStart)} · pickup {formatRentalDate(line.rentalEnd)}
-                    </span>
-                    <span>
-                      Rental {formatINR(line.unitPrice)} + refundable deposit {formatINR(line.deposit / line.qty)} each
-                    </span>
-                  </div>
-                ) : (
-                  <p className="rental-line-note"><strong>Purchase</strong></p>
-                )}
                 <div className="qty">
                   <button onClick={() => updateQty(i, line.qty - 1)}>-</button>
                   <span>{line.qty}</span>
@@ -111,18 +92,6 @@ export default function Cart() {
             <span>Product discount</span>
             <span style={{ color: 'var(--ok)' }}>-{formatINR(totals.productSave)}</span>
           </div>
-          {totals.rentalSubtotal > 0 && (
-            <div className="row">
-              <span>Rental fees included</span>
-              <span>{formatINR(totals.rentalSubtotal)}</span>
-            </div>
-          )}
-          {totals.rentalDeposit > 0 && (
-            <div className="row">
-              <span>Refundable rental deposit</span>
-              <span>{formatINR(totals.rentalDeposit)}</span>
-            </div>
-          )}
           <div className="row">
             <span>Coupon</span>
             <span style={{ color: 'var(--ok)' }}>-{formatINR(totals.discount)}</span>

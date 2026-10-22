@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
-import { formatINR, formatRentalDate } from '../data/products'
+import { formatINR } from '../data/products'
 import { useStore } from '../context/StoreContext'
 import { Icon } from '../components/Icons'
 import ProductImage from '../components/ProductImage'
@@ -60,17 +60,9 @@ export default function OrderDetail() {
                 <div className="pcard-name">{item.name}</div>
                 <p style={{ fontSize: 13, color: 'var(--muted)' }}>
                   {item.color} · {item.size} · Qty {item.qty}
-                  {item.mode === 'rent' && (
-                    <>
-                      <br />
-                      Rental · {item.rentalDays} days · {formatRentalDate(item.rentalStart)} · pickup {formatRentalDate(item.rentalEnd)}
-                      <br />
-                      Refundable deposit: {formatINR(item.rentalDeposit || 0)}
-                    </>
-                  )}
                 </p>
               </div>
-              <div className="price">{formatINR(item.lineTotal || item.price * item.qty)}</div>
+              <div className="price">{formatINR(item.price * item.qty)}</div>
             </article>
           ))}
         </div>
@@ -87,12 +79,6 @@ export default function OrderDetail() {
             <br />
             {order.address.phone}
           </p>
-          {(order.totals.rentalDeposit || 0) > 0 && (
-            <div className="row">
-              <span>Refundable rental deposit</span>
-              <span>{formatINR(order.totals.rentalDeposit)}</span>
-            </div>
-          )}
           <div className="row total">
             <span>Paid</span>
             <span>{formatINR(order.totals.grand)}</span>
@@ -109,7 +95,7 @@ export default function OrderDetail() {
               Cancel order
             </button>
           )}
-          {order.status === 'Delivered' && user && order.items.some((item) => item.mode !== 'rent') && (
+          {order.status === 'Delivered' && user && (
             <form
               style={{ marginTop: 16 }}
               onSubmit={(e) => {

@@ -27,16 +27,15 @@ export default function Navbar() {
           </button>
           <Link to="/" className="brand" onClick={() => setOpen(false)}>
             <img src="/images/logo.png" alt="Trendify" />
-            <div className="brand-name">Tren<span>dify</span></div>
+            <div className="brand-name">Tren<span>dora</span></div>
           </Link>
           <nav className="nav-links" aria-label="Primary">
             <NavLink to="/shop">Shop</NavLink>
-            <NavLink to="/collections">Collections</NavLink>
-            <NavLink to="/rentals">Rent Clothes</NavLink>
             <NavLink to="/style">Style</NavLink>
+            <NavLink to="/quiz">Quiz</NavLink>
             <NavLink to="/festivals">Festivals</NavLink>
             <NavLink to="/kits">Kits</NavLink>
-            {CATEGORIES.slice(0, 3).map((c) => (
+            {CATEGORIES.slice(0, 4).map((c) => (
               <div className="mega-wrap" key={c.id}>
                 <NavLink to={`/shop?cat=${c.id}`}>{c.name}</NavLink>
                 {MEGA[c.id] && (
@@ -51,6 +50,7 @@ export default function Navbar() {
               </div>
             ))}
             <NavLink to="/offers">Offers</NavLink>
+            <NavLink to="/studio">Studio</NavLink>
           </nav>
           <form className="search" onSubmit={go} role="search">
             <Icon.search />
@@ -85,8 +85,6 @@ export default function Navbar() {
             <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search Trendify" />
           </form>
           <Link to="/shop" onClick={() => setOpen(false)}>All products</Link>
-          <Link to="/collections" onClick={() => setOpen(false)}>New Collections</Link>
-          <Link to="/rentals" onClick={() => setOpen(false)}>Rent Clothes</Link>
           <Link to="/style" onClick={() => setOpen(false)}>Style assistant</Link>
           <Link to="/quiz" onClick={() => setOpen(false)}>60-second quiz</Link>
           <Link to="/festivals" onClick={() => setOpen(false)}>Festival radar</Link>

@@ -1,16 +1,9 @@
 import { useState } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
-import { CATEGORIES, COLLECTIONS } from '../../data/products'
+import { CATEGORIES } from '../../data/products'
 import { useStore } from '../../context/StoreContext'
 
 const PHOTOS = [
-  '/images/products/scarlet-sequin-gown.jpg',
-  '/images/products/emerald-bridal-lehenga.jpg',
-  '/images/products/midnight-tuxedo.jpg',
-  '/images/products/ivory-sherwani.jpg',
-  '/images/products/pastel-organza-anarkali.jpg',
-  '/images/products/ivory-pantsuit.jpg',
-  '/images/products/sage-linen-suit.jpg',
   '/images/products/dress.jpg',
   '/images/products/saree.jpg',
   '/images/products/kurta.jpg',
@@ -36,10 +29,6 @@ const blank = {
   colors: 'Black, White',
   sizes: 'S, M, L',
   image: PHOTOS[0],
-  collection: 'new-season',
-  listingType: 'buy',
-  rentPerDay: 299,
-  rentalDeposit: 1000,
 }
 
 export default function AddItem() {
@@ -57,9 +46,8 @@ export default function AddItem() {
     if (step === 1 && (!form.name.trim() || !form.brand.trim())) return
     if (step < 3) setStep((s) => s + 1)
     else {
-      const { collection, listingType, rentPerDay, rentalDeposit, ...baseForm } = form
       const created = upsertProduct({
-        ...baseForm,
+        ...form,
         price: +form.price,
         mrp: +form.mrp,
         stock: +form.stock,
@@ -67,18 +55,6 @@ export default function AddItem() {
         sizes: form.sizes.split(',').map((s) => s.trim()).filter(Boolean),
         gallery: [form.image],
         tags: ['new'],
-        collections: [collection],
-        rentalOnly: listingType === 'rent-only',
-        rental:
-          listingType === 'buy'
-            ? false
-            : {
-                perDay: Math.max(1, +rentPerDay || 299),
-                deposit: Math.max(0, +rentalDeposit || 0),
-                minDays: 2,
-                maxDays: 10,
-                occasions: ['Special occasion'],
-              },
       })
       setId(created)
       setStep(4)
@@ -156,36 +132,6 @@ export default function AddItem() {
                 <label>Sizes (comma separated)</label>
                 <input value={form.sizes} onChange={set('sizes')} />
               </div>
-              <div className="split">
-                <div className="field">
-                  <label>Collection</label>
-                  <select value={form.collection} onChange={set('collection')}>
-                    {COLLECTIONS.map((c) => (
-                      <option key={c.id} value={c.id}>{c.name}</option>
-                    ))}
-                  </select>
-                </div>
-                <div className="field">
-                  <label>Listing type</label>
-                  <select value={form.listingType} onChange={set('listingType')}>
-                    <option value="buy">Buy only</option>
-                    <option value="buy-rent">Buy + Rent</option>
-                    <option value="rent-only">Rent only</option>
-                  </select>
-                </div>
-              </div>
-              {form.listingType !== 'buy' && (
-                <div className="split">
-                  <div className="field">
-                    <label>Rent per day (₹)</label>
-                    <input type="number" min="1" value={form.rentPerDay} onChange={set('rentPerDay')} />
-                  </div>
-                  <div className="field">
-                    <label>Refundable deposit (₹)</label>
-                    <input type="number" min="0" value={form.rentalDeposit} onChange={set('rentalDeposit')} />
-                  </div>
-                </div>
-              )}
             </>
           )}
           {step === 3 && (

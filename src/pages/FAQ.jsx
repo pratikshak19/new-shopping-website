@@ -1,8 +1,6 @@
 const QA = [
   ['Is this a real store?', 'No. Trendify is an academic shopping-website project. Payments are simulated and no goods ship.'],
   ['What is Personalized Smart Shopping?', 'Open /style — AI outfit prompt, mood shop, budget lock, photo similar search, eco score, smart cart and Student Mode. Same Trendify shop, not a new site.'],
-  ['Where are the new collections?', 'Open /collections for the New Season Drop, Wedding & Festive Edit, Campus Edit, Workwear Refresh, Ethnic Heritage, Weekend Casuals, Premium Occasionwear and Conscious Picks. Every collection opens in Shop with its products filtered.'],
-  ['How do rented clothes work?', 'Open /rentals or choose Rent on an eligible product. Select size, start date and 2–10 rental days. The bag clearly separates the rental fee from the refundable deposit. Cleaning and pickup are included in the demo flow; the deposit is shown as refundable after quality check.'],
   ['Who can shop?', 'Any customer email can sign in at /login. New emails create a customer after OTP. OTP for every customer and new account is 1923. Demo: demo@trendify.in / demo123 then 1923. Admin: /staff with admin@trendify.in / admin123 (no customer OTP).'],
   ['Is payment real? Why Razorpay?', 'Checkout looks like Razorpay (UPI, cards, netbanking, wallets) so the viva can show payment options. It is test/demo mode: no Razorpay keys, no bank, no charge. A live store would create an order on a server and open real Razorpay Checkout.'],
   ['Is the website fully secure?', 'It is hardened for a college SPA (hashed passwords, OTP, input cleaning, idle logout, no card storage). It is not a bank-grade live store because there is no server. Do not use real card numbers.'],

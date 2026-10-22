@@ -4,8 +4,6 @@ import { useLocation } from 'react-router-dom'
 const TITLES = {
   '/': 'Trendify | Shop the trend',
   '/shop': 'Shop | Trendify',
-  '/collections': 'New Collections | Trendify',
-  '/rentals': 'Rent Clothes & Occasionwear | Trendify',
   '/style': 'Style Assistant | Trendify',
   '/quiz': 'Style Quiz | Trendify',
   '/festivals': 'Festival Radar | Trendify',
@@ -37,7 +35,7 @@ export default function Seo() {
     if (desc) {
       desc.setAttribute(
         'content',
-        'Trendify — shop new fashion collections or rent premium clothes for weddings, parties and formal events. Fashion, electronics, beauty and a simulated checkout for a college project.'
+        'Trendify — Myntra + Meesho style shopping. Fashion, electronics, beauty. Simulated checkout for a college project.'
       )
     }
   }, [pathname])

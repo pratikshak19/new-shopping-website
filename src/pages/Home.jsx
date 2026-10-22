@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { BANK_OFFERS, CATEGORIES, COLLECTIONS, formatINR } from '../data/products'
+import { BANK_OFFERS, CATEGORIES, formatINR } from '../data/products'
 import { buildLook, upcomingFestivals } from '../lib/styleEngine'
 import { useStore } from '../context/StoreContext'
 import ProductCard from '../components/ProductCard'
@@ -52,14 +52,6 @@ export default function Home() {
   const slide = SLIDES[i]
   const t = useCountdown(14)
   const trending = visibleProducts.filter((p) => (p.tags || []).includes('bestseller')).slice(0, 8)
-  const newArrivals = visibleProducts
-    .filter((p) => (p.collections || []).includes('new-season'))
-    .sort((a, b) => b.id.localeCompare(a.id))
-    .slice(0, 8)
-  const rentalPicks = visibleProducts
-    .filter((p) => p.rental)
-    .sort((a, b) => Number(b.rentalOnly || false) - Number(a.rentalOnly || false) || (b.rating || 0) - (a.rating || 0))
-    .slice(0, 4)
   const deals = visibleProducts.filter((p) => (p.tags || []).includes('deal') || (p.tags || []).includes('festive')).slice(0, 4)
   const viewed = recent.map(getProduct).filter(Boolean).slice(0, 4)
   const day = new Date().getDate()
@@ -87,9 +79,6 @@ export default function Home() {
               <Link className="btn btn-primary" to={slide.to}>
                 {slide.cta} <Icon.chev style={{ width: 16, height: 16 }} />
               </Link>
-              <Link className="btn btn-ghost" to="/rentals">
-                Rent Clothes
-              </Link>
               <Link className="btn btn-ghost" to="/quiz">
                 60-second quiz
               </Link>
@@ -106,40 +95,17 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="wrap home-feature-grid" aria-label="New Trendify features">
-        <Link to="/collections" className="home-feature-card">
-          <img src="/images/products/pastel-organza-anarkali.jpg" alt="" />
-          <div>
-            <p>Just launched</p>
-            <h2>New Collections</h2>
-            <span>Season drops, wedding edits, campus fits, workwear and premium occasionwear.</span>
-            <strong>Explore collections →</strong>
-          </div>
-        </Link>
-        <Link to="/rentals" className="home-feature-card rental">
-          <img src="/images/products/scarlet-sequin-gown.jpg" alt="" />
-          <div>
-            <p>Clothes on rent</p>
-            <h2>Rent the Look</h2>
-            <span>Gowns, lehengas, sherwanis and tuxedos for 2–10 days. Cleaning and pickup included.</span>
-            <strong>Rent from ₹199/day →</strong>
-          </div>
-        </Link>
-      </section>
-
       <section className="wrap" style={{ padding: '28px 0 0' }}>
         <div className="why-visit">
           <article>
             <p className="eyebrow">Why visit Trendify</p>
             <h2>A full shopping website that still thinks.</h2>
             <p className="muted">
-              Fashion, electronics, beauty, home, kids and stationery in one mall. Shop curated new collections,
-              build complete kits under one budget, or rent premium occasion clothes only for the days you need them.
+              Fashion, electronics, beauty, home, kids and stationery in one mall. Other clones only list SKUs.
+              Trendify builds kits across departments — campus starter, glow kit, room refresh, tech drop — under one budget.
             </p>
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 16 }}>
-              <Link className="btn btn-primary" to="/collections">New Collections</Link>
-              <Link className="btn btn-ghost" to="/rentals">Rent Clothes</Link>
-              <Link className="btn btn-ghost" to="/kits">Shop lifestyle kits</Link>
+              <Link className="btn btn-primary" to="/kits">Shop lifestyle kits</Link>
               <Link className="btn btn-ghost" to="/quiz">Style quiz</Link>
               <Link className="btn btn-ghost" to="/own">I already own this</Link>
               <Link className="btn btn-ghost" to="/festivals">Festival radar</Link>
@@ -253,67 +219,6 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="sec wrap" style={{ paddingTop: 0 }}>
-        <div className="sec-head">
-          <div>
-            <p>Curated for you</p>
-            <h2>New Collections</h2>
-          </div>
-          <Link className="link-more" to="/collections">
-            View all collections <Icon.chev />
-          </Link>
-        </div>
-        <div className="collection-grid home-collections">
-          {COLLECTIONS.slice(0, 4).map((collection) => {
-            const count = visibleProducts.filter((p) => (p.collections || []).includes(collection.id)).length
-            return (
-              <Link key={collection.id} className="collection-card" to={`/shop?collection=${collection.id}`}>
-                <img src={collection.image} alt="" />
-                <div className="collection-card-body">
-                  <p>{collection.kicker}</p>
-                  <h3>{collection.name}</h3>
-                  <span>{collection.description}</span>
-                  <strong>{count} styles</strong>
-                </div>
-              </Link>
-            )
-          })}
-        </div>
-      </section>
-
-      <section className="sec wrap" style={{ paddingTop: 0 }}>
-        <div className="sec-head">
-          <div>
-            <p>Just launched</p>
-            <h2>New Season Drop</h2>
-          </div>
-          <Link className="link-more" to="/shop?collection=new-season">
-            Shop new arrivals <Icon.chev />
-          </Link>
-        </div>
-        <div className="prod-grid">
-          {newArrivals.map((p) => (
-            <ProductCard key={p.id} product={p} showWhy />
-          ))}
-        </div>
-      </section>
-
-      <section className="sec wrap" style={{ paddingTop: 0 }}>
-        <Link to="/rentals" className="rental-banner">
-          <div>
-            <p className="eyebrow">Rent Clothes</p>
-            <h2>Wear the premium look. Skip the full price.</h2>
-            <p>Rent occasionwear for 2–10 days with a refundable deposit, professional cleaning and doorstep pickup.</p>
-          </div>
-          <span className="btn btn-primary">Browse rentals</span>
-        </Link>
-        <div className="prod-grid" style={{ marginTop: 18 }}>
-          {rentalPicks.map((p) => (
-            <ProductCard key={p.id} product={p} />
-          ))}
-        </div>
-      </section>
-
       <section className="wrap" style={{ paddingBottom: 64 }}>
         <div className="deals">
           <div>
@@ -398,8 +303,6 @@ export default function Home() {
 
       <section className="sec wrap" style={{ paddingTop: 0 }}>
         <div className="brand-row">
-          <Link className="chip" to="/collections">New Collections</Link>
-          <Link className="chip" to="/rentals">Rent Clothes</Link>
           <Link className="chip" to="/offers">Bank &amp; coupon offers</Link>
           <Link className="chip" to="/insider">Trendify Insider</Link>
           <Link className="chip" to="/brands">Shop by brand</Link>

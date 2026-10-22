@@ -6,8 +6,6 @@ import {
   enrichCatalog,
   findProduct,
   insiderTier,
-  rentalEndDate,
-  rentalQuote,
 } from '../data/products'
 import {
   checkOtp,
@@ -92,14 +90,7 @@ function load() {
       user: migrateBrand(raw.user),
       users: Array.isArray(raw.users) ? raw.users.map(migrateBrand) : raw.users,
       settings: raw.settings
-        ? {
-            ...raw.settings,
-            storeName: raw.settings.storeName === 'Trendora' ? 'Trendify' : raw.settings.storeName,
-            announcement:
-              raw.settings.announcement === 'Festive edit is live · FESTIVE20 · Free delivery above ₹999'
-                ? 'New Collections live · Rent clothes from ₹199/day · Free delivery above ₹999'
-                : raw.settings.announcement,
-          }
+        ? { ...raw.settings, storeName: raw.settings.storeName === 'Trendora' ? 'Trendify' : raw.settings.storeName }
         : raw.settings,
     }
   } catch {
@@ -153,23 +144,9 @@ export function StoreProvider({ children }) {
   const [questions, setQuestions] = useState(saved?.questions || seedQuestions())
   const [returns, setReturns] = useState(saved?.returns || [])
   const [tickets, setTickets] = useState(saved?.tickets || [])
-  const [notifications, setNotifications] = useState(() => {
-    const base = saved?.notifications || [
-      { id: 'n-1', userId: 'all', title: 'Festive edit is live', text: 'Use FESTIVE20 on carts above ₹1,999.', read: false, at: new Date().toISOString() },
-    ]
-    if (base.some((n) => n.id === 'n-rentals-2026')) return base
-    return [
-      {
-        id: 'n-rentals-2026',
-        userId: 'all',
-        title: 'New Collections + Rentals are live',
-        text: 'Shop the New Season Drop or rent premium clothes for 2–10 days from ₹199/day.',
-        read: false,
-        at: new Date().toISOString(),
-      },
-      ...base,
-    ]
-  })
+  const [notifications, setNotifications] = useState(saved?.notifications || [
+    { id: 'n-1', userId: 'all', title: 'Festive edit is live', text: 'Use FESTIVE20 on carts above ₹1,999.', read: false, at: new Date().toISOString() },
+  ])
   const [recent, setRecent] = useState(saved?.recent || [])
   const [compare, setCompare] = useState(saved?.compare || [])
   const [giftWrap, setGiftWrap] = useState(saved?.giftWrap || false)
@@ -179,7 +156,7 @@ export function StoreProvider({ children }) {
   const [settings, setSettings] = useState(
     saved?.settings || {
       storeName: 'Trendify',
-      announcement: 'New Collections live · Rent clothes from ₹199/day · Free delivery above ₹999',
+      announcement: 'Festive edit is live · FESTIVE20 · Free delivery above ₹999',
       freeShipMin: 999,
       shipFee: 79,
       commission: 12,
@@ -404,55 +381,25 @@ export function StoreProvider({ children }) {
 
   const getProduct = (id) => findProduct(products, id)
 
-  const addToCart = (productId, { color, size, qty = 1, mode = 'buy', rentalDays = 4, rentalStart = '' } = {}) => {
+  const addToCart = (productId, { color, size, qty = 1 } = {}) => {
     const product = getProduct(productId)
     if (!product || product.status === 'hidden') return
     if (product.stock < 1) {
       toast('Out of stock', 'warn')
       return
     }
-    const purchaseType = mode === 'rent' ? 'rent' : 'buy'
-    if (purchaseType === 'rent' && !product.rental) {
-      toast('This item is not available on rent.', 'warn')
-      return
-    }
-    if (purchaseType === 'buy' && product.rentalOnly) {
-      toast('This is a rental-only piece. Choose Rent instead.', 'warn')
-      return
-    }
-    const quote = purchaseType === 'rent' ? rentalQuote(product, rentalDays) : null
-    const line = {
-      id: productId,
-      color: color || product.colors[0],
-      size: size || product.sizes[0],
-      qty,
-      mode: purchaseType,
-      ...(quote
-        ? {
-            rentalDays: quote.days,
-            rentalStart: rentalStart || '',
-            rentalEnd: rentalEndDate(rentalStart, quote.days),
-          }
-        : {}),
-    }
     setCart((items) => {
       const i = items.findIndex(
-        (x) =>
-          x.id === line.id &&
-          x.color === line.color &&
-          x.size === line.size &&
-          (x.mode || 'buy') === line.mode &&
-          (x.rentalDays || 0) === (line.rentalDays || 0) &&
-          (x.rentalStart || '') === (line.rentalStart || '')
+        (x) => x.id === productId && x.color === (color || product.colors[0]) && x.size === (size || product.sizes[0])
       )
       if (i >= 0) {
         const copy = [...items]
         copy[i] = { ...copy[i], qty: Math.min(copy[i].qty + qty, product.stock) }
         return copy
       }
-      return [...items, line]
+      return [...items, { id: productId, color: color || product.colors[0], size: size || product.sizes[0], qty }]
     })
-    toast(purchaseType === 'rent' ? 'Rental added to bag' : 'Added to cart')
+    toast('Added to cart')
   }
 
   const updateQty = (index, qty) => {
@@ -521,55 +468,27 @@ export function StoreProvider({ children }) {
         .map((line) => {
           const product = getProduct(line.id)
           if (!product) return null
-          const mode = line.mode === 'rent' && product.rental ? 'rent' : 'buy'
-          const quote = mode === 'rent' ? rentalQuote(product, line.rentalDays || product.rental?.minDays || 2) : null
-          const unitPrice = quote ? quote.fee : product.price
-          const deposit = quote ? quote.deposit * line.qty : 0
-          return {
-            ...line,
-            mode,
-            product,
-            quote,
-            unitPrice,
-            deposit,
-            rentalEnd: quote ? line.rentalEnd || rentalEndDate(line.rentalStart, quote.days) : '',
-            lineTotal: unitPrice * line.qty + deposit,
-          }
+          return { ...line, product, lineTotal: product.price * line.qty }
         })
         .filter(Boolean),
     [cart, products]
   )
 
   const totals = useMemo(() => {
-    const buySubtotal = cartDetailed
-      .filter((l) => l.mode !== 'rent')
-      .reduce((s, l) => s + l.unitPrice * l.qty, 0)
-    const rentalSubtotal = cartDetailed
-      .filter((l) => l.mode === 'rent')
-      .reduce((s, l) => s + l.unitPrice * l.qty, 0)
-    const rentalDeposit = cartDetailed.reduce((s, l) => s + (l.deposit || 0), 0)
-    const eligibleSubtotal = buySubtotal + rentalSubtotal
-    const subtotal = eligibleSubtotal + rentalDeposit
-    const mrpTotal = cartDetailed.reduce((s, l) => {
-      if (l.mode === 'rent') return s + (l.quote?.baseFee || l.unitPrice) * l.qty + (l.deposit || 0)
-      return s + l.product.mrp * l.qty
-    }, 0)
-    const productSave = Math.max(0, mrpTotal - subtotal)
+    const subtotal = cartDetailed.reduce((s, l) => s + l.lineTotal, 0)
+    const mrpTotal = cartDetailed.reduce((s, l) => s + l.product.mrp * l.qty, 0)
+    const productSave = mrpTotal - subtotal
     let discount = 0
-    let shipping = eligibleSubtotal === 0 ? 0 : eligibleSubtotal >= settings.freeShipMin ? 0 : settings.shipFee
+    let shipping = subtotal === 0 ? 0 : subtotal >= settings.freeShipMin ? 0 : settings.shipFee
     if (coupon) {
-      if (coupon.type === 'percent' && eligibleSubtotal >= coupon.min) discount = Math.round((eligibleSubtotal * coupon.value) / 100)
-      else if (coupon.type === 'flat' && eligibleSubtotal >= coupon.min) discount = coupon.value
+      if (coupon.type === 'percent' && subtotal >= coupon.min) discount = Math.round((subtotal * coupon.value) / 100)
+      else if (coupon.type === 'flat' && subtotal >= coupon.min) discount = coupon.value
       else if (coupon.type === 'shipping') shipping = 0
     }
     const wrap = giftWrap ? 49 : 0
     const grand = Math.max(0, subtotal - discount + shipping + wrap)
     return {
       subtotal,
-      buySubtotal,
-      rentalSubtotal,
-      rentalDeposit,
-      eligibleSubtotal,
       mrpTotal,
       productSave,
       discount,
@@ -577,18 +496,14 @@ export function StoreProvider({ children }) {
       wrap,
       grand,
       count: cartDetailed.reduce((s, l) => s + l.qty, 0),
-      hasRental: cartDetailed.some((l) => l.mode === 'rent'),
     }
   }, [cartDetailed, coupon, giftWrap, settings])
 
   const placeOrder = ({ address, payment }) => {
     if (!user || user.role !== 'customer') return { ok: false, error: 'Please sign in to place an order.' }
     if (!cartDetailed.length) return { ok: false, error: 'Your bag is empty.' }
-    const qtyByProduct = cartDetailed.reduce((acc, l) => ({ ...acc, [l.id]: (acc[l.id] || 0) + l.qty }), {})
-    const oos = cartDetailed.find((l) => qtyByProduct[l.id] > (l.product.stock || 0))
+    const oos = cartDetailed.find((l) => l.qty > (l.product.stock || 0))
     if (oos) return { ok: false, error: `${oos.product.name} does not have enough stock.` }
-    const missingRentalDate = cartDetailed.find((l) => l.mode === 'rent' && !l.rentalStart)
-    if (missingRentalDate) return { ok: false, error: `Choose a rental start date for ${missingRentalDate.product.name}.` }
     const cleanAddr = {
       name: cleanText(address.name, 80),
       phone: String(address.phone || '').replace(/\s/g, ''),
@@ -601,27 +516,19 @@ export function StoreProvider({ children }) {
     const pin = checkPincode(cleanAddr.pin)
     if (!pin.ok) return { ok: false, error: pin.error }
     const order = {
-      id: `TFY${Date.now().toString().slice(-8)}`,
+      id: `TRD${Date.now().toString().slice(-8)}`,
       placedAt: new Date().toISOString(),
-      hasRental: totals.hasRental,
       items: cartDetailed.map((l) => ({
         id: l.id,
         name: l.product.name,
         brand: l.product.brand,
         image: l.product.image,
-        price: l.unitPrice,
-        buyPrice: l.product.price,
+        price: l.product.price,
         mrp: l.product.mrp,
         qty: l.qty,
         color: l.color,
         size: l.size,
         sellerId: l.product.sellerId,
-        mode: l.mode || 'buy',
-        rentalDays: l.mode === 'rent' ? l.quote?.days || l.rentalDays || null : null,
-        rentalStart: l.mode === 'rent' ? l.rentalStart || '' : '',
-        rentalEnd: l.mode === 'rent' ? l.rentalEnd || '' : '',
-        rentalDeposit: l.mode === 'rent' ? l.deposit || 0 : 0,
-        lineTotal: l.lineTotal,
       })),
       totals,
       coupon,
@@ -641,7 +548,10 @@ export function StoreProvider({ children }) {
     }
     setOrders((list) => [order, ...list])
     setProducts((list) =>
-      list.map((p) => (qtyByProduct[p.id] ? { ...p, stock: Math.max(0, p.stock - qtyByProduct[p.id]) } : p))
+      list.map((p) => {
+        const line = cartDetailed.find((l) => l.id === p.id)
+        return line ? { ...p, stock: Math.max(0, p.stock - line.qty) } : p
+      })
     )
     if (user) {
       const pts = Math.floor(totals.grand / 10)
@@ -686,18 +596,17 @@ export function StoreProvider({ children }) {
       return { ok: false, error: 'This order can no longer be cancelled.' }
     }
     setOrders((list) => list.map((o) => (o.id === id ? { ...o, status: 'Cancelled' } : o)))
-    const restoreQty = order.items.reduce((acc, item) => ({ ...acc, [item.id]: (acc[item.id] || 0) + item.qty }), {})
-    setProducts((list) => list.map((p) => (restoreQty[p.id] ? { ...p, stock: p.stock + restoreQty[p.id] } : p)))
+    setProducts((list) =>
+      list.map((p) => {
+        const line = order.items.find((i) => i.id === p.id)
+        return line ? { ...p, stock: p.stock + line.qty } : p
+      })
+    )
     toast('Order cancelled', 'warn')
     return { ok: true }
   }
 
   const moveWishlistToBag = (productId) => {
-    const product = getProduct(productId)
-    if (product?.rentalOnly) {
-      toast('Open this rental piece to choose dates and size.', 'warn')
-      return
-    }
     addToCart(productId)
     setWishlist((ids) => ids.filter((id) => id !== productId))
   }
@@ -801,7 +710,7 @@ export function StoreProvider({ children }) {
       return null
     }
     if (payload.id && products.some((p) => p.id === payload.id)) {
-      setProducts((list) => list.map((p) => (p.id === payload.id ? enrichCatalog([{ ...p, ...payload }])[0] : p)))
+      setProducts((list) => list.map((p) => (p.id === payload.id ? { ...p, ...payload } : p)))
       toast('Product updated')
       return payload.id
     }
@@ -822,7 +731,7 @@ export function StoreProvider({ children }) {
       ...payload,
       id,
     }
-    setProducts((list) => [enrichCatalog([next])[0], ...list])
+    setProducts((list) => [next, ...list])
     toast('Product listed')
     return id
   }

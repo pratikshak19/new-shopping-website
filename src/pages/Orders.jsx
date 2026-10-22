@@ -26,7 +26,6 @@ export default function Orders() {
               <strong>{o.id}</strong>
               <p style={{ fontSize: 13, color: 'var(--muted)' }}>
                 {new Date(o.placedAt).toLocaleString('en-IN')} · {o.items.length} item(s) · {o.status}
-                {o.items.some((item) => item.mode === 'rent') ? ' · Includes rental' : ''}
               </p>
               <p style={{ fontSize: 14, marginTop: 6 }}>{o.items.map((i) => i.name).join(', ')}</p>
             </div>

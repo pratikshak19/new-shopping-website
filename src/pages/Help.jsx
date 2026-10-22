@@ -9,7 +9,7 @@ export default function Help() {
     <div className="wrap" style={{ paddingBottom: 72, maxWidth: 800 }}>
       <div className="page-hero">
         <h1>Help centre</h1>
-        <p className="muted">Orders, rental pickup, deposit refunds, returns, size and payments — open a ticket. New Collections are on /collections, clothes on rent are on /rentals, and the Style Assistant is on /style. Shoppers cannot add or delete products.</p>
+        <p className="muted">Orders, returns, size, payments — open a ticket. Style Assistant is on /style (outfits, mood, budget, photo search, Student Mode). Shoppers cannot add or delete products.</p>
         
       </div>
       <form
