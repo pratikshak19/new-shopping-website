@@ -6,12 +6,14 @@ export default function Footer() {
       <div className="wrap foot-grid">
         <div>
           <div className="brand-name" style={{ color: '#fff', marginBottom: 10 }}>
-            Tren<span style={{ color: '#ff3f6c' }}>dora</span>
+            Tren<span style={{ color: '#ff3f6c' }}>dify</span>
           </div>
-          <p>Shop the trend. Live the style. A full shopping mall — fashion, electronics, beauty, home and kids — with smart kits, not only clothes.</p>
+          <p>Shop the trend. Live the style. Buy new collections or rent occasionwear for a few days — across fashion, electronics, beauty, home and kids.</p>
         </div>
         <div>
           <h4>Shop</h4>
+          <Link to="/collections">New Collections</Link>
+          <Link to="/rentals">Rent Clothes</Link>
           <Link to="/style">Style assistant</Link>
           <Link to="/quiz">60-second quiz</Link>
           <Link to="/kits">Lifestyle kits</Link>

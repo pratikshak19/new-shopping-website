@@ -127,7 +127,7 @@ export function parseStylePrompt(text) {
 }
 
 function live(list) {
-  return (list || []).filter((p) => p && p.status !== 'hidden')
+  return (list || []).filter((p) => p && p.status !== 'hidden' && !p.rentalOnly)
 }
 
 function scoreItem(p, { mood, college, eco, gender }) {
@@ -213,6 +213,8 @@ export function whyRecommend(product, ctx = {}) {
   if ((product.rating || 0) >= 4.4) why.push('Strong customer ratings')
   if ((product.ecoScore || 0) >= 8) why.push('Eco-friendly pick')
   if ((product.tags || []).includes('bestseller')) why.push('Bestseller on Trendify')
+  if (product.rental) why.push('Available on rent')
+  if ((product.collections || []).includes('new-season')) why.push('New Season Drop')
   if (!why.length) why.push('Balanced pick from the catalogue')
   return why.slice(0, 4)
 }

@@ -1,11 +1,28 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { BANK_OFFERS, SIZE_CHARTS, discountOf, formatINR, relatedOf } from '../data/products'
+import {
+  BANK_OFFERS,
+  RENTAL_DAY_OPTIONS,
+  SIZE_CHARTS,
+  discountOf,
+  formatINR,
+  formatRentalDate,
+  relatedOf,
+  rentalEndDate,
+  rentalQuote,
+} from '../data/products'
 import { completeTheLook, whyRecommend } from '../lib/styleEngine'
 import { useStore } from '../context/StoreContext'
 import ProductCard from '../components/ProductCard'
 import ProductImage from '../components/ProductImage'
 import { Icon } from '../components/Icons'
+
+function tomorrowISO() {
+  const date = new Date()
+  date.setDate(date.getDate() + 1)
+  const pad = (n) => String(n).padStart(2, '0')
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
+}
 
 export default function ProductDetail() {
   const { id } = useParams()
@@ -42,6 +59,9 @@ export default function ProductDetail() {
   const [chart, setChart] = useState(false)
   const [rv, setRv] = useState({ rating: 5, text: '' })
   const [q, setQ] = useState('')
+  const [mode, setMode] = useState(product?.rentalOnly ? 'rent' : 'buy')
+  const [rentalDays, setRentalDays] = useState(4)
+  const [rentalStart, setRentalStart] = useState(tomorrowISO())
 
   useEffect(() => {
     const ref = params.get('ref')
@@ -51,8 +71,11 @@ export default function ProductDetail() {
       setColor(product.colors[0])
       setSize(product.sizes[0])
       setShot(0)
+      setMode(product.rentalOnly || params.get('mode') === 'rent' ? 'rent' : 'buy')
+      setRentalDays(product.rental?.maxDays && product.rental.maxDays < 4 ? product.rental.maxDays : 4)
+      setRentalStart(tomorrowISO())
     }
-  }, [id])
+  }, [id, params])
 
   if (!product || product.status === 'hidden') {
     return (
@@ -71,6 +94,19 @@ export default function ProductDetail() {
   const mineR = reviews.filter((r) => r.productId === product.id)
   const mineQ = questions.filter((x) => x.productId === product.id)
   const chartRows = SIZE_CHARTS[product.category]
+  const isRent = mode === 'rent' && Boolean(product.rental)
+  const quote = isRent ? rentalQuote(product, rentalDays) : null
+  const rentalOptions = RENTAL_DAY_OPTIONS.filter(
+    (days) => days >= (product.rental?.minDays || 2) && days <= (product.rental?.maxDays || 10)
+  )
+  const addSelected = () =>
+    addToCart(product.id, {
+      color,
+      size,
+      mode: isRent ? 'rent' : 'buy',
+      rentalDays: quote?.days || rentalDays,
+      rentalStart,
+    })
 
   return (
     <div className="wrap">
@@ -95,12 +131,86 @@ export default function ProductDetail() {
           <div className="rating">
             <Icon.star /> {product.rating} · {(product.reviews || 0).toLocaleString('en-IN')} reviews
           </div>
-          <div className="price-row" style={{ margin: '16px 0' }}>
-            <span className="price" style={{ fontSize: 28 }}>{formatINR(product.price)}</span>
-            <span className="mrp">{formatINR(product.mrp)}</span>
-            <span className="off">{discountOf(product)}% off</span>
-          </div>
+          {isRent && quote ? (
+            <>
+              <div className="price-row" style={{ margin: '16px 0 4px' }}>
+                <span className="price" style={{ fontSize: 28 }}>{formatINR(quote.fee)}</span>
+                <span className="off">for {quote.days} days</span>
+              </div>
+              <p className="rent-note" style={{ marginBottom: 14 }}>
+                {formatINR(quote.perDay)}/day + {formatINR(quote.deposit)} refundable deposit · total due now {formatINR(quote.total)}
+              </p>
+            </>
+          ) : (
+            <>
+              <div className="price-row" style={{ margin: '16px 0 4px' }}>
+                <span className="price" style={{ fontSize: 28 }}>{formatINR(product.price)}</span>
+                <span className="mrp">{formatINR(product.mrp)}</span>
+                <span className="off">{discountOf(product)}% off</span>
+              </div>
+              {product.rental && (
+                <p className="rent-note" style={{ marginBottom: 14 }}>
+                  or rent from {formatINR(product.rental.perDay)}/day + refundable deposit
+                </p>
+              )}
+            </>
+          )}
           <p style={{ color: '#444', marginBottom: 16 }}>{product.description}</p>
+          {product.rental && (
+            <section className="rental-panel" aria-label="Buy or rent options">
+              <div className="purchase-toggle" role="tablist" aria-label="Purchase type">
+                {!product.rentalOnly && (
+                  <button type="button" className={!isRent ? 'on' : ''} onClick={() => setMode('buy')}>
+                    Buy
+                  </button>
+                )}
+                <button type="button" className={isRent ? 'on' : ''} onClick={() => setMode('rent')}>
+                  Rent
+                </button>
+              </div>
+              {isRent && quote ? (
+                <>
+                  <div className="rental-grid">
+                    <div className="field" style={{ margin: 0 }}>
+                      <label htmlFor="rental-start">Rental start date</label>
+                      <input
+                        id="rental-start"
+                        type="date"
+                        min={tomorrowISO()}
+                        value={rentalStart}
+                        onChange={(e) => setRentalStart(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 6 }}>Rental duration</div>
+                      <div className="rental-days">
+                        {rentalOptions.map((days) => (
+                          <button
+                            key={days}
+                            type="button"
+                            className={`size ${quote.days === days ? 'on' : ''}`}
+                            onClick={() => setRentalDays(days)}
+                          >
+                            {days} days
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <ul className="rental-points">
+                    <li>Pickup scheduled on {formatRentalDate(rentalEndDate(rentalStart, quote.days))}</li>
+                    <li>Professional cleaning and garment cover included</li>
+                    <li>{formatINR(quote.deposit)} deposit is refundable after quality check</li>
+                    {quote.discount > 0 && <li>Long-rental saving: {formatINR(quote.discount)}</li>}
+                  </ul>
+                </>
+              ) : (
+                <p className="muted" style={{ marginTop: 10 }}>
+                  Need it only for an event? Switch to Rent and reserve this piece for {product.rental.minDays || 2}–{product.rental.maxDays || 10} days.
+                </p>
+              )}
+            </section>
+          )}
           <div style={{ fontSize: 13, fontWeight: 600 }}>Colour</div>
           <div className="swatches">
             {product.colors.map((c) => (
@@ -141,8 +251,8 @@ export default function ProductDetail() {
           {pinRes && <p style={{ fontSize: 13, color: pinRes.ok ? 'var(--ok)' : '#be123c' }}>{pinRes.text || pinRes.error}</p>}
           <p style={{ fontSize: 13, color: product.stock < 10 ? 'var(--warn)' : 'var(--muted)' }}>
             {product.stock < 1 ? 'Out of stock' : product.stock < 10 ? `Only ${product.stock} left` : `${product.stock} in stock`}
-            {product.tryAndBuy && settings.tryAndBuy ? ' · Try & Buy available' : ''}
-            {product.returnable ? ` · ${settings.returnDays}-day return` : ' · Final sale'}
+            {!isRent && product.tryAndBuy && settings.tryAndBuy ? ' · Try & Buy available' : ''}
+            {isRent ? ' · Cleaning & pickup included' : product.returnable ? ` · ${settings.returnDays}-day return` : ' · Final sale'}
           </p>
           <div className="why-box">
             <strong>Why we recommend this?</strong>
@@ -156,14 +266,14 @@ export default function ProductDetail() {
             )}
           </div>
           <div className="pdp-actions">
-            <button className="btn btn-primary" disabled={product.stock < 1} onClick={() => addToCart(product.id, { color, size })}>
-              <Icon.bag style={{ width: 18, height: 18 }} /> Add to cart
+            <button className="btn btn-primary" disabled={product.stock < 1 || (isRent && !rentalStart)} onClick={addSelected}>
+              <Icon.bag style={{ width: 18, height: 18 }} /> {isRent ? 'Add rental to bag' : 'Add to cart'}
             </button>
-            <button className="btn btn-dark" disabled={product.stock < 1} onClick={() => {
-              addToCart(product.id, { color, size })
+            <button className="btn btn-dark" disabled={product.stock < 1 || (isRent && !rentalStart)} onClick={() => {
+              addSelected()
               navigate(user ? '/checkout' : '/login?next=/checkout')
             }}>
-              Buy now
+              {isRent ? 'Rent now' : 'Buy now'}
             </button>
             <button className="btn btn-ghost" onClick={() => toggleWishlist(product.id)}>
               {loved ? <Icon.heartFill style={{ width: 18, height: 18, color: 'var(--rose)' }} /> : <Icon.heart style={{ width: 18, height: 18 }} />}
@@ -185,7 +295,7 @@ export default function ProductDetail() {
           </div>
           <ul className="meta-box">
             {(product.highlights || []).map((h) => <li key={h}>{h}</li>)}
-            <li>GST invoice · {product.returnable ? 'Easy returns' : 'No return'} · COD by PIN</li>
+            <li>{isRent ? 'Rental invoice · Scheduled pickup · Deposit refund after quality check' : `GST invoice · ${product.returnable ? 'Easy returns' : 'No return'} · COD by PIN`}</li>
           </ul>
         </div>
       </div>
