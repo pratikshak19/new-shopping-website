@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Serve Trendora_For_Vercel.zip with a big Download button. Bind 0.0.0.0."""
+"""Serve Trendify_For_Vercel.zip with a big Download button. Bind 0.0.0.0."""
 
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-ZIP = ROOT / "Trendora_For_Vercel.zip"
+ZIP = ROOT / "Trendify_For_Vercel.zip"
 PORT = 8787
 HOST = "0.0.0.0"
 
@@ -14,7 +14,7 @@ HTML = """<!doctype html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Download Trendora ZIP</title>
+  <title>Download Trendify ZIP</title>
   <style>
     body { margin:0; min-height:100vh; display:grid; place-items:center;
       font-family:system-ui,sans-serif; background:#120c10; color:#fff; }
@@ -30,11 +30,11 @@ HTML = """<!doctype html>
 </head>
 <body>
   <div class="card">
-    <h1>Trendora_For_Vercel.zip</h1>
+    <h1>Trendify_For_Vercel.zip</h1>
     <p>Click the pink button. The ZIP (~13 MB) saves to your Downloads folder.</p>
-    <a class="dl" href="/Trendora_For_Vercel.zip" download="Trendora_For_Vercel.zip">
+    <a class="dl" href="/Trendify_For_Vercel.zip" download="Trendify_For_Vercel.zip">
       Download ZIP
-      <small>Trendora_For_Vercel.zip · 13 MB</small>
+      <small>Trendify_For_Vercel.zip · 13 MB</small>
     </a>
   </div>
 </body>
@@ -57,13 +57,13 @@ class Handler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(body)
             return
-        if path.endswith("Trendora_For_Vercel.zip") and ZIP.is_file():
+        if path.endswith("Trendify_For_Vercel.zip") and ZIP.is_file():
             data = ZIP.read_bytes()
             self.send_response(200)
             self.send_header("Content-Type", "application/zip")
             self.send_header(
                 "Content-Disposition",
-                'attachment; filename="Trendora_For_Vercel.zip"',
+                'attachment; filename="Trendify_For_Vercel.zip"',
             )
             self.send_header("Content-Length", str(len(data)))
             self.send_header("Cache-Control", "no-store")

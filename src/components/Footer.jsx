@@ -36,13 +36,13 @@ export default function Footer() {
           <h4>Project files</h4>
           <Link to="/documents">PDF · Word · PPT</Link>
           <Link to="/login">Customer sign in</Link>
-          <a href="/docs/Trendora_Project_Report.pdf" target="_blank" rel="noreferrer">Download report (PDF)</a>
-          <a href="/docs/Trendora_Project_Report.docx" target="_blank" rel="noreferrer">Download report (Word)</a>
-          <a href="/docs/Trendora_Presentation.pptx" target="_blank" rel="noreferrer">Download slides (PPT)</a>
+          <a href="/docs/Trendify_Project_Report.pdf" target="_blank" rel="noreferrer">Download report (PDF)</a>
+          <a href="/docs/Trendify_Project_Report.docx" target="_blank" rel="noreferrer">Download report (Word)</a>
+          <a href="/docs/Trendify_Presentation.pptx" target="_blank" rel="noreferrer">Download slides (PPT)</a>
         </div>
       </div>
       <div className="wrap copy">
-        <span>© {new Date().getFullYear()} Trendora · College shopping-website project</span>
+        <span>© {new Date().getFullYear()} Trendify · College shopping-website project</span>
         <span>Payments simulated · No real charges</span>
         <Link to="/staff" style={{ opacity: 0.35, fontSize: 11 }}>Admin</Link>
       </div>

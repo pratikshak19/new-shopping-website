@@ -1,4 +1,4 @@
-# Trendora
+# Trendify
 
 Shop the trend. Live the style.
 

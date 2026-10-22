@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate college-ready PDF, Word and PowerPoint files for Trendora."""
+"""Generate college-ready PDF, Word and PowerPoint files for Trendify."""
 import shutil
 import zipfile
 from pathlib import Path
@@ -26,7 +26,7 @@ ROSE = (255, 63, 108)
 CHAPTERS = [
     (
         "Certificate",
-        "This is to certify that the project titled “Trendora — Personalized Smart Shopping Website” "
+        "This is to certify that the project titled “Trendify — Personalized Smart Shopping Website” "
         "is a bona fide record of work carried out as part of the academic curriculum. The software "
         "implements a Myntra-style customer storefront, a private admin desk, two-step OTP for shoppers, "
         "and a Personalized Smart Shopping layer (AI style assistant, mood, budget lock, complete-the-look, "
@@ -36,7 +36,7 @@ CHAPTERS = [
     (
         "Declaration",
         "I declare that this project is my original work. Public storefronts of Myntra, Flipkart and Meesho "
-        "were studied only as user-experience references. Brand name Trendora, source code, catalogue copy "
+        "were studied only as user-experience references. Brand name Trendify, source code, catalogue copy "
         "and documents are original. No live payment gateway is connected. Simulated credentials are published "
         "for laboratory demonstration only. Public users are customers only; catalogue add/delete is reserved "
         "for the store admin.",
@@ -50,7 +50,7 @@ CHAPTERS = [
     (
         "Abstract",
         "Indian e-commerce is defined by fashion discovery (Myntra), deals (Flipkart) and affordable catalogue "
-        "(Meesho). Trendora unifies those habits in one React single-page application and then goes further: "
+        "(Meesho). Trendify unifies those habits in one React single-page application and then goes further: "
         "the focus is Personalized Smart Shopping, not only a bag.\n\n"
         "Shoppers browse eight categories, search and filter, read size charts, check PIN codes, compare SKUs, "
         "use wishlist, coupons, gift-wrap, simulated UPI/card/COD checkout, order tracking, returns, Insider "
@@ -61,7 +61,7 @@ CHAPTERS = [
         "or a budget lock; product pages complete the look; the bag suggests missing pieces; photo upload "
         "finds similar colour tones on-device; every card can show Why we recommend this and an Eco Score; "
         "Student Mode surfaces campus prices and coupon CAMPUS10.\n\n"
-        "State lives in StoreContext and localStorage (key trendora-store-v2) so a viva survives refresh "
+        "State lives in StoreContext and localStorage (key trendify-store-v2) so a viva survives refresh "
         "without a paid back-end.",
     ),
     (
@@ -92,7 +92,7 @@ CHAPTERS = [
         "Flipkart — deal timer, coupon engine, MRP break-up, COD, order timeline.\n"
         "Meesho — supplier listing, commission, category-first mobile bag.\n"
         "Stitch Fix / Amazon Outfit — complete-the-look and budget outfits as personalization references.\n\n"
-        "Gap: a student cannot reimplement logistics or a large ML cluster. Trendora copies the nouns "
+        "Gap: a student cannot reimplement logistics or a large ML cluster. Trendify copies the nouns "
         "(bag, wishlist, COD, look) and implements them as original React code with an honest simulation note.",
     ),
     (
@@ -148,9 +148,9 @@ CHAPTERS = [
         "It greedy-fills slots top, bottom, shoes, bag, accessory under the remaining rupees. "
         "Photo search averages RGB on a canvas and nearest-neighbour matches catalogue colours.\n\n"
         "4.6 Demo accounts\n"
-        "Customer: demo@trendora.in / demo123 then OTP on screen or 123456.\n"
-        "Admin: /staff then admin@trendora.in / admin123.\n"
-        "Owner: /staff then owner@trendora.in / owner123.",
+        "Customer: demo@trendify.in / demo123 then OTP on screen or 123456.\n"
+        "Admin: /staff then admin@trendify.in / admin123.\n"
+        "Owner: /staff then owner@trendify.in / owner123.",
     ),
     (
         "5. Implementation",
@@ -210,18 +210,18 @@ CHAPTERS = [
         "T9 Eco filter 8+ reduces catalogue — Pass\n"
         "T10 Smart cart suggests missing accessory — Pass\n"
         "T11 Student Mode + CAMPUS10 applies only when mode is on — Pass\n"
-        "T12 Public /login rejects admin@trendora.in — Pass\n"
+        "T12 Public /login rejects admin@trendify.in — Pass\n"
         "T13 /staff admin can publish a new SKU; it appears on Shop — Pass\n"
         "T14 Customer OTP accepts on-screen code or 123456 — Pass\n"
         "T15 FESTIVE20 rejected below Rs 1999 — Pass\n"
         "T16 Place order empties bag and drops stock — Pass\n"
         "T17 Admin pipeline Packed -> Delivered; customer can request return — Pass\n"
         "T18 /admin as customer redirects home — Pass\n"
-        "T19 Refresh keeps session (trendora-store-v2) — Pass",
+        "T19 Refresh keeps session (trendify-store-v2) — Pass",
     ),
     (
         "8. Results and conclusion",
-        "Trendora presents a credible Indian storefront plus a Smart Shopping layer that a viva panel "
+        "Trendify presents a credible Indian storefront plus a Smart Shopping layer that a viva panel "
         "can click through in under five minutes: type a college prompt, lock a budget, open a dress, "
         "see complete-the-look, add to bag, accept a smart suggestion, checkout (simulated).\n\n"
         "Public users never see add/delete. Admin work stays on /staff. Context + localStorage is a "
@@ -259,9 +259,9 @@ CHAPTERS = [
     ),
     (
         "Appendix B — User manuals",
-        "Customer: /login demo@trendora.in / demo123 -> OTP -> shop or /style -> bag -> CAMPUS10 "
+        "Customer: /login demo@trendify.in / demo123 -> OTP -> shop or /style -> bag -> CAMPUS10 "
         "(if Student Mode) or FESTIVE20 -> checkout. Payments are fake.\n\n"
-        "Admin (site owner only): footer Staff or type /staff -> admin@trendora.in / admin123 -> "
+        "Admin (site owner only): footer Staff or type /staff -> admin@trendify.in / admin123 -> "
         "Add a new item (3 steps) -> Publish -> open Shop. Catalogue Edit / Hide. Orders pipeline.\n\n"
         "Style Assistant: Nav Style -> type a Hindi/English wish -> Suggest complete outfit -> "
         "Add full look to bag.\n\n"
@@ -279,9 +279,9 @@ CHAPTERS = [
 
 HOW_BUILT = [
     (
-        "How Trendora was built — overview",
+        "How Trendify was built — overview",
         "This note is the viva construction log. It is not a second website. Every step happened on "
-        "the same Trendora React app (Vite + React 18).\n\n"
+        "the same Trendify React app (Vite + React 18).\n\n"
         "Stack: HTML/CSS/JS via React components, React Router, Context API, localStorage, "
         "a pure-JS style engine, and Python only to print these college files.",
     ),
@@ -292,7 +292,7 @@ HOW_BUILT = [
     ),
     (
         "Step 2 — Brand and UI",
-        "Name Trendora (trend + kart energy). Rose #ff3f6c on navy #1a1a2e. Playfair + Outfit fonts. "
+        "Name Trendify (trend + kart energy). Rose #ff3f6c on navy #1a1a2e. Playfair + Outfit fonts. "
         "Logo in public/images. Design tokens in src/index.css. Home hero, category tiles, deal timer.",
     ),
     (
@@ -303,7 +303,7 @@ HOW_BUILT = [
     (
         "Step 4 — Commerce state",
         "src/context/StoreContext.jsx is the application layer: cart, wishlist, orders, coupons, "
-        "reviews, tickets, persist to trendora-store-v2. placeOrder sanitises address, checks stock and PIN.",
+        "reviews, tickets, persist to trendify-store-v2. placeOrder sanitises address, checks stock and PIN.",
     ),
     (
         "Step 5 — Shopper journey",
@@ -339,7 +339,7 @@ HOW_BUILT = [
 ]
 
 SLIDES = [
-    ("Trendora", "Personalized Smart Shopping\nMyntra-style shop + private admin\nCollege / vlg project 2025-26"),
+    ("Trendify", "Personalized Smart Shopping\nMyntra-style shop + private admin\nCollege / vlg project 2025-26"),
     ("Why this project", "Not only a cart.\nPeople shop by mood, budget and occasion.\nStyle + shop in one student system."),
     ("Problem", "Build discover -> style -> pay -> track\nand a private admin desk\nwithout a real warehouse."),
     ("Inspiration", "Myntra — PDP, Insider, Studio\nFlipkart — deals, coupons, COD\nMeesho — affordable catalogue"),
@@ -348,7 +348,7 @@ SLIDES = [
     ("Smart Shopping 1", "AI Style Assistant\nType a Hindi/English wish\nGet a complete outfit under budget"),
     ("Smart Shopping 2", "7 moods  |  Budget lock\nComplete this look on PDP\nPhoto -> similar colour products"),
     ("Smart Shopping 3", "Why we recommend this\nEco Score + eco filter\nSmart cart  |  Student Mode + CAMPUS10"),
-    ("Admin desk", "Hidden /staff\nadmin@trendora.in / admin123\n3-step Add item -> Publish\nOrders / returns / coupons"),
+    ("Admin desk", "Hidden /staff\nadmin@trendify.in / admin123\n3-step Add item -> Publish\nOrders / returns / coupons"),
     ("Architecture", "UI pages\n   |\nStoreContext + styleEngine\n   |\nproducts.js + localStorage v2"),
     ("Money formula", "grand = subtotal - coupon + ship + wrap\nFree ship >= Rs 999\n1 Insider point / Rs 10"),
     ("Order machine", "Confirmed -> Packed -> Shipped\n-> Out for delivery -> Delivered\nCancel before ship · Return after"),
@@ -366,7 +366,7 @@ class ReportPDF(FPDF):
             return
         self.set_font("Helvetica", "I", 9)
         self.set_text_color(*ROSE)
-        self.cell(0, 8, "Trendora  |  College project report", new_x="LMARGIN", new_y="NEXT")
+        self.cell(0, 8, "Trendify  |  College project report", new_x="LMARGIN", new_y="NEXT")
         self.set_draw_color(*NAVY)
         self.line(15, 16, 195, 16)
         self.ln(4)
@@ -453,7 +453,7 @@ def write_docx(path: Path):
 
     t = doc.add_paragraph()
     t.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run = t.add_run("TRENDORA")
+    run = t.add_run("TRENDIFY")
     run.bold = True
     run.font.size = Pt(28)
     run.font.color.rgb = RGBColor(*NAVY)
@@ -482,9 +482,9 @@ def write_docx(path: Path):
 
     doc.add_heading("Appendix D — Demo sheet", level=1)
     for item in [
-        "Customer: demo@trendora.in / demo123 then OTP (on screen or 123456)",
-        "Admin desk: /staff — admin@trendora.in / admin123",
-        "Owner: /staff — owner@trendora.in / owner123",
+        "Customer: demo@trendify.in / demo123 then OTP (on screen or 123456)",
+        "Admin desk: /staff — admin@trendify.in / admin123",
+        "Owner: /staff — owner@trendify.in / owner123",
         "Coupons: TREND10, FESTIVE20, WELCOME100, FREESHIP, INSIDER15, CAMPUS10",
         "Style: /style — college outfit under 1000",
     ]:
@@ -524,22 +524,22 @@ def write_pptx(path: Path):
             para.space_after = PPt(8)
         tag = slide.shapes.add_textbox(PInches(0.8), PInches(0.4), PInches(6), PInches(0.4))
         tp = tag.text_frame.paragraphs[0]
-        tp.text = "TRENDORA  ·  COLLEGE PROJECT"
+        tp.text = "TRENDIFY  ·  COLLEGE PROJECT"
         tp.font.size = PPt(12)
         tp.font.color.rgb = PRGB(*ROSE)
     prs.save(path)
 
 
 def write_markdown():
-    report = ["# Trendora — Personalized Smart Shopping", "", "## Project Report (college / vlg 2025-26)", ""]
+    report = ["# Trendify — Personalized Smart Shopping", "", "## Project Report (college / vlg 2025-26)", ""]
     for h, b in CHAPTERS:
         report += [f"## {h}", "", b, ""]
     (ROOT / "docs" / "PROJECT_REPORT.md").write_text("\n".join(report), encoding="utf-8")
-    built = ["# How Trendora was built", ""]
+    built = ["# How Trendify was built", ""]
     for h, b in HOW_BUILT:
         built += [f"## {h}", "", b, ""]
     (ROOT / "docs" / "HOW_IT_WAS_BUILT.md").write_text("\n".join(built), encoding="utf-8")
-    slides = ["# Trendora presentation outline", ""]
+    slides = ["# Trendify presentation outline", ""]
     for i, (h, b) in enumerate(SLIDES, 1):
         slides += [f"## Slide {i}: {h}", "", b, ""]
     (ROOT / "docs" / "PRESENTATION.md").write_text("\n".join(slides), encoding="utf-8")
@@ -547,12 +547,12 @@ def write_markdown():
 
 def copy_out():
     names = [
-        "Trendora_Project_Report.pdf",
-        "Trendora_Project_Report.docx",
-        "Trendora_How_It_Was_Built.pdf",
-        "Trendora_Presentation.pptx",
+        "Trendify_Project_Report.pdf",
+        "Trendify_Project_Report.docx",
+        "Trendify_How_It_Was_Built.pdf",
+        "Trendify_Presentation.pptx",
     ]
-    zip_path = OUT / "Trendora_All_Documents.zip"
+    zip_path = OUT / "Trendify_All_Documents.zip"
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
         for name in names:
             src = OUT / name
@@ -560,9 +560,9 @@ def copy_out():
                 zf.write(src, name)
                 for folder in (DL, COLLEGE):
                     shutil.copy2(src, folder / name)
-        zf.write(zip_path, "Trendora_All_Documents.zip") if False else None
+        zf.write(zip_path, "Trendify_All_Documents.zip") if False else None
     for folder in (DL, COLLEGE):
-        shutil.copy2(zip_path, folder / "Trendora_All_Documents.zip")
+        shutil.copy2(zip_path, folder / "Trendify_All_Documents.zip")
         for md in ("PROJECT_REPORT.md", "HOW_IT_WAS_BUILT.md", "PRESENTATION.md"):
             shutil.copy2(ROOT / "docs" / md, folder / md)
 
@@ -570,21 +570,21 @@ def copy_out():
 def main():
     write_markdown()
     write_pdf(
-        OUT / "Trendora_Project_Report.pdf",
-        "Trendora",
+        OUT / "Trendify_Project_Report.pdf",
+        "Trendify",
         "Personalized Smart Shopping website\ninspired by Meesho, Myntra and Flipkart\n\nProject report  ·  PDF copy for submission",
         CHAPTERS,
     )
     write_pdf(
-        OUT / "Trendora_How_It_Was_Built.pdf",
-        "How Trendora was built",
+        OUT / "Trendify_How_It_Was_Built.pdf",
+        "How Trendify was built",
         "Step-by-step construction log for the viva.\nReact 18 · Vite 5 · Smart Shopping · private admin.",
         HOW_BUILT,
     )
-    write_docx(OUT / "Trendora_Project_Report.docx")
-    write_pptx(OUT / "Trendora_Presentation.pptx")
+    write_docx(OUT / "Trendify_Project_Report.docx")
+    write_pptx(OUT / "Trendify_Presentation.pptx")
     copy_out()
-    print("Wrote", list(OUT.glob("Trendora_*")))
+    print("Wrote", list(OUT.glob("Trendify_*")))
     print("Also", COLLEGE)
 
 

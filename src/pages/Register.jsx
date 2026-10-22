@@ -83,7 +83,7 @@ export default function Register() {
   return (
     <div className="wrap">
       <form className="auth-wrap" onSubmit={submit}>
-        <div className="eyebrow">Join Trendora</div>
+        <div className="eyebrow">Join Trendify</div>
         <h1>Create customer account</h1>
         <p className="muted">Public sign-up is for shopping only. You cannot add or delete catalogue items.</p>
         {[

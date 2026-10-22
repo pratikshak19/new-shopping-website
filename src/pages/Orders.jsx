@@ -9,7 +9,7 @@ export default function Orders() {
       <div className="page-hero">
         <h1>Orders</h1>
         <p style={{ color: 'var(--muted)' }}>
-          Track every Trendora haul{user ? ` · ${user.name}` : ' · guest bag'}.
+          Track every Trendify haul{user ? ` · ${user.name}` : ' · guest bag'}.
         </p>
       </div>
       {orders.length === 0 ? (

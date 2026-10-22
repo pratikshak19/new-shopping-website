@@ -109,7 +109,7 @@ export default function Login() {
           New here? <Link to={after ? `/register?next=${encodeURIComponent(after)}` : '/register'}>Create a customer account</Link>
         </p>
         <p className="hint" style={{ fontSize: 12 }}>
-          Demo: demo@trendora.in / demo123 · OTP 1923. Any other email + password (6+ letters) also works.
+          Demo: demo@trendify.in / demo123 · OTP 1923. Any other email + password (6+ letters) also works.
         </p>
       </form>
     </div>

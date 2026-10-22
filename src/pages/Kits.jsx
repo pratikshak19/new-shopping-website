@@ -18,7 +18,7 @@ export default function Kits() {
         <p className="eyebrow">Full mall · not clothing-only</p>
         <h1>Lifestyle kits</h1>
         <p className="muted">
-          Trendora is a complete shopping website: fashion, electronics, beauty, home, kids and stationery.
+          Trendify is a complete shopping website: fashion, electronics, beauty, home, kids and stationery.
           Each kit mixes departments under one budget — something a clothes-only boutique cannot do.
         </p>
       </div>

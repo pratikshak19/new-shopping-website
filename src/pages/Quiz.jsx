@@ -71,7 +71,7 @@ export default function Quiz() {
   const share = () => {
     if (!look?.items?.length) return
     const lines = look.items.map((p) => `• ${p.name} — ${formatINR(p.price)}`).join('\n')
-    const text = `My Trendora look (${formatINR(look.total)})\n${lines}\nhttps://trendora.shop/quiz`
+    const text = `My Trendify look (${formatINR(look.total)})\n${lines}\nhttps://trendify.shop/quiz`
     navigator.clipboard?.writeText(text).catch(() => {})
     toast('Look copied — paste it to a friend')
   }

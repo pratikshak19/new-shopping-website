@@ -1,4 +1,4 @@
-# Trendora — kaise use karein
+# Trendify — kaise use karein
 
 ## Customers (sab log)
 
@@ -13,7 +13,7 @@ Unhe Admin, Add item, Delete **nahi** dikhta.
 ## Aap (admin)
 
 1. Address bar mein `/staff` likho, ya footer mein chhota **Staff**.
-2. `admin@trendora.in` / `admin123`.
+2. `admin@trendify.in` / `admin123`.
 3. **Add a new item**: naam → price → photo → Publish.
 4. Shop pe naya card dikhega.
 5. Catalogue se Edit / Hide.

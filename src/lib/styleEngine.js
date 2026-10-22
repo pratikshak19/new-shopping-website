@@ -212,7 +212,7 @@ export function whyRecommend(product, ctx = {}) {
   if (ctx.mood && (product.moods || []).includes(ctx.mood)) why.push('Matches your selected style')
   if ((product.rating || 0) >= 4.4) why.push('Strong customer ratings')
   if ((product.ecoScore || 0) >= 8) why.push('Eco-friendly pick')
-  if ((product.tags || []).includes('bestseller')) why.push('Bestseller on Trendora')
+  if ((product.tags || []).includes('bestseller')) why.push('Bestseller on Trendify')
   if (!why.length) why.push('Balanced pick from the catalogue')
   return why.slice(0, 4)
 }

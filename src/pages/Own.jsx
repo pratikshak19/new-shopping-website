@@ -21,7 +21,7 @@ export default function Own() {
         <p className="eyebrow">Closet mixer</p>
         <h1>I already own this.</h1>
         <p className="muted">
-        Pick anything you already have — a kurti, earbuds, a lamp. Trendora only sells the missing extras from the
+        Pick anything you already have — a kurti, earbuds, a lamp. Trendify only sells the missing extras from the
         whole mall, under a spend cap.
         </p>
       </div>

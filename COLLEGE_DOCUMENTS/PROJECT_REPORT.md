@@ -1,14 +1,14 @@
-# Trendora — Personalized Smart Shopping
+# Trendify — Personalized Smart Shopping
 
 ## Project Report (college / vlg 2025-26)
 
 ## Certificate
 
-This is to certify that the project titled “Trendora — Personalized Smart Shopping Website” is a bona fide record of work carried out as part of the academic curriculum. The software implements a Myntra-style customer storefront, a private admin desk, two-step OTP for shoppers, and a Personalized Smart Shopping layer (AI style assistant, mood, budget lock, complete-the-look, photo similar search, eco score, smart cart and Student Mode). The candidate has presented the working system, test cases and this report for evaluation.
+This is to certify that the project titled “Trendify — Personalized Smart Shopping Website” is a bona fide record of work carried out as part of the academic curriculum. The software implements a Myntra-style customer storefront, a private admin desk, two-step OTP for shoppers, and a Personalized Smart Shopping layer (AI style assistant, mood, budget lock, complete-the-look, photo similar search, eco score, smart cart and Student Mode). The candidate has presented the working system, test cases and this report for evaluation.
 
 ## Declaration
 
-I declare that this project is my original work. Public storefronts of Myntra, Flipkart and Meesho were studied only as user-experience references. Brand name Trendora, source code, catalogue copy and documents are original. No live payment gateway is connected. Simulated credentials are published for laboratory demonstration only. Public users are customers only; catalogue add/delete is reserved for the store admin.
+I declare that this project is my original work. Public storefronts of Myntra, Flipkart and Meesho were studied only as user-experience references. Brand name Trendify, source code, catalogue copy and documents are original. No live payment gateway is connected. Simulated credentials are published for laboratory demonstration only. Public users are customers only; catalogue add/delete is reserved for the store admin.
 
 ## Acknowledgement
 
@@ -16,13 +16,13 @@ I thank my project guide, the Department of Computer Science / Information Techn
 
 ## Abstract
 
-Indian e-commerce is defined by fashion discovery (Myntra), deals (Flipkart) and affordable catalogue (Meesho). Trendora unifies those habits in one React single-page application and then goes further: the focus is Personalized Smart Shopping, not only a bag.
+Indian e-commerce is defined by fashion discovery (Myntra), deals (Flipkart) and affordable catalogue (Meesho). Trendify unifies those habits in one React single-page application and then goes further: the focus is Personalized Smart Shopping, not only a bag.
 
 Shoppers browse eight categories, search and filter, read size charts, check PIN codes, compare SKUs, use wishlist, coupons, gift-wrap, simulated UPI/card/COD checkout, order tracking, returns, Insider points and help tickets. New accounts use a two-step OTP (demo code on screen or 123456). The public site cannot add or delete products. The owner/admin enters a hidden /staff door to add items, hide SKUs, move orders and process returns.
 
 The Smart layer (route /style) builds a complete outfit from a natural-language prompt, mood tiles, or a budget lock; product pages complete the look; the bag suggests missing pieces; photo upload finds similar colour tones on-device; every card can show Why we recommend this and an Eco Score; Student Mode surfaces campus prices and coupon CAMPUS10.
 
-State lives in StoreContext and localStorage (key trendora-store-v2) so a viva survives refresh without a paid back-end.
+State lives in StoreContext and localStorage (key trendify-store-v2) so a viva survives refresh without a paid back-end.
 
 ## 1. Introduction
 
@@ -51,7 +51,7 @@ Flipkart — deal timer, coupon engine, MRP break-up, COD, order timeline.
 Meesho — supplier listing, commission, category-first mobile bag.
 Stitch Fix / Amazon Outfit — complete-the-look and budget outfits as personalization references.
 
-Gap: a student cannot reimplement logistics or a large ML cluster. Trendora copies the nouns (bag, wishlist, COD, look) and implements them as original React code with an honest simulation note.
+Gap: a student cannot reimplement logistics or a large ML cluster. Trendify copies the nouns (bag, wishlist, COD, look) and implements them as original React code with an honest simulation note.
 
 ## 3. System analysis and SRS
 
@@ -110,9 +110,9 @@ Cancel allowed before Shipped. Return allowed only after Delivered.
 src/lib/styleEngine.js parses a Hindi/English prompt for budget, mood, college, gender. It greedy-fills slots top, bottom, shoes, bag, accessory under the remaining rupees. Photo search averages RGB on a canvas and nearest-neighbour matches catalogue colours.
 
 4.6 Demo accounts
-Customer: demo@trendora.in / demo123 then OTP on screen or 123456.
-Admin: /staff then admin@trendora.in / admin123.
-Owner: /staff then owner@trendora.in / owner123.
+Customer: demo@trendify.in / demo123 then OTP on screen or 123456.
+Admin: /staff then admin@trendify.in / admin123.
+Owner: /staff then owner@trendify.in / owner123.
 
 ## 5. Implementation
 
@@ -174,18 +174,18 @@ T8 Photo upload lists similar products — Pass
 T9 Eco filter 8+ reduces catalogue — Pass
 T10 Smart cart suggests missing accessory — Pass
 T11 Student Mode + CAMPUS10 applies only when mode is on — Pass
-T12 Public /login rejects admin@trendora.in — Pass
+T12 Public /login rejects admin@trendify.in — Pass
 T13 /staff admin can publish a new SKU; it appears on Shop — Pass
 T14 Customer OTP accepts on-screen code or 123456 — Pass
 T15 FESTIVE20 rejected below Rs 1999 — Pass
 T16 Place order empties bag and drops stock — Pass
 T17 Admin pipeline Packed -> Delivered; customer can request return — Pass
 T18 /admin as customer redirects home — Pass
-T19 Refresh keeps session (trendora-store-v2) — Pass
+T19 Refresh keeps session (trendify-store-v2) — Pass
 
 ## 8. Results and conclusion
 
-Trendora presents a credible Indian storefront plus a Smart Shopping layer that a viva panel can click through in under five minutes: type a college prompt, lock a budget, open a dress, see complete-the-look, add to bag, accept a smart suggestion, checkout (simulated).
+Trendify presents a credible Indian storefront plus a Smart Shopping layer that a viva panel can click through in under five minutes: type a college prompt, lock a budget, open a dress, see complete-the-look, add to bag, accept a smart suggestion, checkout (simulated).
 
 Public users never see add/delete. Admin work stays on /staff. Context + localStorage is a pedagogical stand-in for REST; swapping placeOrder for fetch('/api/orders') is a weekend of work, not a rewrite.
 
@@ -222,9 +222,9 @@ Regenerate these documents: .venv-docs/bin/python scripts/generate_docs.py
 
 ## Appendix B — User manuals
 
-Customer: /login demo@trendora.in / demo123 -> OTP -> shop or /style -> bag -> CAMPUS10 (if Student Mode) or FESTIVE20 -> checkout. Payments are fake.
+Customer: /login demo@trendify.in / demo123 -> OTP -> shop or /style -> bag -> CAMPUS10 (if Student Mode) or FESTIVE20 -> checkout. Payments are fake.
 
-Admin (site owner only): footer Staff or type /staff -> admin@trendora.in / admin123 -> Add a new item (3 steps) -> Publish -> open Shop. Catalogue Edit / Hide. Orders pipeline.
+Admin (site owner only): footer Staff or type /staff -> admin@trendify.in / admin123 -> Add a new item (3 steps) -> Publish -> open Shop. Catalogue Edit / Hide. Orders pipeline.
 
 Style Assistant: Nav Style -> type a Hindi/English wish -> Suggest complete outfit -> Add full look to bag.
 

@@ -42,7 +42,7 @@ export default function Contact() {
             <strong>Support hours:</strong> Mon–Sat, 10:00–19:00 IST
           </p>
           <p>
-            <strong>Email:</strong> hello@trendora.demo
+            <strong>Email:</strong> hello@trendify.demo
           </p>
           <p>
             <strong>Phone:</strong> 1800-123-8765 (fictional)

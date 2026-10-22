@@ -139,7 +139,7 @@ export default function Checkout() {
             <div className="pay-secure">
               <strong>Razorpay-style checkout — still a college demo.</strong>
               <p>
-                UPI, cards, netbanking and wallets open in a Trendora Pay sheet (same layout as Razorpay). No gateway
+                UPI, cards, netbanking and wallets open in a Trendify Pay sheet (same layout as Razorpay). No gateway
                 keys, no bank, no charge. Live Razorpay needs a merchant account and a server — not this browser app.
               </p>
             </div>

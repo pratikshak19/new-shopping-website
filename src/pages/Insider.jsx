@@ -6,7 +6,7 @@ export default function Insider() {
   return (
     <div className="wrap prose" style={{ paddingBottom: 72 }}>
       <div className="page-hero">
-        <h1>Trendora Insider</h1>
+        <h1>Trendify Insider</h1>
       </div>
       <p>Myntra Insider analogue. Earn 1 point per ₹10. Tiers: Member → Elite (800) → Icon (2500).</p>
       {user ? (

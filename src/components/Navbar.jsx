@@ -26,7 +26,7 @@ export default function Navbar() {
             <Icon.menu />
           </button>
           <Link to="/" className="brand" onClick={() => setOpen(false)}>
-            <img src="/images/logo.png" alt="Trendora" />
+            <img src="/images/logo.png" alt="Trendify" />
             <div className="brand-name">Tren<span>dora</span></div>
           </Link>
           <nav className="nav-links" aria-label="Primary">
@@ -54,7 +54,7 @@ export default function Navbar() {
           </nav>
           <form className="search" onSubmit={go} role="search">
             <Icon.search />
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search kurtas, sneakers, earbuds..." aria-label="Search Trendora" />
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search kurtas, sneakers, earbuds..." aria-label="Search Trendify" />
           </form>
           <div className="nav-acts">
             {portal && (
@@ -82,7 +82,7 @@ export default function Navbar() {
         <div className={`mobile-drawer wrap ${open ? 'open' : ''}`} id="mobile-nav">
           <form className="search" onSubmit={go} style={{ marginBottom: 10 }}>
             <Icon.search />
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search Trendora" />
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search Trendify" />
           </form>
           <Link to="/shop" onClick={() => setOpen(false)}>All products</Link>
           <Link to="/style" onClick={() => setOpen(false)}>Style assistant</Link>

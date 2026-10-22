@@ -11,7 +11,7 @@ export default class ErrorBoundary extends Component {
   }
 
   componentDidCatch(err, info) {
-    console.error('Trendora crashed', err, info)
+    console.error('Trendify crashed', err, info)
   }
 
   render() {

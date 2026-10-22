@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compose annotated 'screenshots' from real Trendora product photos."""
+"""Compose annotated 'screenshots' from real Trendify product photos."""
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
@@ -37,7 +37,7 @@ def load(rel, size=None):
     return im
 
 
-def browser(w, h, url, title="Trendora"):
+def browser(w, h, url, title="Trendify"):
     im = Image.new("RGB", (w, h), PAPER)
     d = ImageDraw.Draw(im)
     d.rectangle((0, 0, w, 54), fill=(36, 36, 52))
@@ -159,11 +159,11 @@ def shot_login():
     d.text((48, y + 30), "Sign in by authority", font=font(34, True), fill=NAVY)
     d.text((48, y + 80), "Paanch alag login — customer, reseller, seller, admin, owner.", font=font(15), fill=MUTED)
     roles = [
-        ((20, 149, 143), "CUSTOMER", "demo@trendora.in", "demo123"),
-        ((124, 58, 237), "RESELLER", "reseller@trendora.in", "reseller123"),
-        ((180, 83, 9), "SELLER", "seller@trendora.in", "seller123"),
-        ((37, 99, 235), "ADMIN", "admin@trendora.in", "admin123"),
-        (ROSE, "OWNER", "owner@trendora.in", "owner123"),
+        ((20, 149, 143), "CUSTOMER", "demo@trendify.in", "demo123"),
+        ((124, 58, 237), "RESELLER", "reseller@trendify.in", "reseller123"),
+        ((180, 83, 9), "SELLER", "seller@trendify.in", "seller123"),
+        ((37, 99, 235), "ADMIN", "admin@trendify.in", "admin123"),
+        (ROSE, "OWNER", "owner@trendify.in", "owner123"),
     ]
     for i, (col, name, email, pw) in enumerate(roles):
         x = 48 + i * 274
@@ -235,7 +235,7 @@ def shot_checkout():
 def shot_dash(name, role, color, items, url):
     im, d = browser(1440, 900, url)
     d.rectangle((0, 54, 260, 900), fill=NAVY)
-    d.text((24, 80), "TRENDORA", font=font(12, True), fill=ROSE)
+    d.text((24, 80), "TRENDIFY", font=font(12, True), fill=ROSE)
     d.text((24, 110), role.upper(), font=font(11, True), fill=color)
     d.text((24, 140), name, font=font(16, True), fill=WHITE)
     for i, item in enumerate(["Overview", "Catalogue", "Orders", "People", "Coupons", "Returns", "Tickets", "Settings", "Reports"]):

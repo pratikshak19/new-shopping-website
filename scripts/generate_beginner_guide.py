@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""50-60 page beginner handbook: how to use Trendora + free hosting."""
+"""50-60 page beginner handbook: how to use Trendify + free hosting."""
 from pathlib import Path
 
 from fpdf import FPDF
@@ -33,7 +33,7 @@ class Guide(FPDF):
             return
         self.set_font("DejaVu", "", 8)
         self.set_text_color(*ROSE)
-        self.cell(0, 6, "Trendora  |  Beginner complete guide  |  How to use + free hosting", ln=1)
+        self.cell(0, 6, "Trendify  |  Beginner complete guide  |  How to use + free hosting", ln=1)
         self.set_draw_color(*NAVY)
         self.line(15, 12, 195, 12)
         self.ln(4)
@@ -57,7 +57,7 @@ class Guide(FPDF):
         self.set_text_color(255, 255, 255)
         self.set_font("DejaVu", "B", 34)
         self.set_xy(24, 68)
-        self.multi_cell(170, 14, "Trendora\nBeginner Complete Guide")
+        self.multi_cell(170, 14, "Trendify\nBeginner Complete Guide")
         self.set_font("DejaVu", "", 13)
         self.set_xy(24, 118)
         self.multi_cell(
@@ -164,7 +164,7 @@ def build():
     chapters = [
         "How to read this book (beginner rules)",
         "Computer words in simple language",
-        "What Trendora is - and what it is NOT",
+        "What Trendify is - and what it is NOT",
         "Open the website right now (preview / live link)",
         "Customer journey with screenshots (shop like Myntra)",
         "Five logins - customer, reseller, seller, admin, owner",
@@ -177,7 +177,7 @@ def build():
         "What is hosting? Why do we need it?",
         "Free hosting map - which site to pick",
         "Install Node.js, Git and VS Code on Windows",
-        "Run Trendora on YOUR laptop",
+        "Run Trendify on YOUR laptop",
         "Put the code on GitHub (free)",
         "Publish on Vercel (easiest free internet URL)",
         "Publish on Netlify or GitHub Pages (backup methods)",
@@ -203,7 +203,7 @@ def build():
     g.h2("Two parts")
     g.bullets(
         [
-            "PART A (Chapters 3-12): Use the ready Trendora site. Shopping, 5 logins, documents.",
+            "PART A (Chapters 3-12): Use the ready Trendify site. Shopping, 5 logins, documents.",
             "PART B (Chapters 13-21): Understand hosting, install tools, run locally, put it on the free internet.",
             "PART C (Chapters 22-24): Viva answers, safety, glossary, final checklist.",
         ]
@@ -243,13 +243,13 @@ def build():
     )
     pairs = [
         ("Browser", "The app that opens websites: Chrome, Edge, Firefox. Matlab: internet ka darwaza."),
-        ("URL / link", "The address in the top bar, like https://trendora.vercel.app. Matlab: ghar ka address."),
-        ("Website / web app", "Pages that run in the browser. Trendora is a web app (single page app)."),
-        ("Frontend", "What you SEE (buttons, pictures, pages). Trendora is almost all frontend."),
+        ("URL / link", "The address in the top bar, like https://trendify.vercel.app. Matlab: ghar ka address."),
+        ("Website / web app", "Pages that run in the browser. Trendify is a web app (single page app)."),
+        ("Frontend", "What you SEE (buttons, pictures, pages). Trendify is almost all frontend."),
         ("Backend / server / API", "Hidden computer that stores real users and money. This college project does NOT have a paid backend."),
-        ("localStorage", "A small diary inside YOUR browser. Trendora saves bag, login and orders here. Another phone will not see your bag."),
+        ("localStorage", "A small diary inside YOUR browser. Trendify saves bag, login and orders here. Another phone will not see your bag."),
         ("Hosting", "Renting a computer on the internet that gives your files to visitors 24 hours. Matlab: website ko 24 ghante online rakhna."),
-        ("Domain", "A short name like trendora.in. Free hosts give you a long free name such as something.vercel.app."),
+        ("Domain", "A short name like trendify.in. Free hosts give you a long free name such as something.vercel.app."),
         ("Git", "A save-history tool for code. Like infinite Undo for a whole folder."),
         ("GitHub", "A free website that stores your Git folder in the cloud. Teachers can open it."),
         ("Repository / repo", "One project folder on GitHub."),
@@ -277,10 +277,10 @@ def build():
     )
 
     # 3
-    g.h1("3. What Trendora is - and what it is NOT")
+    g.h1("3. What Trendify is - and what it is NOT")
     g.shot("diagram-five-roles.jpg", "Figure 3.1  Five login authorities in one college project.", 82)
     g.p(
-        "Trendora is a shopping website inspired by Myntra (fashion discovery), Meesho (seller + reseller share) "
+        "Trendify is a shopping website inspired by Myntra (fashion discovery), Meesho (seller + reseller share) "
         "and Flipkart (deals, coupons, COD, order timeline). It was built with Vite + React for a college / vlg project."
     )
     g.h2("What you CAN do")
@@ -309,11 +309,11 @@ def build():
     g.shot("diagram-order-flow.jpg", "Figure 3.2  Customer order journey you will click in Chapter 5.", 78)
     g.h2("Demo passwords (learn now, use often)")
     g.p(
-        "Customer  demo@trendora.in / demo123\n"
-        "Reseller  reseller@trendora.in / reseller123\n"
-        "Seller    seller@trendora.in / seller123\n"
-        "Admin     admin@trendora.in / admin123\n"
-        "Owner     owner@trendora.in / owner123"
+        "Customer  demo@trendify.in / demo123\n"
+        "Reseller  reseller@trendify.in / reseller123\n"
+        "Seller    seller@trendify.in / seller123\n"
+        "Admin     admin@trendify.in / admin123\n"
+        "Owner     owner@trendify.in / owner123"
     )
     g.note("Login page par role card pe ek click kafi hai. Password type karna zaroori nahi, lekin viva mein type karke dikhana better hai.", "TIP")
     g.p(
@@ -325,7 +325,7 @@ def build():
     g.h1("4. Open the website right now")
     g.h2("Case A - You are inside Arena / the assistant preview")
     g.step(1, "Find the live preview panel",
-           "On the right (or a 'Preview' tab) a browser window is already running Trendora. "
+           "On the right (or a 'Preview' tab) a browser window is already running Trendify. "
            "It is the real site, not a photo.")
     g.step(2, "If it is blank, refresh",
            "Click the refresh icon once. Wait 5 seconds. First load downloads fonts and images.")
@@ -336,7 +336,7 @@ def build():
     g.step(2, "Paste the URL",
            "Click the address bar at the top. Paste something like https://new-shopping-website.vercel.app and press Enter.")
     g.step(3, "Accept the home page",
-           "You should see 'Trendora' on the left and a big fashion photo. That means it worked.")
+           "You should see 'Trendify' on the left and a big fashion photo. That means it worked.")
     g.h2("Case C - You only have the GitHub folder")
     g.p("Skip to Chapter 15-18. You must run or host it first. A GitHub page of CODE is not the shop until you deploy.")
     g.shot("ui-home.jpg", "Figure 4.1  Home page - dark hero on the left, fashion photo on the right, Tren+dora logo top-left.", 80)
@@ -432,7 +432,7 @@ def build():
     g.h2("How to login (two ways)")
     g.step(1, "Fast demo click", "Click the Customer card. You jump home as Aisha Verma. Good for practice.")
     g.step(2, "Typed login (viva style)",
-           "Type demo@trendora.in and demo123. Press Sign in. Wrong password 6 times locks you for 30 seconds. That is a production feature - mention it.")
+           "Type demo@trendify.in and demo123. Press Sign in. Wrong password 6 times locks you for 30 seconds. That is a production feature - mention it.")
     g.step(3, "Register",
            " /register lets a new Customer, Reseller or Seller sign up. Admin and Owner can only be created by the Owner. "
            "Password minimum 6 characters. Phone must be 10 digits starting 6-9.")
@@ -460,9 +460,9 @@ def build():
     g.shot("ui-reseller.jpg", "Figure 7.1  Reseller home: earning total + copy share link on a product.", 78)
     g.p(
         "Meesho became famous because a student or house-entrepreneur can share a catalogue on WhatsApp "
-        "WITHOUT buying stock. Trendora copies that idea."
+        "WITHOUT buying stock. Trendify copies that idea."
     )
-    g.step(1, "Login as reseller", "reseller@trendora.in / reseller123. You land on /reseller.")
+    g.step(1, "Login as reseller", "reseller@trendify.in / reseller123. You land on /reseller.")
     g.step(2, "Open any product", "Example /product/td-1001.")
     g.step(3, "Click Share catalogue",
            "A link like https://YOUR-HOST/product/td-1001?ref=u-reseller is copied. Toast confirms.")
@@ -480,7 +480,7 @@ def build():
     # 8
     g.h1("8. Seller studio")
     g.shot("ui-seller.jpg", "Figure 8.1  Seller dashboard - same dark left menu, seller-only numbers.", 78)
-    g.step(1, "Login seller@trendora.in / seller123", "Home becomes /seller.")
+    g.step(1, "Login seller@trendify.in / seller123", "Home becomes /seller.")
     g.step(2, "Overview", "Counts of your products and orders that contain your SKUs.")
     g.step(3, "Catalogue",
            "Add a product: name, brand, category, price, MRP, stock, image path (use an existing /images/products/... for the demo). Save. "
@@ -494,7 +494,7 @@ def build():
     # 9
     g.h1("9. Admin desk")
     g.shot("ui-admin.jpg", "Figure 9.1  Admin overview. Left navy rail is the operations desk.", 78)
-    g.p("Admin is the mall manager. Login admin@trendora.in / admin123.")
+    g.p("Admin is the mall manager. Login admin@trendify.in / admin123.")
     g.step(1, "Orders pipeline",
            "Open an order. Change status Confirmed -> Packed -> Shipped -> Out for delivery -> Delivered. "
            "Each change writes a toast and fills the timeline date.")
@@ -510,7 +510,7 @@ def build():
     # 10
     g.h1("10. Owner console")
     g.shot("ui-owner.jpg", "Figure 10.1  Owner overview - GMV style numbers for the viva.", 78)
-    g.p("Owner is the founder login. owner@trendora.in / owner123. This is the account you show last.")
+    g.p("Owner is the founder login. owner@trendify.in / owner123. This is the account you show last.")
     g.step(1, "People & authority",
            "Form: name, email, role (admin/seller/reseller/customer), password. Create login. "
            "Then logout and sign in as that new person to prove it works.")
@@ -558,8 +558,8 @@ def build():
     g.step(3, "Click Download",
            "Chrome saves to the Downloads folder. If a preview sandbox blocks it, use 'Open in new tab' then Ctrl+S.")
     g.step(4, "Files you must keep",
-           "Trendora_Project_Report.pdf / .docx, Trendora_Presentation.pptx, Trendora_How_It_Was_Built.pdf, "
-           "Trendora_Beginner_Complete_Guide.pdf (this book), Trendora_All_Documents.zip.")
+           "Trendify_Project_Report.pdf / .docx, Trendify_Presentation.pptx, Trendify_How_It_Was_Built.pdf, "
+           "Trendify_Beginner_Complete_Guide.pdf (this book), Trendify_All_Documents.zip.")
     g.p("Raw copies also live in the Git folder DOWNLOAD_THESE/ so you can copy to a pen drive without running the site.")
     g.note("PDF kholne ke liye Adobe Reader ya Chrome kafi hai. PPT ke liye MS PowerPoint ya Google Slides (File -> Open).", "HINDI")
 
@@ -572,7 +572,7 @@ def build():
     )
     g.p(
         "Hosting = we copy the finished files to a computer that is already on the public internet. "
-        "That computer has a URL. Anyone with the link can open Trendora."
+        "That computer has a URL. Anyone with the link can open Trendify."
     )
     g.h2("Who are the free hosts?")
     g.bullets(
@@ -668,7 +668,7 @@ def build():
            "git config --global user.email \"you@gmail.com\"\n"
            "Use the same email you will use on GitHub.")
     g.h2("15.3 VS Code")
-    g.shot("mock-vscode.jpg", "Figure 15.2  VS Code with the Trendora folder and a terminal running npm run dev.", 78)
+    g.shot("mock-vscode.jpg", "Figure 15.2  VS Code with the Trendify folder and a terminal running npm run dev.", 78)
     g.step(1, "Open https://code.visualstudio.com", "Download Windows User installer.")
     g.step(2, "Install", "Tick 'Open with Code' if offered.")
     g.step(3, "Open the project later with File -> Open Folder", "You will do this in the next chapter after the folder exists on the Desktop.")
@@ -690,7 +690,7 @@ def build():
     g.p("sudo apt update && sudo apt install -y nodejs npm git   may give an old Node. Prefer the NodeSource LTS installer or nvm if npm run dev fails.")
 
     # 16
-    g.h1("16. Run Trendora on YOUR laptop")
+    g.h1("16. Run Trendify on YOUR laptop")
     g.p("This is called 'running locally'. Teachers love seeing localhost in the address bar.")
     g.step(1, "Get the folder",
            "If the assistant already gave you the project, copy the whole new-shopping-website folder to Desktop. "
@@ -702,7 +702,7 @@ def build():
            "Do not close the window.")
     g.step(5, "Start the dev server",
            "Type:\n\nnpm run dev\n\nYou must see:  Local: http://localhost:5173/")
-    g.step(6, "Open Chrome", "Go to http://localhost:5173/  - this is YOUR copy. Login with demo@trendora.in.")
+    g.step(6, "Open Chrome", "Go to http://localhost:5173/  - this is YOUR copy. Login with demo@trendify.in.")
     g.step(7, "Stop the server", "Click the terminal and press Ctrl+C. The site dies until you npm run dev again.")
     g.h2("What those commands did")
     g.p(
@@ -738,14 +738,14 @@ def build():
     )
     g.h2("Create the empty repo")
     g.step(1, "Login at https://github.com", "Top-right + -> New repository.")
-    g.step(2, "Repository name", "new-shopping-website (or trendora). Public. Do NOT tick 'Add a README' if your laptop folder already has files.")
+    g.step(2, "Repository name", "new-shopping-website (or trendify). Public. Do NOT tick 'Add a README' if your laptop folder already has files.")
     g.step(3, "Create repository", "GitHub shows commands. We will type them in VS Code terminal. Stop the running server first (Ctrl+C).")
     g.h2("Send your laptop folder")
     g.p("In the project folder terminal, type these lines one by one. Replace YOURUSER.")
     g.p(
         "git init\n"
         "git add .\n"
-        "git commit -m \"Add Trendora shopping website\"\n"
+        "git commit -m \"Add Trendify shopping website\"\n"
         "git branch -M main\n"
         "git remote add origin https://github.com/YOURUSER/new-shopping-website.git\n"
         "git push -u origin main"
@@ -770,7 +770,7 @@ def build():
     g.step(2, "Add New -> Project", "You will see new-shopping-website in the list. Click Import.")
     g.step(3, "Framework Preset", "Must say Vite. If it says Other, set Build Command to npm run build and Output Directory to dist.")
     g.step(4, "Root directory", "Leave ./  unless the code is inside a subfolder.")
-    g.step(5, "Environment variables", "None required. Trendora has no secret API key.")
+    g.step(5, "Environment variables", "None required. Trendify has no secret API key.")
     g.step(6, "Deploy", "Wait 30-60 seconds. Confetti. Click the screenshot - your shop is LIVE.")
     g.step(7, "Copy the URL",
            "Looks like https://new-shopping-website-xxxx.vercel.app  or a name you choose in Project Settings -> Domains.")
@@ -787,7 +787,7 @@ def build():
     )
     g.h2("Custom domain later (optional, can cost money)")
     g.p(
-        "Buying trendora.in is optional and usually paid (some .in offers exist). Free hosting does NOT require it. "
+        "Buying trendify.in is optional and usually paid (some .in offers exist). Free hosting does NOT require it. "
         "Examiner is happy with vercel.app."
     )
 
@@ -847,7 +847,7 @@ def build():
     )
     g.h2("Share the link")
     g.p(
-        "WhatsApp the Vercel URL to your guide. Subject: 'Trendora live demo - 5 logins in README'. "
+        "WhatsApp the Vercel URL to your guide. Subject: 'Trendify live demo - 5 logins in README'. "
         "Also send this PDF and the GitHub URL."
     )
 
@@ -868,11 +868,11 @@ def build():
     g.p("Missing _redirects file. Chapter 19 step 6.")
     g.h2("Login 'Invalid email or password' on demo users")
     g.p(
-        "Old localStorage from an earlier version. F12 -> Application -> Local Storage -> delete trendora-store-v2 -> refresh. "
+        "Old localStorage from an earlier version. F12 -> Application -> Local Storage -> delete trendify-store-v2 -> refresh. "
         "Seed users reload with hashed passwords."
     )
     g.h2("Too many attempts")
-    g.p("Wait 30 seconds or F12 -> Application -> Session Storage -> delete trendora-lock.")
+    g.p("Wait 30 seconds or F12 -> Application -> Session Storage -> delete trendify-lock.")
     g.h2("Images missing")
     g.p("Files must live under public/images and be referenced as /images/.... Do not put them only on Desktop.")
     g.h2("Git push rejected")
@@ -895,7 +895,7 @@ def build():
     g.h1("22. Viva / practical exam script")
     g.p("Memorise this 6-minute play. Rehearse twice.")
     g.step(1, "Minute 0-1  Home",
-           "'This is Trendora, a multi-authority store inspired by Myntra, Meesho and Flipkart. Hero, categories, deal timer, bank offers.'")
+           "'This is Trendify, a multi-authority store inspired by Myntra, Meesho and Flipkart. Hero, categories, deal timer, bank offers.'")
     g.step(2, "Minute 1-3  Customer buy",
            "Search dress, size chart, PIN 411001, add to bag, FESTIVE20, checkout UPI, show TRD id. Say 'payment is simulated'.")
     g.step(3, "Minute 3-4  Admin pipeline",
@@ -906,7 +906,7 @@ def build():
            "Owner settings commission. Open /documents, download PDF. Show GitHub + Vercel URLs.")
     g.h2("Likely questions - short answers")
     g.p(
-        "Q. Which stack?  A. React 18, Vite 5, React Router 6, Context API, localStorage key trendora-store-v2.\n\n"
+        "Q. Which stack?  A. React 18, Vite 5, React Router 6, Context API, localStorage key trendify-store-v2.\n\n"
         "Q. Why no database?  A. Scope is UX + roles. Context is a stand-in. Future: Express + MongoDB.\n\n"
         "Q. How is password stored?  A. SHA-256 in the browser. Not bcrypt on a server. Honest limitation.\n\n"
         "Q. How does reseller earn?  A. Query ?ref=userId captured; placeOrder adds 8% of grand into shares.\n\n"
@@ -930,7 +930,7 @@ def build():
         ]
     )
     g.p(
-        "Suggested honesty sentence: 'Trendora is an academic simulation of an Indian marketplace. "
+        "Suggested honesty sentence: 'Trendify is an academic simulation of an Indian marketplace. "
         "It implements real UX flows and role separation. It does not process legal tender or ship SKUs.'"
     )
 
@@ -938,11 +938,11 @@ def build():
     g.h1("24. Glossary, passwords, coupons, final checklist")
     g.h2("Passwords again")
     g.p(
-        "demo@trendora.in / demo123\n"
-        "reseller@trendora.in / reseller123\n"
-        "seller@trendora.in / seller123\n"
-        "admin@trendora.in / admin123\n"
-        "owner@trendora.in / owner123"
+        "demo@trendify.in / demo123\n"
+        "reseller@trendify.in / reseller123\n"
+        "seller@trendify.in / seller123\n"
+        "admin@trendify.in / admin123\n"
+        "owner@trendify.in / owner123"
     )
     g.h2("Coupons again")
     g.p("TREND10 · FESTIVE20 · WELCOME100 · FREESHIP · INSIDER15")
@@ -976,7 +976,7 @@ def build():
     )
     g.h2("If you remember only 8 lines")
     g.p(
-        "1. Trendora is a simulated Indian shop with 5 logins.\n"
+        "1. Trendify is a simulated Indian shop with 5 logins.\n"
         "2. Customer path: shop -> PDP -> bag -> coupon -> fake pay -> TRD id.\n"
         "3. Reseller shares ?ref= and earns 8%.\n"
         "4. Seller lists SKUs. Admin moves the parcel states. Owner makes staff.\n"
@@ -1029,7 +1029,7 @@ def build():
     g.step(11, "Deploy. Do not touch Environment Variables.")
     g.step(12, "When it says Congratulations, click Visit. Bookmark the URL.")
     g.step(13, "Send the URL to yourself on WhatsApp so you do not lose it.")
-    g.step(14, "On the phone, login owner@trendora.in and show the dashboard. Mobile proof = real hosting.")
+    g.step(14, "On the phone, login owner@trendify.in and show the dashboard. Mobile proof = real hosting.")
     g.p(
         "If Deploy is grey: you did not pick a repo. If build is red: open Building log, screenshot it, read the last 20 lines. "
         "90% of the time it is 'command not found' because Root Directory was set to something random - clear it."
@@ -1040,7 +1040,7 @@ def build():
         "Write these sentences on the last page of your rough book:"
     )
     g.p(
-        "My project name is Trendora.\n"
+        "My project name is Trendify.\n"
         "It is a shopping website like Myntra and Meesho.\n"
         "There are five logins: customer, reseller, seller, admin, owner.\n"
         "Customer can buy with a fake UPI.\n"
@@ -1066,10 +1066,10 @@ def build():
 
     g.h1("Appendix D - Teacher one-pager (print this)")
     g.p(
-        "Project: Trendora - multi-authority shopping website.\n"
+        "Project: Trendify - multi-authority shopping website.\n"
         "Inspiration: Myntra + Meesho + Flipkart (UX only).\n"
         "Stack: React 18, Vite 5, React Router 6, Context API.\n"
-        "Persistence: localStorage key trendora-store-v2.\n"
+        "Persistence: localStorage key trendify-store-v2.\n"
         "Auth: 5 roles, SHA-256 demo passwords, 6-fail lockout.\n"
         "Hosting: static SPA on Vercel / Netlify free tier.\n"
         "Payments: simulated UPI / card / COD / EMI.\n"
@@ -1119,9 +1119,9 @@ def build():
         "Agar English steps tez lage, yahan wahi customer journey Hindi-simple mein hai. "
         "Preview ya Vercel link Chrome mein kholo."
     )
-    g.step(1, "Upar Trendora likha dikhna chahiye", "Nahi dikha to refresh. Phir bhi nahi to galat link hai.")
+    g.step(1, "Upar Trendify likha dikhna chahiye", "Nahi dikha to refresh. Phir bhi nahi to galat link hai.")
     g.step(2, "Login pe jao", "Upar wala person icon, ya seedha /login type karo.")
-    g.step(3, "Customer card dabaao", "demo@trendora.in wala bada card. Ek click. Ab aap Aisha ho.")
+    g.step(3, "Customer card dabaao", "demo@trendify.in wala bada card. Ek click. Ab aap Aisha ho.")
     g.step(4, "Search mein dress likho", "Enter dabaao. Floral midi dress dikhegi.")
     g.step(5, "Dress kholo", "Photo badi hogi. Size M chuno. PIN 411001 likho, Check dabaao.")
     g.step(6, "Add to bag", "Gulabi button. Neeche kaala message 'Added to bag'.")
@@ -1138,8 +1138,8 @@ def build():
     g.step(1, "Chrome mein site kholo", "Login as customer, add one item to bag.")
     g.step(2, "F12 dabaao", "A side panel opens. This is DevTools. It looks scary. Ignore most of it.")
     g.step(3, "Application tab", "Left list -> Local Storage -> your site origin.")
-    g.step(4, "Key trendora-store-v2", "Click it. A long JSON appears: user, cart, orders. That is the entire 'database'.")
-    g.step(5, "Session Storage", "trendora-lock appears after failed logins.")
+    g.step(4, "Key trendify-store-v2", "Click it. A long JSON appears: user, cart, orders. That is the entire 'database'.")
+    g.step(5, "Session Storage", "trendify-lock appears after failed logins.")
     g.p(
         "Say: 'Because this is a frontend-only college build, the document store is Web Storage, not MySQL. "
         "A production swap would be fetch('/api/orders').'"
@@ -1178,27 +1178,27 @@ def build():
     g.p("Send this to your project guide after Vercel works:")
     g.p(
         "Respected Sir/Madam,\n\n"
-        "Please find the live demo of my project Trendora (multi-authority shopping website).\n\n"
+        "Please find the live demo of my project Trendify (multi-authority shopping website).\n\n"
         "Live site: <PASTE VERCEL URL>\n"
         "GitHub: <PASTE GITHUB URL>\n\n"
         "Demo logins (also in README):\n"
-        "Customer demo@trendora.in / demo123\n"
-        "Reseller reseller@trendora.in / reseller123\n"
-        "Seller seller@trendora.in / seller123\n"
-        "Admin admin@trendora.in / admin123\n"
-        "Owner owner@trendora.in / owner123\n\n"
+        "Customer demo@trendify.in / demo123\n"
+        "Reseller reseller@trendify.in / reseller123\n"
+        "Seller seller@trendify.in / seller123\n"
+        "Admin admin@trendify.in / admin123\n"
+        "Owner owner@trendify.in / owner123\n\n"
         "Payment is simulated. Documents PDF/Word/PPT are inside /documents.\n\n"
         "Thank you."
     )
     g.h2("Pen-drive folder names")
     g.p(
-        "Make a folder TRENDORA_SUBMISSION with:\n"
+        "Make a folder TRENDIFY_SUBMISSION with:\n"
         "01_Live_URL.txt\n"
-        "02_Trendora_Beginner_Complete_Guide.pdf\n"
-        "03_Trendora_Project_Report.pdf\n"
-        "04_Trendora_Project_Report.docx\n"
-        "05_Trendora_Presentation.pptx\n"
-        "06_Trendora_How_It_Was_Built.pdf\n"
+        "02_Trendify_Beginner_Complete_Guide.pdf\n"
+        "03_Trendify_Project_Report.pdf\n"
+        "04_Trendify_Project_Report.docx\n"
+        "05_Trendify_Presentation.pptx\n"
+        "06_Trendify_How_It_Was_Built.pdf\n"
         "07_source_zip (optional, without node_modules)"
     )
 
@@ -1243,8 +1243,8 @@ def build():
     )
     g.p("This is the last page of extra practice. Go back to Chapter 5 and actually click the site now.")
 
-    dest1 = OUT_DOCS / "Trendora_Beginner_Complete_Guide.pdf"
-    dest2 = OUT_DL / "Trendora_Beginner_Complete_Guide.pdf"
+    dest1 = OUT_DOCS / "Trendify_Beginner_Complete_Guide.pdf"
+    dest2 = OUT_DL / "Trendify_Beginner_Complete_Guide.pdf"
     g.output(str(dest1))
     dest2.write_bytes(dest1.read_bytes())
     pages = g.page_no()

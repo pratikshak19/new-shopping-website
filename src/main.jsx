@@ -5,6 +5,7 @@ import App from './App.jsx'
 import { StoreProvider } from './context/StoreContext.jsx'
 import ErrorBoundary from './components/ErrorBoundary.jsx'
 import './index.css'
+import './lib/firebase.js'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

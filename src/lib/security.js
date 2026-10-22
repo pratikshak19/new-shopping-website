@@ -28,7 +28,7 @@ export function validPhone(phone) {
   return /^[6-9]\d{9}$/.test(String(phone).replace(/\s/g, ''))
 }
 
-const LOCK_KEY = 'trendora-lock'
+const LOCK_KEY = 'trendify-lock'
 const MAX_FAILS = 6
 
 export function loginAllowed() {
@@ -55,7 +55,7 @@ export function clearLoginFails() {
   sessionStorage.removeItem(LOCK_KEY)
 }
 
-const OTP_KEY = 'trendora-otp'
+const OTP_KEY = 'trendify-otp'
 export const DEMO_OTP = '1923'
 
 export function issueOtp({ email, phone = '', purpose = 'login' }) {

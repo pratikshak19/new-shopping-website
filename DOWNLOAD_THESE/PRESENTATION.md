@@ -1,6 +1,6 @@
-# Trendora presentation outline
+# Trendify presentation outline
 
-## Slide 1: Trendora
+## Slide 1: Trendify
 
 Personalized Smart Shopping
 Myntra-style shop + private admin
@@ -57,7 +57,7 @@ Smart cart  |  Student Mode + CAMPUS10
 ## Slide 10: Admin desk
 
 Hidden /staff
-admin@trendora.in / admin123
+admin@trendify.in / admin123
 3-step Add item -> Publish
 Orders / returns / coupons
 

@@ -41,7 +41,7 @@ export default function PaySheet({ amount, onClose, onPaid }) {
         <header className="rzp-head">
           <div>
             <p className="eyebrow" style={{ color: '#93c5fd' }}>Secure checkout</p>
-            <h2 id="rzp-title">Trendora Pay</h2>
+            <h2 id="rzp-title">Trendify Pay</h2>
             <p>Amount {formatINR(amount)}</p>
           </div>
           <button type="button" className="icon-btn" style={{ color: '#fff' }} onClick={onClose} aria-label="Close payment">

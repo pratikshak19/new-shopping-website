@@ -98,11 +98,11 @@ export default function Home() {
       <section className="wrap" style={{ padding: '28px 0 0' }}>
         <div className="why-visit">
           <article>
-            <p className="eyebrow">Why visit Trendora</p>
+            <p className="eyebrow">Why visit Trendify</p>
             <h2>A full shopping website that still thinks.</h2>
             <p className="muted">
               Fashion, electronics, beauty, home, kids and stationery in one mall. Other clones only list SKUs.
-              Trendora builds kits across departments — campus starter, glow kit, room refresh, tech drop — under one budget.
+              Trendify builds kits across departments — campus starter, glow kit, room refresh, tech drop — under one budget.
             </p>
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 16 }}>
               <Link className="btn btn-primary" to="/kits">Shop lifestyle kits</Link>
@@ -286,7 +286,7 @@ export default function Home() {
             <p className="eyebrow" style={{ color: 'var(--rose)' }}>Studio edit</p>
             <h3>Looks, not just listings.</h3>
             <p className="muted">
-              Trendora is built like a fashion magazine that also checks out. Open Studio for editorials
+              Trendify is built like a fashion magazine that also checks out. Open Studio for editorials
               or Insider for points. Shopping is for customers only.
             </p>
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 18 }}>
@@ -304,7 +304,7 @@ export default function Home() {
       <section className="sec wrap" style={{ paddingTop: 0 }}>
         <div className="brand-row">
           <Link className="chip" to="/offers">Bank &amp; coupon offers</Link>
-          <Link className="chip" to="/insider">Trendora Insider</Link>
+          <Link className="chip" to="/insider">Trendify Insider</Link>
           <Link className="chip" to="/brands">Shop by brand</Link>
           <Link className="chip" to="/studio">Studio looks</Link>
           <Link className="chip" to="/compare">Compare</Link>

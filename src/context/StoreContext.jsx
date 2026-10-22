@@ -22,7 +22,8 @@ import {
 } from '../lib/security'
 
 const StoreContext = createContext(null)
-const KEY = 'trendora-store-v2'
+const KEY = 'trendify-store-v2'
+const LEGACY_KEY = 'trendora-store-v2'
 
 export function uid(prefix) {
   return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`
@@ -31,12 +32,12 @@ export function uid(prefix) {
 const ALLOWED_ROLES = ['admin', 'customer']
 
 export const SEED_USERS = [
-  { id: 'u-admin', name: 'Store Admin', email: 'admin@trendora.in', password: '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', phone: '9000000002', role: 'admin', points: 200, shopName: '', blocked: false, joined: '2025-07-12T10:00:00.000Z' },
-  { id: 'u-demo', name: 'Aisha Verma', email: 'demo@trendora.in', password: 'd3ad9315b7be5dd53b31a273b3b3aba5defe700808305aa16a3062b76658a791', phone: '9876543210', role: 'customer', points: 860, shopName: '', blocked: false, joined: '2025-09-18T10:00:00.000Z' },
+  { id: 'u-admin', name: 'Store Admin', email: 'admin@trendify.in', password: '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', phone: '9000000002', role: 'admin', points: 200, shopName: '', blocked: false, joined: '2025-07-12T10:00:00.000Z' },
+  { id: 'u-demo', name: 'Aisha Verma', email: 'demo@trendify.in', password: 'd3ad9315b7be5dd53b31a273b3b3aba5defe700808305aa16a3062b76658a791', phone: '9876543210', role: 'customer', points: 860, shopName: '', blocked: false, joined: '2025-09-18T10:00:00.000Z' },
 ]
 
 function keepAccounts(list = []) {
-  return list.filter((u) => u && ALLOWED_ROLES.includes(u.role) && !['owner@trendora.in', 'seller@trendora.in', 'reseller@trendora.in'].includes(u.email))
+  return list.filter((u) => u && ALLOWED_ROLES.includes(u.role) && !['owner@trendify.in', 'seller@trendify.in', 'reseller@trendify.in'].includes(u.email))
 }
 
 function seedCoupons() {
@@ -72,11 +73,26 @@ function strip(u) {
   return rest
 }
 
+function migrateBrand(value) {
+  if (!value || typeof value !== 'object') return value
+  return {
+    ...value,
+    email: value.email?.replace('@trendora.in', '@trendify.in'),
+  }
+}
+
 function load() {
   try {
-    const raw = JSON.parse(localStorage.getItem(KEY))
+    const raw = JSON.parse(localStorage.getItem(KEY) || localStorage.getItem(LEGACY_KEY))
     if (!raw || raw.version !== 2) return null
-    return raw
+    return {
+      ...raw,
+      user: migrateBrand(raw.user),
+      users: Array.isArray(raw.users) ? raw.users.map(migrateBrand) : raw.users,
+      settings: raw.settings
+        ? { ...raw.settings, storeName: raw.settings.storeName === 'Trendora' ? 'Trendify' : raw.settings.storeName }
+        : raw.settings,
+    }
   } catch {
     return null
   }
@@ -139,7 +155,7 @@ export function StoreProvider({ children }) {
   const [styleMood, setStyleMood] = useState(saved?.styleMood || '')
   const [settings, setSettings] = useState(
     saved?.settings || {
-      storeName: 'Trendora',
+      storeName: 'Trendify',
       announcement: 'Festive edit is live · FESTIVE20 · Free delivery above ₹999',
       freeShipMin: 999,
       shipFee: 79,
@@ -152,17 +168,17 @@ export function StoreProvider({ children }) {
 
   useEffect(() => {
     const mark = () => {
-      sessionStorage.setItem('trendora-active', String(Date.now()))
+      sessionStorage.setItem('trendify-active', String(Date.now()))
     }
     mark()
     const onMove = () => mark()
     window.addEventListener('pointerdown', onMove)
     window.addEventListener('keydown', onMove)
     const t = setInterval(() => {
-      const last = Number(sessionStorage.getItem('trendora-active') || Date.now())
+      const last = Number(sessionStorage.getItem('trendify-active') || Date.now())
       if (Date.now() - last > 30 * 60 * 1000) {
         setUser(null)
-        sessionStorage.removeItem('trendora-active')
+        sessionStorage.removeItem('trendify-active')
       }
     }, 60 * 1000)
     return () => {
@@ -348,7 +364,7 @@ export function StoreProvider({ children }) {
     return afterLogin(found)
   }
 
-  const loginDemo = () => loginAs('demo@trendora.in')
+  const loginDemo = () => loginAs('demo@trendify.in')
 
   const logout = () => {
     setUser(null)

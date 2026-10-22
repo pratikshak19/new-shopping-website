@@ -124,7 +124,7 @@ export default function Style() {
       <div className="page-hero">
         <p className="eyebrow">Personalized Smart Shopping</p>
         <h1>Style assistant</h1>
-        <p className="muted">Type a wish, pick a mood, lock a budget, or upload a photo — Trendora builds a complete look.</p>
+        <p className="muted">Type a wish, pick a mood, lock a budget, or upload a photo — Trendify builds a complete look.</p>
       </div>
 
       <div className="smart-bar">
@@ -209,7 +209,7 @@ export default function Style() {
 
       {tab === 'budget' && (
         <section className="style-panel">
-          <p className="muted">Trendora will only build a complete look inside this budget.</p>
+          <p className="muted">Trendify will only build a complete look inside this budget.</p>
           <input
             className="range"
             type="range"
@@ -231,7 +231,7 @@ export default function Style() {
         <section className="style-panel">
           <div className="ask-box">
             <label>Find similar products</label>
-            <p className="muted">Upload a dress photo. Trendora matches colour tone on this device — nothing is sent to a server.</p>
+            <p className="muted">Upload a dress photo. Trendify matches colour tone on this device — nothing is sent to a server.</p>
             <input type="file" accept="image/*" onChange={(e) => onPhoto(e.target.files?.[0])} />
             {photoUrl && <img src={photoUrl} alt="Uploaded reference" className="photo-ref" />}
             {photoNote && <p className="muted">{photoNote}</p>}

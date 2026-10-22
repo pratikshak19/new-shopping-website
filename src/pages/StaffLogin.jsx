@@ -36,14 +36,14 @@ export default function StaffLogin() {
         <div className="eyebrow">Private</div>
         <h1>Admin desk</h1>
         <p className="muted">
-          Trendora has two accounts only: customer (public shop) and admin (this desk). Owner, seller and reseller
+          Trendify has two accounts only: customer (public shop) and admin (this desk). Owner, seller and reseller
           logins are not part of the project.
         </p>
         <button
           type="button"
           className="role-card"
           onClick={() => {
-            const res = loginAs('admin@trendora.in')
+            const res = loginAs('admin@trendify.in')
             if (!res.ok) setErr(res.error)
             else go()
           }}
@@ -51,7 +51,7 @@ export default function StaffLogin() {
           <span className="role-pill" style={{ background: ROLE_META.admin.color }}>
             Admin
           </span>
-          <strong>admin@trendora.in</strong>
+          <strong>admin@trendify.in</strong>
           <span className="muted">password admin123</span>
         </button>
         <div className="field">

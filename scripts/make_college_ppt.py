@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Trendora college viva PowerPoint."""
+"""Trendify college viva PowerPoint."""
 from pptx import Presentation
 from pptx.dml.color import RGBColor
 from pptx.enum.shapes import MSO_SHAPE
@@ -106,7 +106,7 @@ def build():
     k = tb(s, Inches(0.9), Inches(1.6), Inches(11), Inches(0.4))
     add_text(k, ["COLLEGE PROJECT  ·  SHOPPING WEBSITE"], 14, True, ROSE)
     t = tb(s, Inches(0.9), Inches(2.1), Inches(11.5), Inches(1.3))
-    add_text(t, ["Trendora"], 60, True, WHITE, font="Georgia")
+    add_text(t, ["Trendify"], 60, True, WHITE, font="Georgia")
     sub = tb(s, Inches(0.9), Inches(3.4), Inches(11), Inches(1.2))
     add_text(sub, ["Shop the trend. Live the style.", "A full mall — fashion, electronics, beauty, home and kids — with smart kits, not only clothes."], 20, False, RGBColor(0xD9, 0xD2, 0xCC))
     foot = tb(s, Inches(0.9), Inches(6.95), Inches(11), Inches(0.4))
@@ -116,7 +116,7 @@ def build():
     s = prs.slides.add_slide(blank)
     title_bar(s, "Overview", "What we will cover")
     bullets(s, [
-        "Why Trendora — problem and goal",
+        "Why Trendify — problem and goal",
         "Who uses the site — customer vs admin",
         "Shopping features (Myntra / Meesho style)",
         "What makes it unique — quiz, kits, festivals",
@@ -136,7 +136,7 @@ def build():
 
     # 4 goal
     s = prs.slides.add_slide(blank)
-    title_bar(s, "Objective", "What Trendora must do")
+    title_bar(s, "Objective", "What Trendify must do")
     bullets(s, [
         "One shopping website for many departments — not a clothing boutique, not Blinkit grocery.",
         "Customer can browse, filter, bag, coupon, pay (demo) and track an order.",
@@ -159,8 +159,8 @@ def build():
     s = prs.slides.add_slide(blank)
     title_bar(s, "Users", "Only two accounts")
     cards(s, [
-        ("Customer  ·  /login", "First name, last name, any email, password. Then OTP 1923. New email creates an account. Shop, bag, checkout, orders.", "demo@trendora.in / demo123"),
-        ("Admin  ·  /staff", "Private desk. Add item, hide SKU, move order status, coupons, returns. Customers who type /admin are sent home.", "admin@trendora.in / admin123"),
+        ("Customer  ·  /login", "First name, last name, any email, password. Then OTP 1923. New email creates an account. Shop, bag, checkout, orders.", "demo@trendify.in / demo123"),
+        ("Admin  ·  /staff", "Private desk. Add item, hide SKU, move order status, coupons, returns. Customers who type /admin are sent home.", "admin@trendify.in / admin123"),
         ("Not in this project", "Owner, seller and reseller doors were removed so the viva stays clear: shop vs catalogue control.", "Two roles only"),
     ])
 
@@ -178,7 +178,7 @@ def build():
 
     # 8 unique
     s = prs.slides.add_slide(blank)
-    title_bar(s, "Differentiators", "Why visit Trendora — not another clone")
+    title_bar(s, "Differentiators", "Why visit Trendify — not another clone")
     bullets(s, [
         "60-second Style Quiz (/quiz) — occasion, budget, vibe, gender → complete look + add full look.",
         "Look of the day on Home — changes with the calendar, campus budget.",
@@ -196,7 +196,7 @@ def build():
         "Complete-the-look on the product page (matching shoes, bag, extra).",
         "Why we recommend this + Eco score + Student Mode.",
         "Smart cart: “your look is almost complete — add this?”",
-        "All of this stays on the same Trendora shop — we did not build a second website.",
+        "All of this stays on the same Trendify shop — we did not build a second website.",
     ])
 
     # 10 admin
@@ -217,7 +217,7 @@ def build():
         "Guest may browse and fill the bag. Checkout / Buy now without login → /login?next=/checkout.",
         "After OTP 1923 the shopper returns to checkout. Bag is not lost.",
         "placeOrder refuses anyone who is not a customer.",
-        "Payment: Trendora Pay sheet (UPI, cards, netbanking, wallets) or COD — demo, no charge, no bank details.",
+        "Payment: Trendify Pay sheet (UPI, cards, netbanking, wallets) or COD — demo, no charge, no bank details.",
         "Admin never needs OTP 1923. Staff password is separate.",
     ])
 
@@ -304,7 +304,7 @@ def build():
     title_bar(s, "Conclusion", "One sentence for the examiner")
     box = tb(s, Inches(0.9), Inches(1.8), Inches(11.4), Inches(3.5))
     add_text(box, [
-        "Trendora is a full shopping website, not a clothing boutique and not a quick-commerce app.",
+        "Trendify is a full shopping website, not a clothing boutique and not a quick-commerce app.",
         "",
         "It copies the useful habits of Myntra and Flipkart, then adds decision tools — quiz, kits, festivals — while keeping a private admin desk and a simulated, safe checkout for college.",
     ], 22, False, INK)
@@ -322,12 +322,12 @@ def build():
         "Quiz  ·  Kits  ·  Festivals  ·  /documents",
     ], 18, False, RGBColor(0xD9, 0xD2, 0xCC))
     f = tb(s, Inches(0.9), Inches(6.95), Inches(11), Inches(0.4))
-    add_text(f, ["Trendora  ·  Shop the trend. Live the style."], 14, False, WHITE)
+    add_text(f, ["Trendify  ·  Shop the trend. Live the style."], 14, False, WHITE)
 
     out = [
-        "/home/user/new-shopping-website/COLLEGE_DOCUMENTS/Trendora_College_Presentation.pptx",
-        "/home/user/new-shopping-website/DOWNLOAD_THESE/Trendora_College_Presentation.pptx",
-        "/home/user/new-shopping-website/public/docs/Trendora_College_Presentation.pptx",
+        "/home/user/new-shopping-website/COLLEGE_DOCUMENTS/Trendify_College_Presentation.pptx",
+        "/home/user/new-shopping-website/DOWNLOAD_THESE/Trendify_College_Presentation.pptx",
+        "/home/user/new-shopping-website/public/docs/Trendify_College_Presentation.pptx",
     ]
     for path in out:
         prs.save(path)

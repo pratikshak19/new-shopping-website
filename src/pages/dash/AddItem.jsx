@@ -196,7 +196,7 @@ export default function AddItem() {
       )}
 
       <ol className="plain-list" style={{ marginTop: 22, maxWidth: 640 }}>
-        <li>Sign in as <strong>admin@trendora.in / admin123</strong>.</li>
+        <li>Sign in as <strong>admin@trendify.in / admin123</strong>.</li>
         <li>Admin desk → Add a new item (this page).</li>
         <li>Fill name + brand → Next → price/stock → Next → pick photo → Publish.</li>
         <li>Open Shop — the new card appears at the top (tag: new).</li>

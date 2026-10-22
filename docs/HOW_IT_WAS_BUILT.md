@@ -1,8 +1,8 @@
-# How Trendora was built
+# How Trendify was built
 
-## How Trendora was built — overview
+## How Trendify was built — overview
 
-This note is the viva construction log. It is not a second website. Every step happened on the same Trendora React app (Vite + React 18).
+This note is the viva construction log. It is not a second website. Every step happened on the same Trendify React app (Vite + React 18).
 
 Stack: HTML/CSS/JS via React components, React Router, Context API, localStorage, a pure-JS style engine, and Python only to print these college files.
 
@@ -12,7 +12,7 @@ Vite React project in the repository root. npm install. npm run dev --host 0.0.0
 
 ## Step 2 — Brand and UI
 
-Name Trendora (trend + kart energy). Rose #ff3f6c on navy #1a1a2e. Playfair + Outfit fonts. Logo in public/images. Design tokens in src/index.css. Home hero, category tiles, deal timer.
+Name Trendify (trend + kart energy). Rose #ff3f6c on navy #1a1a2e. Playfair + Outfit fonts. Logo in public/images. Design tokens in src/index.css. Home hero, category tiles, deal timer.
 
 ## Step 3 — Catalogue
 
@@ -20,7 +20,7 @@ src/data/products.js holds SKUs, brands, coupons, size charts, PIN helper, INR f
 
 ## Step 4 — Commerce state
 
-src/context/StoreContext.jsx is the application layer: cart, wishlist, orders, coupons, reviews, tickets, persist to trendora-store-v2. placeOrder sanitises address, checks stock and PIN.
+src/context/StoreContext.jsx is the application layer: cart, wishlist, orders, coupons, reviews, tickets, persist to trendify-store-v2. placeOrder sanitises address, checks stock and PIN.
 
 ## Step 5 — Shopper journey
 
@@ -55,14 +55,14 @@ T8 Photo upload lists similar products — Pass
 T9 Eco filter 8+ reduces catalogue — Pass
 T10 Smart cart suggests missing accessory — Pass
 T11 Student Mode + CAMPUS10 applies only when mode is on — Pass
-T12 Public /login rejects admin@trendora.in — Pass
+T12 Public /login rejects admin@trendify.in — Pass
 T13 /staff admin can publish a new SKU; it appears on Shop — Pass
 T14 Customer OTP accepts on-screen code or 123456 — Pass
 T15 FESTIVE20 rejected below Rs 1999 — Pass
 T16 Place order empties bag and drops stock — Pass
 T17 Admin pipeline Packed -> Delivered; customer can request return — Pass
 T18 /admin as customer redirects home — Pass
-T19 Refresh keeps session (trendora-store-v2) — Pass
+T19 Refresh keeps session (trendify-store-v2) — Pass
 
 ## Appendix A — How to run
 
@@ -75,9 +75,9 @@ Regenerate these documents: .venv-docs/bin/python scripts/generate_docs.py
 
 ## Appendix B — User manuals
 
-Customer: /login demo@trendora.in / demo123 -> OTP -> shop or /style -> bag -> CAMPUS10 (if Student Mode) or FESTIVE20 -> checkout. Payments are fake.
+Customer: /login demo@trendify.in / demo123 -> OTP -> shop or /style -> bag -> CAMPUS10 (if Student Mode) or FESTIVE20 -> checkout. Payments are fake.
 
-Admin (site owner only): footer Staff or type /staff -> admin@trendora.in / admin123 -> Add a new item (3 steps) -> Publish -> open Shop. Catalogue Edit / Hide. Orders pipeline.
+Admin (site owner only): footer Staff or type /staff -> admin@trendify.in / admin123 -> Add a new item (3 steps) -> Publish -> open Shop. Catalogue Edit / Hide. Orders pipeline.
 
 Style Assistant: Nav Style -> type a Hindi/English wish -> Suggest complete outfit -> Add full look to bag.
 

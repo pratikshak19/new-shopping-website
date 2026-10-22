@@ -15,7 +15,7 @@ export default function Festivals() {
         <p className="eyebrow">Festival Radar</p>
         <h1>Dress the date, not just the catalogue.</h1>
         <p className="muted">
-          Indian calendars run the closet. Trendora builds a complete look for the next festival — days left, budget cap,
+          Indian calendars run the closet. Trendify builds a complete look for the next festival — days left, budget cap,
           campus crowd score.
         </p>
       </div>
