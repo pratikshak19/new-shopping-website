@@ -26,8 +26,8 @@ without changing the site's design, layout, theme or existing features.
 | Base catalogue | 60 (td-1001…td-2008) | Live |
 | Batch 1 (Oct 2026) | +10 (td-3001…td-3010): Women ×8, Men ×2 | Live |
 | Batch 2 | +10 (td-3011…td-3020): Kids ×5, Electronics ×5 | Live |
-| Batch 3 | +10 (td-3021…td-3030): Kids ×3, Electronics ×3, Home ×4 | In this release |
-| Batch 4 | +10 (td-3031…td-3040): Home ×4, Beauty ×6 | Queued |
+| Batch 3 | +10 (td-3021…td-3030): Kids ×3, Electronics ×3, Home ×4 | Live |
+| Batch 4 | +10 (td-3031…td-3040): Home ×4, Beauty ×6 | In this release |
 | Batch 5 | +10 (td-3041…td-3050): Beauty ×2, Footwear ×6, Accessories ×2 | Queued |
 | Batch 6 | +8 (td-3051…td-3058): Men ×6, Accessories ×2 | Queued |
 | **Target total** | **118 products, every category ≥ 11** | |
