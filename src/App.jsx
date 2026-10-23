@@ -7,6 +7,8 @@ import Seo from './components/Seo'
 import RequireRole from './components/RequireRole'
 import Home from './pages/Home'
 import Shop from './pages/Shop'
+import Collections from './pages/Collections'
+import Rentals from './pages/Rentals'
 import ProductDetail from './pages/ProductDetail'
 import Cart from './pages/Cart'
 import Checkout from './pages/Checkout'
@@ -59,6 +61,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
+          <Route path="/collections" element={<Collections />} />
+          <Route path="/rentals" element={<Rentals />} />
           <Route path="/style" element={<Style />} />
           <Route path="/quiz" element={<Quiz />} />
           <Route path="/festivals" element={<Festivals />} />

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CATEGORIES, formatINR } from '../../data/products'
+import { CATEGORIES, collectionById, formatINR } from '../../data/products'
 import { useStore } from '../../context/StoreContext'
 
 const blank = {
@@ -138,6 +138,7 @@ export default function ProductsAdmin({ role }) {
               <th>SKU</th>
               <th>Name</th>
               <th>Price</th>
+              <th>Listing</th>
               <th>Stock</th>
               <th></th>
             </tr>
@@ -151,6 +152,10 @@ export default function ProductsAdmin({ role }) {
                   <div className="muted">{p.brand}</div>
                 </td>
                 <td>{formatINR(p.price)}</td>
+                <td>
+                  {p.rentalOnly ? `Rent only · ${formatINR(p.rental?.perDay || 0)}/day` : p.rental ? `Buy + Rent · ${formatINR(p.rental.perDay)}/day` : 'Buy'}
+                  <div className="muted">{(p.collections || []).map((id) => collectionById(id)?.name).filter(Boolean).join(', ') || 'No collection'}</div>
+                </td>
                 <td>{p.stock}</td>
                 <td>
                   {boss && (

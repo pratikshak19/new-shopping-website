@@ -1,4 +1,5 @@
 import { styleProduct } from '../lib/styleEngine'
+import { EXPANSION_PRODUCTS } from './catalogExpansion'
 
 export const CATEGORIES = [
   { id: 'women', name: 'Women', image: '/images/cat-women.jpg', blurb: 'Ethnic, western & fusion' },
@@ -14,6 +15,7 @@ export const CATEGORIES = [
 export const BRANDS = [
   'Aurelia', 'NexWear', 'UrbanThread', 'Lumina', 'Voltix',
   'CasaLuxe', 'GlowLab', 'Stride', 'Oriel', 'KiteKids',
+  'Vastra', 'NorthPeak', 'PixelPro', 'NestKraft', 'Botanica',
 ]
 
 export const COUPONS = {
@@ -83,6 +85,78 @@ export const BANK_OFFERS = [
   { bank: 'SBI', text: '₹200 off on SBI UPI · min ₹1,499', extra: 200, min: 1499, flat: true },
   { bank: 'AXIS', text: 'No-cost EMI on Axis for 3 months · min ₹4,999', extra: 0, min: 4999, emi: true },
 ]
+
+export const COLLECTIONS = [
+  {
+    id: 'new-season',
+    name: 'New Season Drop',
+    kicker: 'Just launched',
+    description: 'Fresh gowns, pastel festive sets, tailored suits and new silhouettes added for this season.',
+    image: '/images/products/pastel-organza-anarkali.jpg',
+  },
+  {
+    id: 'wedding-festive',
+    name: 'Wedding & Festive Edit',
+    kicker: 'Occasion ready',
+    description: 'Lehengas, sarees, sherwanis, gowns and celebration pieces for weddings, sangeets and festive nights.',
+    image: '/images/products/emerald-bridal-lehenga.jpg',
+  },
+  {
+    id: 'rental-occasion',
+    name: 'Rent the Look',
+    kicker: 'Wear more, own less',
+    description: 'Premium occasionwear available for 2–10 days with cleaning, doorstep delivery and scheduled pickup.',
+    image: '/images/products/scarlet-sequin-gown.jpg',
+  },
+  {
+    id: 'campus',
+    name: 'Campus Edit',
+    kicker: 'Student friendly',
+    description: 'Easy everyday fits, sneakers, bags and budget-friendly layers made for college days.',
+    image: '/images/products/campus-crop.jpg',
+  },
+  {
+    id: 'workwear',
+    name: 'Workwear Refresh',
+    kicker: 'Polished & practical',
+    description: 'Blazers, shirts, pantsuits and clean tailoring for office, interviews and presentations.',
+    image: '/images/products/ivory-pantsuit.jpg',
+  },
+  {
+    id: 'ethnic',
+    name: 'Ethnic Heritage',
+    kicker: 'Indian craft',
+    description: 'Kurtas, sarees, lehengas and festive sets inspired by handloom and heritage embroidery.',
+    image: '/images/products/saree.jpg',
+  },
+  {
+    id: 'weekend',
+    name: 'Weekend Casuals',
+    kicker: 'Off-duty favourites',
+    description: 'Relaxed co-ords, tees, denim, hoodies and sneakers for slow weekends and city plans.',
+    image: '/images/products/coord.jpg',
+  },
+  {
+    id: 'premium',
+    name: 'Premium Occasionwear',
+    kicker: 'Statement pieces',
+    description: 'Higher-value occasion pieces with richer fabrics, detailed finishing and limited stock.',
+    image: '/images/products/lehenga.jpg',
+  },
+  {
+    id: 'conscious',
+    name: 'Conscious Picks',
+    kicker: 'Eco score 8+',
+    description: 'Better-rated picks across natural fibres, handcrafted details and lower-impact materials.',
+    image: '/images/products/kurta.jpg',
+  },
+]
+
+export const RENTAL_DAY_OPTIONS = [2, 4, 7, 10]
+
+export function collectionById(id) {
+  return COLLECTIONS.find((c) => c.id === id)
+}
 
 export const PRODUCTS = [
   {
@@ -883,7 +957,7 @@ export const PRODUCTS = [
     rating: 4.5,
     reviews: 388,
     stock: 26,
-    colors: ['Black', 'Sand'],
+    colors: ['Sand', 'Black'],
     sizes: ['14 inch'],
     image: '/images/products/laptop-sleeve.jpg',
     gallery: ['/images/products/laptop-sleeve.jpg'],
@@ -1053,18 +1127,293 @@ export const PRODUCTS = [
     description: 'Gold-plated bracelet with freshwater-look pearls. 60% off jewellery extra.',
     highlights: ['Gold plated', 'Hypoallergenic', '60% off'],
   },
+  {
+    id: 'td-2001',
+    name: 'Scarlet Sequin Evening Gown',
+    brand: 'Oriel',
+    category: 'women',
+    price: 8999,
+    mrp: 12999,
+    rating: 4.8,
+    reviews: 214,
+    stock: 6,
+    colors: ['Scarlet'],
+    sizes: ['XS', 'S', 'M', 'L', 'XL'],
+    image: '/images/products/scarlet-sequin-gown.jpg',
+    gallery: ['/images/products/scarlet-sequin-gown.jpg'],
+    tags: ['new', 'premium', 'party', 'Dresses'],
+    collections: ['new-season', 'wedding-festive', 'rental-occasion', 'premium'],
+    rentalOnly: true,
+    rental: { perDay: 799, deposit: 3000, minDays: 2, maxDays: 10, occasions: ['Party', 'Reception', 'Cocktail'] },
+    description:
+      'A floor-length scarlet sequin gown created for rental-first occasion dressing. Fully lined, professionally cleaned after every wear and delivered with a garment bag.',
+    highlights: ['Rent for 2–10 days', 'Professional cleaning included', 'Refundable deposit', 'Garment bag included'],
+  },
+  {
+    id: 'td-2002',
+    name: 'Emerald Zardozi Bridal Lehenga',
+    brand: 'Aurelia',
+    category: 'women',
+    price: 18999,
+    mrp: 25999,
+    rating: 4.9,
+    reviews: 186,
+    stock: 4,
+    colors: ['Emerald'],
+    sizes: ['S', 'M', 'L', 'XL'],
+    image: '/images/products/emerald-bridal-lehenga.jpg',
+    gallery: ['/images/products/emerald-bridal-lehenga.jpg'],
+    tags: ['new', 'premium', 'festive', 'ethnic'],
+    collections: ['new-season', 'wedding-festive', 'rental-occasion', 'ethnic', 'premium'],
+    rental: { perDay: 1499, deposit: 6000, minDays: 2, maxDays: 10, occasions: ['Wedding', 'Sangeet', 'Reception'] },
+    description:
+      'Emerald bridal lehenga with gold zardozi-inspired embroidery, structured blouse and sheer dupatta. Buy it forever or rent it for the celebration weekend.',
+    highlights: ['Buy or rent', 'Zardozi-style embroidery', 'Dupatta included', 'Dry clean only'],
+  },
+  {
+    id: 'td-2003',
+    name: 'Midnight Velvet Tuxedo Set',
+    brand: 'NexWear',
+    category: 'men',
+    price: 11999,
+    mrp: 16999,
+    rating: 4.7,
+    reviews: 164,
+    stock: 5,
+    colors: ['Midnight Navy'],
+    sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+    image: '/images/products/midnight-tuxedo.jpg',
+    gallery: ['/images/products/midnight-tuxedo.jpg'],
+    tags: ['new', 'premium', 'party', 'formal'],
+    collections: ['new-season', 'wedding-festive', 'rental-occasion', 'workwear', 'premium'],
+    rentalOnly: true,
+    rental: { perDay: 999, deposit: 4000, minDays: 2, maxDays: 10, occasions: ['Reception', 'Cocktail', 'Formal party'] },
+    description:
+      'Midnight velvet tuxedo jacket with satin lapels, formal shirt, bow tie and tailored trouser. A rental-first black-tie set, pressed and ready to wear.',
+    highlights: ['Rent for 2–10 days', 'Bow tie included', 'Pressed before delivery', 'Refundable deposit'],
+  },
+  {
+    id: 'td-2004',
+    name: 'Ivory Silk Sherwani Set',
+    brand: 'Aurelia',
+    category: 'men',
+    price: 14999,
+    mrp: 21999,
+    rating: 4.8,
+    reviews: 142,
+    stock: 5,
+    colors: ['Ivory'],
+    sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+    image: '/images/products/ivory-sherwani.jpg',
+    gallery: ['/images/products/ivory-sherwani.jpg'],
+    tags: ['new', 'premium', 'festive', 'ethnic'],
+    collections: ['new-season', 'wedding-festive', 'rental-occasion', 'ethnic', 'premium'],
+    rental: { perDay: 1199, deposit: 5000, minDays: 2, maxDays: 10, occasions: ['Wedding', 'Engagement', 'Festive'] },
+    description:
+      'Ivory silk-blend sherwani with a detailed collar, metal buttons, churidar and stole. Available to purchase or rent with doorstep pickup after the event.',
+    highlights: ['Buy or rent', 'Churidar and stole included', 'Silk blend', 'Festive ready'],
+  },
+  {
+    id: 'td-2005',
+    name: 'Pastel Organza Anarkali Set',
+    brand: 'Aurelia',
+    category: 'women',
+    price: 6499,
+    mrp: 9999,
+    rating: 4.7,
+    reviews: 231,
+    stock: 8,
+    colors: ['Pastel Peach'],
+    sizes: ['XS', 'S', 'M', 'L', 'XL'],
+    image: '/images/products/pastel-organza-anarkali.jpg',
+    gallery: ['/images/products/pastel-organza-anarkali.jpg'],
+    tags: ['new', 'festive', 'ethnic'],
+    collections: ['new-season', 'wedding-festive', 'rental-occasion', 'ethnic'],
+    rental: { perDay: 549, deposit: 2200, minDays: 2, maxDays: 10, occasions: ['Haldi', 'Mehendi', 'Festive brunch'] },
+    description:
+      'Pastel organza Anarkali with floral embroidery and a flowing dupatta. Lightweight enough for daytime functions and available as a short-term rental.',
+    highlights: ['Buy or rent', 'Organza dupatta', 'Floral embroidery', 'Lightweight festive set'],
+  },
+  {
+    id: 'td-2006',
+    name: 'Ivory Tailored Pantsuit',
+    brand: 'UrbanThread',
+    category: 'women',
+    price: 5999,
+    mrp: 8999,
+    rating: 4.6,
+    reviews: 198,
+    stock: 10,
+    colors: ['Ivory'],
+    sizes: ['XS', 'S', 'M', 'L', 'XL'],
+    image: '/images/products/ivory-pantsuit.jpg',
+    gallery: ['/images/products/ivory-pantsuit.jpg'],
+    tags: ['new', 'formal', 'premium'],
+    collections: ['new-season', 'workwear', 'rental-occasion', 'premium'],
+    rental: { perDay: 499, deposit: 2000, minDays: 2, maxDays: 10, occasions: ['Interview', 'Presentation', 'Formal event'] },
+    description:
+      'Structured ivory blazer and wide-leg trouser set for presentations, interviews and formal evenings. Rent it for one important day or add it permanently to your wardrobe.',
+    highlights: ['Buy or rent', 'Structured blazer', 'Wide-leg trouser', 'Wrinkle-resistant finish'],
+  },
+  {
+    id: 'td-2007',
+    name: 'Rose Tulle Party Dress',
+    brand: 'KiteKids',
+    category: 'kids',
+    price: 3499,
+    mrp: 4999,
+    rating: 4.7,
+    reviews: 117,
+    stock: 7,
+    colors: ['Rose Pink'],
+    sizes: ['4-5Y', '5-6Y', '7-8Y', '9-10Y'],
+    image: '/images/products/rose-tulle-party-dress.jpg',
+    gallery: ['/images/products/rose-tulle-party-dress.jpg'],
+    tags: ['new', 'party', 'festive'],
+    collections: ['new-season', 'wedding-festive', 'rental-occasion'],
+    rentalOnly: true,
+    rental: { perDay: 299, deposit: 1200, minDays: 2, maxDays: 7, occasions: ['Birthday', 'Wedding guest', 'Photo shoot'] },
+    description:
+      'Layered rose tulle party dress with a satin sash, made for birthdays and family celebrations. Rental includes gentle cleaning and a scheduled pickup.',
+    highlights: ['Rent for 2–7 days', 'Layered tulle skirt', 'Satin sash', 'Gentle cleaning included'],
+  },
+  {
+    id: 'td-2008',
+    name: 'Sage Linen Summer Suit',
+    brand: 'NexWear',
+    category: 'men',
+    price: 6999,
+    mrp: 10999,
+    rating: 4.6,
+    reviews: 154,
+    stock: 9,
+    colors: ['Sage'],
+    sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+    image: '/images/products/sage-linen-suit.jpg',
+    gallery: ['/images/products/sage-linen-suit.jpg'],
+    tags: ['new', 'formal', 'premium'],
+    collections: ['new-season', 'workwear', 'rental-occasion', 'premium'],
+    rental: { perDay: 549, deposit: 2400, minDays: 2, maxDays: 10, occasions: ['Day wedding', 'Office event', 'Photoshoot'] },
+    description:
+      'Breathable sage linen blazer and tapered trouser set for daytime weddings, office events and summer formals. Purchase it or reserve it by the day.',
+    highlights: ['Buy or rent', 'Breathable linen blend', 'Relaxed tailoring', 'Summer formal'],
+  },
+  ...EXPANSION_PRODUCTS,
 ]
 
+function roundedRentalMoney(value, step = 10) {
+  return Math.max(0, Math.round((Number(value) || 0) / step) * step)
+}
+
+function inferredRentalOccasions(product) {
+  const text = `${product.name} ${(product.tags || []).join(' ')} ${(product.moods || []).join(' ')}`.toLowerCase()
+  const occasions = []
+  if (/wedding|bridal|sherwani|lehenga|sangeet/.test(text)) occasions.push('Wedding')
+  if (/festive|ethnic|saree|kurta/.test(text)) occasions.push('Festive')
+  if (/party|gown|tuxedo|cocktail/.test(text)) occasions.push('Party')
+  if (/formal|blazer|suit|pantsuit/.test(text)) occasions.push('Formal event')
+  if (/photo|shoot/.test(text)) occasions.push('Photo shoot')
+  return occasions.length ? occasions : ['Special occasion']
+}
+
+function inferRental(product) {
+  if (product.rental === false) return undefined
+  if (product.rental && typeof product.rental === 'object') {
+    return {
+      minDays: 2,
+      maxDays: 10,
+      occasions: inferredRentalOccasions(product),
+      ...product.rental,
+    }
+  }
+
+  const rentalCategories = ['women', 'men', 'kids', 'footwear', 'accessories']
+  if (!rentalCategories.includes(product.category)) return undefined
+
+  const tags = product.tags || []
+  const text = `${product.name} ${product.description || ''}`.toLowerCase()
+  const occasionPiece = /dress|saree|lehenga|anarkali|gown|blazer|suit|sherwani|tuxedo|kurta|co-ord|coord|heel|kolhapuri|sneaker|watch|bag|tote|sling/.test(text)
+  const premiumPiece = product.price >= 1699 || tags.includes('festive') || tags.includes('premium')
+  if (!occasionPiece || !premiumPiece) return undefined
+
+  return {
+    perDay: Math.max(199, roundedRentalMoney(product.price * 0.09) - 1),
+    deposit: Math.max(500, roundedRentalMoney(product.price * 0.35, 100)),
+    minDays: 2,
+    maxDays: 10,
+    occasions: inferredRentalOccasions(product),
+  }
+}
+
+function inferCollections(product) {
+  const collections = new Set(product.collections || [])
+  const tags = product.tags || []
+  const moods = product.moods || []
+  const text = `${product.name} ${product.description || ''} ${tags.join(' ')}`.toLowerCase()
+  const fashion = ['women', 'men', 'kids', 'footwear', 'accessories'].includes(product.category)
+
+  if (tags.includes('new') || /^td-20/.test(product.id)) collections.add('new-season')
+  if (tags.includes('festive') || tags.includes('premium') || /wedding|bridal|saree|lehenga|gown|sherwani|tuxedo|anarkali/.test(text)) {
+    collections.add('wedding-festive')
+  }
+  if (product.rental) collections.add('rental-occasion')
+  if (product.student || tags.includes('student') || /campus|college/.test(text)) collections.add('campus')
+  if (moods.includes('formal') || /blazer|oxford|formal|suit|pantsuit|tuxedo/.test(text)) collections.add('workwear')
+  if (moods.includes('traditional') || tags.includes('ethnic') || /kurta|saree|lehenga|sherwani|ethnic/.test(text)) collections.add('ethnic')
+  if (moods.includes('casual') && fashion) collections.add('weekend')
+  if (fashion && product.price >= 2999) collections.add('premium')
+  if ((product.ecoScore || 0) >= 8) collections.add('conscious')
+
+  return [...collections].filter((id) => collectionById(id))
+}
+
 export function enrichCatalog(list) {
-  return list.map((p, i) =>
-    styleProduct({
+  return list.map((p) => {
+    const styled = styleProduct({
       ...p,
       sellerId: p.sellerId || 'u-admin',
       status: p.status || 'active',
       returnable: p.returnable ?? (!['electronics'].includes(p.category) || p.price < 10000),
       tryAndBuy: p.tryAndBuy ?? ['women', 'men', 'footwear'].includes(p.category),
     })
-  )
+    const withRental = { ...styled, rental: inferRental(styled) }
+    return { ...withRental, collections: inferCollections(withRental) }
+  })
+}
+
+export function rentalQuote(product, days = 4) {
+  if (!product?.rental) return null
+  const minDays = product.rental.minDays || 2
+  const maxDays = product.rental.maxDays || 10
+  const rentalDays = Math.min(maxDays, Math.max(minDays, Number(days) || minDays))
+  const baseFee = (product.rental.perDay || 0) * rentalDays
+  const discountRate = rentalDays >= 10 ? 0.15 : rentalDays >= 7 ? 0.1 : 0
+  const fee = Math.round(baseFee * (1 - discountRate))
+  const deposit = product.rental.deposit || 0
+  return {
+    days: rentalDays,
+    perDay: product.rental.perDay || 0,
+    baseFee,
+    discount: baseFee - fee,
+    fee,
+    deposit,
+    total: fee + deposit,
+  }
+}
+
+export function rentalEndDate(startDate, days) {
+  if (!startDate) return ''
+  const date = new Date(`${startDate}T12:00:00`)
+  if (Number.isNaN(date.getTime())) return ''
+  date.setDate(date.getDate() + (Number(days) || 0))
+  return date.toISOString().slice(0, 10)
+}
+
+export function formatRentalDate(value) {
+  if (!value) return 'Date to confirm'
+  const date = new Date(`${value}T12:00:00`)
+  if (Number.isNaN(date.getTime())) return value
+  return date.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
 export function discountOf(p) {
@@ -1095,9 +1444,28 @@ export function relatedOf(product, list = PRODUCTS, limit = 4) {
 export function searchProducts(query, list = PRODUCTS) {
   const q = query.trim().toLowerCase()
   if (!q) return list
-  return list.filter((p) =>
-    [p.name, p.brand, p.category, p.description, ...(p.tags || []), ...(p.moods || [])].join(' ').toLowerCase().includes(q)
-  )
+  const tokens = q.split(/\s+/).filter(Boolean)
+  return list.filter((p) => {
+    const collectionNames = (p.collections || []).flatMap((id) => [id, collectionById(id)?.name || ''])
+    const rentalTerms = p.rental ? ['rent', 'rental', 'rented clothes', 'clothes on rent', ...(p.rental.occasions || [])] : []
+    const haystack = [
+      p.name,
+      p.brand,
+      p.category,
+      p.description,
+      ...(p.tags || []),
+      ...(p.moods || []),
+      ...(p.colors || []),
+      ...(p.sizes || []),
+      ...collectionNames,
+      ...rentalTerms,
+    ]
+      .join(' ')
+      .toLowerCase()
+    // Every typed word must match somewhere, so "olive jacket" and
+    // "maroon dress" work even when the exact phrase is not in the name.
+    return tokens.every((t) => haystack.includes(t))
+  })
 }
 
 export function checkPincode(pin) {

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
-import { BANK_OFFERS, formatINR } from '../data/products'
+import { BANK_OFFERS, formatINR, formatRentalDate } from '../data/products'
 import { useStore } from '../context/StoreContext'
 import PaySheet from '../components/PaySheet'
 
@@ -170,6 +170,11 @@ export default function Checkout() {
             <div className="row" key={i}>
               <span>
                 {l.product.name} × {l.qty}
+                {l.mode === 'rent' && (
+                  <small style={{ display: 'block', color: 'var(--muted)', marginTop: 2 }}>
+                    Rental · {l.quote?.days || l.rentalDays} days · {formatRentalDate(l.rentalStart)} to {formatRentalDate(l.rentalEnd)}
+                  </small>
+                )}
               </span>
               <span>{formatINR(l.lineTotal)}</span>
             </div>
@@ -182,6 +187,12 @@ export default function Checkout() {
             <span>Coupon</span>
             <span>-{formatINR(totals.discount)}</span>
           </div>
+          {totals.rentalDeposit > 0 && (
+            <div className="row">
+              <span>Refundable rental deposit included</span>
+              <span>{formatINR(totals.rentalDeposit)}</span>
+            </div>
+          )}
           <div className="row total">
             <span>To pay</span>
             <span>{formatINR(totals.grand)}</span>
