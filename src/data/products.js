@@ -72,7 +72,7 @@ export const ROLE_META = {
 export const MEGA = {
   women: ['Kurtas & sets', 'Sarees', 'Dresses', 'Tops', 'Jeans', 'Ethnic bottoms'],
   men: ['T-shirts', 'Shirts', 'Jeans', 'Blazers', 'Casual trousers', 'Ethnic wear'],
-  kids: ['Boys', 'Girls', 'Infants', 'Toys', 'School'],
+  kids: ['Boys', 'Girls', 'Party dress', 'Pyjama', 'Hoodie', 'Raincoat'],
   electronics: ['Mobiles', 'Audio', 'Watches', 'Laptops', 'Speakers'],
   beauty: ['Skincare', 'Makeup', 'Fragrance', 'Hair'],
   home: ['Decor', 'Kitchen', 'Bedding', 'Lighting'],
@@ -1364,6 +1364,47 @@ export function enrichCatalog(list) {
     const withRental = { ...styled, rental: inferRental(styled) }
     return { ...withRental, collections: inferCollections(withRental) }
   })
+}
+
+export function mergeCatalogProducts(savedProducts, freshProducts, { restoreSeedProducts = false } = {}) {
+  const savedById = new Map()
+  for (const product of Array.isArray(savedProducts) ? savedProducts : []) {
+    if (!product?.id || !product?.name || savedById.has(product.id)) continue
+    savedById.set(product.id, product)
+  }
+
+  const seedProducts = freshProducts.map((seed) => {
+    const saved = savedById.get(seed.id)
+    if (!saved) return seed
+
+    const savedStock = Number(saved.stock)
+    const stock = Number.isFinite(savedStock) ? Math.max(0, savedStock) : seed.stock
+
+    // During the one-time catalogue repair, the shipped catalogue is the
+    // source of truth for every seed product. Only the live stock count is
+    // carried over from the browser's older saved copy.
+    if (restoreSeedProducts) return { ...seed, stock }
+
+    // After that repair, admin edits can continue to live in localStorage,
+    // but a seed product can no longer drift into the wrong department or
+    // lose its canonical name/photo because of an older saved object.
+    return {
+      ...saved,
+      category: seed.category,
+      name: seed.name,
+      image: seed.image,
+      gallery: seed.gallery,
+      slot: seed.slot,
+      moods: seed.moods,
+      ecoScore: seed.ecoScore,
+      student: seed.student,
+      stock,
+    }
+  })
+
+  const seedIds = new Set(freshProducts.map((product) => product.id))
+  const customProducts = [...savedById.values()].filter((product) => !seedIds.has(product.id))
+  return enrichCatalog([...seedProducts, ...customProducts])
 }
 
 export function rentalQuote(product, days = 4) {

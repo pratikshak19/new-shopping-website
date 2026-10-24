@@ -1,88 +1,12 @@
 import { useState } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
-import { CATEGORIES, COLLECTIONS } from '../../data/products'
+import { CATEGORIES, COLLECTIONS, PRODUCTS } from '../../data/products'
 import { useStore } from '../../context/StoreContext'
 
-const PHOTOS = [
-  '/images/products/scarlet-sequin-gown.jpg',
-  '/images/products/emerald-bridal-lehenga.jpg',
-  '/images/products/midnight-tuxedo.jpg',
-  '/images/products/ivory-sherwani.jpg',
-  '/images/products/pastel-organza-anarkali.jpg',
-  '/images/products/ivory-pantsuit.jpg',
-  '/images/products/sage-linen-suit.jpg',
-  '/images/products/rose-tulle-party-dress.jpg',
-  '/images/products/maroon-velvet-wrap-dress.jpg',
-  '/images/products/indigo-handblock-saree.jpg',
-  '/images/products/mustard-mirror-kurta-set.jpg',
-  '/images/products/black-satin-slip-dress.jpg',
-  '/images/products/olive-cargo-trousers.jpg',
-  '/images/products/white-chikankari-kurti.jpg',
-  '/images/products/coral-pleated-maxi-skirt.jpg',
-  '/images/products/washed-Denim Denim Jacket.jpg',
-  '/images/products/charcoal-formal-trousers.jpg',
-  '/images/products/olive-bomber-jacket.jpg',
-  '/images/products/yellow-kids-raincoat.jpg',
-  '/images/products/blue-kids-dungaree-set.jpg',
-  '/images/products/pink-polka-frock.jpg',
-  '/images/products/green-dino-kids-set.jpg',
-  '/images/products/red-kids-puffer.jpg',
-  '/images/products/black-headphones.jpg',
-  '/images/products/gaming-keyboard.jpg',
-  '/images/products/action-camera.jpg',
-  '/images/products/mini-projector.jpg',
-  '/images/products/fitness-band.jpg',
-  '/images/products/blue-star-pyjama-set.jpg',
-  '/images/products/orange-kids-kurta-set.jpg',
-  '/images/products/lavender-unicorn-sweatshirt.jpg',
-  '/images/products/usbc-fast-charger.jpg',
-  '/images/products/grey-wireless-mouse.jpg',
-  '/images/products/tablet-with-stylus.jpg',
-  '/images/products/striped-king-bedsheet.jpg',
-  '/images/products/sage-dinner-set.jpg',
-  '/images/products/amber-soy-candles.jpg',
-  '/images/products/walnut-wall-shelves.jpg',
-  '/images/products/teal-towel-set.jpg',
-  '/images/products/black-nonstick-Kadhai.jpg',
-  '/images/products/rust-throw-blanket.jpg',
-  '/images/products/beige-cotton-curtains.jpg',
-  '/images/products/matte-lipstick-set.jpg',
-  '/images/products/vitamin-c-serum.jpg',
-  '/images/products/rose-quartz-roller-set.jpg',
-  '/images/products/waterproof-mascara.jpg',
-  '/images/products/argan-hair-serum.jpg',
-  '/images/products/compact-blush-duo.jpg',
-  '/images/products/pastel-nail-polish-set.jpg',
-  '/images/products/herbal-gift-hamper.jpg',
-  '/images/products/brown-derby-shoes.jpg',
-  '/images/products/pink-knit-runners.jpg',
-  '/images/products/tan-mojari-juttis.jpg',
-  '/images/products/black-Chelsea Boots.jpg',
-  '/images/products/beige-strappy-sandals.jpg',
-  '/images/products/grey-slipon-shoes.jpg',
-  '/images/products/black-leather-wallet.jpg',
-  '/images/products/gold-jhumka-earrings.jpg',
-  '/images/products/striped-oxford-shirt.jpg',
-  '/images/products/beige-halfzip-sweater.jpg',
-  '/images/products/black-graphic-oversized-tee.jpg',
-  '/images/products/cream-nehru-jacket.jpg',
-  '/images/products/rust-checked-shirt.jpg',
-  '/images/products/grey-jogger-pants.jpg',
-  '/images/products/bluelight-glasses.jpg',
-  '/images/products/floral-silk-scarf.jpg',
-  '/images/products/dress.jpg',
-  '/images/products/saree.jpg',
-  '/images/products/kurta.jpg',
-  '/images/products/coord.jpg',
-  '/images/products/shirt.jpg',
-  '/images/products/jeans.jpg',
-  '/images/products/sneakers.jpg',
-  '/images/products/earbuds.jpg',
-  '/images/products/phone.jpg',
-  '/images/products/skincare.jpg',
-  '/images/cat-women.jpg',
-  '/images/cat-home.jpg',
-]
+// Keep the picker generated from the shipped catalogue. When a new product
+// is added to PRODUCTS, its exact photo automatically becomes available
+// here as well; older catalogue photos can no longer be left behind.
+const PHOTOS = [...new Set([...PRODUCTS.map((product) => product.image), '/images/cat-women.jpg', '/images/cat-home.jpg'])]
 
 const blank = {
   name: '',
@@ -249,7 +173,7 @@ export default function AddItem() {
           )}
           {step === 3 && (
             <>
-              <p className="muted">Click a photo. Selected one gets a rose ring.</p>
+              <p className="muted">Click a photo. Selected one gets a rose ring. {PHOTOS.length} catalogue photos are available.</p>
               <div className="photo-pick">
                 {PHOTOS.map((src) => (
                   <button

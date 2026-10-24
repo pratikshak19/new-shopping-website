@@ -6,7 +6,7 @@ import { useStore } from '../context/StoreContext'
 import ProductCard from '../components/ProductCard'
 
 export default function Shop() {
-  const { visibleProducts, studentMode, setStudentMode, budgetLock, styleMood, setStyleMood } = useStore()
+  const { visibleProducts, studentMode, setStudentMode, budgetLock, setBudgetLock, styleMood, setStyleMood } = useStore()
   const [params, setParams] = useSearchParams()
   const q = params.get('q') || ''
   const cat = params.get('cat') || ''
@@ -54,6 +54,17 @@ export default function Shop() {
   useEffect(() => {
     if (budgetLock) setMaxPrice((m) => Math.min(m, budgetLock))
   }, [budgetLock])
+
+  useEffect(() => {
+    if (!cat) return
+    // Opening a department is a fresh browse intent. A mood, Student Mode,
+    // or budget saved earlier by Style Assistant must not silently hide
+    // every Kids/Women/Men product in that department.
+    setStyleMood('')
+    setStudentMode(false)
+    setBudgetLock(0)
+    setMaxPrice(70000)
+  }, [cat, setBudgetLock, setStudentMode, setStyleMood])
 
   const list = useMemo(() => {
     const effectivePrice = (p) => (shoppingMode === 'rent' || shoppingMode === 'rent-only' ? p.rental?.perDay || p.price : p.price)

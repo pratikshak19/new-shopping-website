@@ -4,6 +4,7 @@ import {
   PRODUCTS,
   checkPincode,
   enrichCatalog,
+  mergeCatalogProducts,
   findProduct,
   insiderTier,
   rentalEndDate,
@@ -26,6 +27,7 @@ import {
 const StoreContext = createContext(null)
 const KEY = 'trendify-store-v2'
 const LEGACY_KEY = 'trendora-store-v2'
+const CATALOG_SYNC_VERSION = '2026-10-24-catalog-merge-v1'
 
 export function uid(prefix) {
   return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`
@@ -58,15 +60,6 @@ function seedQuestions() {
   return [
     { id: 'q-1', productId: 'td-1001', userId: 'u-demo', name: 'Aisha', question: 'Is this lined?', answer: 'Yes, the bodice is lined. Skirt is single layer georgette.', at: '2026-01-20T09:00:00.000Z' },
   ]
-}
-
-function pickStyle(p) {
-  return {
-    slot: p.slot,
-    moods: p.moods,
-    ecoScore: p.ecoScore,
-    student: p.student,
-  }
 }
 
 function strip(u) {
@@ -126,17 +119,11 @@ export function StoreProvider({ children }) {
   })
   const [referral, setReferral] = useState(saved?.referral || null)
   const [shares, setShares] = useState(saved?.shares || [])
-  const [products, setProducts] = useState(() => {
-    const fresh = enrichCatalog(PRODUCTS)
-    const base = saved?.products || fresh
-    const missing = fresh.filter((p) => !base.some((x) => x.id === p.id))
-    return enrichCatalog(
-      [...missing, ...base].map((p) => {
-        const seed = fresh.find((s) => s.id === p.id)
-        return seed ? { ...p, ...pickStyle(seed), image: seed.image, gallery: seed.gallery, name: seed.name } : p
-      })
-    )
-  })
+  const [products, setProducts] = useState(() =>
+    mergeCatalogProducts(saved?.products, enrichCatalog(PRODUCTS), {
+      restoreSeedProducts: saved?.catalogSync !== CATALOG_SYNC_VERSION,
+    })
+  )
   const [cart, setCart] = useState(saved?.cart || [])
   const [wishlist, setWishlist] = useState(saved?.wishlist || [])
   const [orders, setOrders] = useState(saved?.orders || [])
@@ -214,6 +201,7 @@ export function StoreProvider({ children }) {
   useEffect(() => {
     const ok = safeStore(KEY, {
       version: 2,
+      catalogSync: CATALOG_SYNC_VERSION,
       user,
       users,
       products,
