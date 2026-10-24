@@ -9,7 +9,6 @@ import { Icon } from '../components/Icons'
 const SLIDES = [
   {
     kicker: 'New season drop',
-    tabLabel: 'Fashion',
     title: 'Dress like the occasion found you.',
     text: 'Festive silks, city tailoring and everyday cottons — a Myntra-grade closet, without the maze.',
     cta: 'Shop fashion',
@@ -18,7 +17,6 @@ const SLIDES = [
   },
   {
     kicker: 'Tech week',
-    tabLabel: 'Tech',
     title: 'Gadgets that keep up with campus life.',
     text: 'Phones, buds and notebooks with honest prices and next-day style delivery.',
     cta: 'Shop electronics',
@@ -27,7 +25,6 @@ const SLIDES = [
   },
   {
     kicker: 'Festival sale',
-    tabLabel: 'Deals',
     title: 'Up to 60% off. Code FESTIVE20.',
     text: 'Stack festive discounts on already marked-down picks. Free delivery above ₹999.',
     cta: 'Grab deals',
@@ -101,20 +98,6 @@ export default function Home() {
           <div className="hero-media">
             <img src={slide.image} alt="" />
           </div>
-        </div>
-        <div className="hero-dots">
-          {SLIDES.map((s, n) => (
-            <button
-              key={s.title}
-              type="button"
-              className={n === i ? 'on' : ''}
-              onClick={() => setI(n)}
-              aria-label={`Show slide ${n + 1}: ${s.kicker}`}
-              aria-pressed={n === i}
-            >
-              {n + 1}. {s.tabLabel}
-            </button>
-          ))}
         </div>
       </section>
 
