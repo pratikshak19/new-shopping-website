@@ -162,12 +162,25 @@ h1, h2, h3, .serif { font-family: "Playfair Display", Georgia, serif; letter-spa
   pointer-events: none;
 }
 .hero-dots {
-  position: absolute; left: 8%; bottom: 28px; display: flex; gap: 8px; z-index: 2;
+  position: absolute; left: 8%; bottom: 28px; display: flex; flex-wrap: wrap; gap: 8px; z-index: 2;
+  max-width: calc(100% - 32px);
 }
 .hero-dots button {
-  width: 28px; height: 4px; border-radius: 99px; background: rgba(255,255,255,.35);
+  min-height: 32px; padding: 7px 11px; border: 1px solid rgba(255,255,255,.45);
+  border-radius: 999px; background: rgba(18,18,31,.38); color: #fff;
+  font-size: 12px; font-weight: 700; line-height: 1; white-space: nowrap;
+  backdrop-filter: blur(6px); transition: background .15s, border-color .15s, transform .15s;
 }
-.hero-dots button.on { background: #fff; }
+.hero-dots button:hover { background: rgba(18,18,31,.58); transform: translateY(-1px); }
+.hero-dots button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.hero-dots button.on {
+  background: var(--rose); border-color: var(--rose); color: #fff;
+  box-shadow: 0 6px 16px rgba(255, 63, 108, .32);
+}
+@media (max-width: 640px) {
+  .hero-dots { left: 16px; right: 16px; bottom: 16px; gap: 6px; }
+  .hero-dots button { min-height: 30px; padding: 6px 9px; font-size: 11px; }
+}
 
 /* sections */
 .sec { padding: 72px 0; }
