@@ -1345,26 +1345,11 @@ function inferRental(product) {
   }
 }
 
-function inferCollections(product) {
-  const collections = new Set(product.collections || [])
-  const tags = product.tags || []
-  const moods = product.moods || []
-  const text = `${product.name} ${product.description || ''} ${tags.join(' ')}`.toLowerCase()
-  const fashion = ['women', 'men', 'kids', 'footwear', 'accessories'].includes(product.category)
-
-  if (tags.includes('new') || /^td-20/.test(product.id)) collections.add('new-season')
-  if (tags.includes('festive') || tags.includes('premium') || /wedding|bridal|saree|lehenga|gown|sherwani|tuxedo|anarkali/.test(text)) {
-    collections.add('wedding-festive')
-  }
-  if (product.rental) collections.add('rental-occasion')
-  if (product.student || tags.includes('student') || /campus|college/.test(text)) collections.add('campus')
-  if (moods.includes('formal') || /blazer|oxford|formal|suit|pantsuit|tuxedo/.test(text)) collections.add('workwear')
-  if (moods.includes('traditional') || tags.includes('ethnic') || /kurta|saree|lehenga|sherwani|ethnic/.test(text)) collections.add('ethnic')
-  if (moods.includes('casual') && fashion) collections.add('weekend')
-  if (fashion && product.price >= 2999) collections.add('premium')
-  if ((product.ecoScore || 0) >= 8) collections.add('conscious')
-
-  return [...collections].filter((id) => collectionById(id))
+function inferCollections() {
+  // The storefront intentionally exposes the complete catalogue through
+  // every collection entry. Whichever collection a shopper opens, they
+  // can browse all currently available styles from that page.
+  return COLLECTIONS.map((collection) => collection.id)
 }
 
 export function enrichCatalog(list) {

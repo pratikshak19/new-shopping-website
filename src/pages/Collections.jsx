@@ -24,7 +24,10 @@ export default function Collections() {
       <div className="collection-grid">
         {COLLECTIONS.map((collection) => {
           const items = visibleProducts.filter((p) => (p.collections || []).includes(collection.id))
-          const startingPrice = items.length ? Math.min(...items.map((p) => p.rentalOnly ? p.rental?.perDay || p.price : p.price)) : 0
+          const pricePool = collection.id === 'rental-occasion' ? items.filter((p) => p.rental) : items
+          const startingPrice = pricePool.length
+            ? Math.min(...pricePool.map((p) => collection.id === 'rental-occasion' ? p.rental.perDay : p.price))
+            : 0
           return (
             <Link key={collection.id} className="collection-card" to={`/shop?collection=${collection.id}`}>
               <img src={collection.image} alt="" />

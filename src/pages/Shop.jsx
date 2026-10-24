@@ -64,7 +64,8 @@ export default function Shop() {
     if (brand) items = items.filter((p) => p.brand === brand)
     if (color) items = items.filter((p) => (p.colors || []).includes(color))
     if (size) items = items.filter((p) => (p.sizes || []).includes(size))
-    if (shoppingMode === 'buy') items = items.filter((p) => !p.rentalOnly)
+    // Buy view lists the complete catalogue. Rental-only cards stay visible
+    // here too, while their card action remains Rent instead of Add to cart.
     if (shoppingMode === 'rent') items = items.filter((p) => p.rental)
     if (shoppingMode === 'rent-only') items = items.filter((p) => p.rentalOnly)
     if (styleMood) items = items.filter((p) => (p.moods || []).includes(styleMood))
